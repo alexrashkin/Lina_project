@@ -4,15 +4,15 @@
 
 Стек: Python3, Django3, Django REST framework, React, PostgreSQL, gunicorn, nginx, Яндекс.Облако
 
-Проект доступен по доменному имени https://foodgram-project.myvnc.com
+Проект доступен по доменному имени https://lina-project.myvnc.com
 
 # Как запустить проект:
 
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/alexrashkin/foodgram-project-react.git
-cd foodgram-project-react
+git clone https://github.com/alexrashkin/lina-project-react.git
+cd lina-project-react
 ```
 
 Cоздать и активировать виртуальное окружение:
@@ -57,4 +57,4 @@ python3 manage.py runserver
 
 Над проектом работали: 
 - Backend  - https://github.com/alexrashkin
-- Frontend - https://github.com/yandex-praktikum/foodgram-project-react
+- Frontend - https://github.com/yandex-praktikum/lina-project-react

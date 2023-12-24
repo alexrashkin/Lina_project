@@ -8,7 +8,6 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
-      - ./frontend/:/app/build/
 
   nginx:
     build: ./nginx/
