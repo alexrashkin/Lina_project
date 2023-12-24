@@ -1,2 +1,2 @@
-FROM nginx:1.22.1
-COPY nginx_ssl.conf /etc/nginx/templates/default.conf.template
+FROM nginx:1.23-alpine
+COPY nginx.conf /etc/nginx/templates/default.conf.template

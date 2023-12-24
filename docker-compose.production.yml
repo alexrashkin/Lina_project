@@ -12,6 +12,8 @@ services:
   backend:
     image: alexrashkin/foodgram_backend
     env_file: .env
+    environment:
+      - USE_POSTGRES_DB=True
     volumes:
       - static:/backend_static/
       - media:/media/
