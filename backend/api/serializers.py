@@ -116,7 +116,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class Ingredientworkserializer(serializers.ModelSerializer):
-    """Сериализатор для модели связи работы и ингредиента с количеством."""
+    """Сериализатор для модели связи работы и материала с количеством."""
 
     id = serializers.PrimaryKeyRelatedField(
         queryset=Ingredient.objects.all(),
@@ -135,7 +135,7 @@ class Ingredientworkserializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
-class WorksaveSerializer(serializers.ModelSerializer):
+class WorkSaveSerializer(serializers.ModelSerializer):
     """
     Сериализатор для добавления и обновления работы.
     """
@@ -165,18 +165,18 @@ class WorksaveSerializer(serializers.ModelSerializer):
 
             if not ingredient:
                 raise serializers.ValidationError(
-                    'Ингредиент не указан'
+                    'Материал не указан'
                 )
 
             if amount is not None and amount < 1:
                 raise serializers.ValidationError(
-                    'Количество ингредиентов не может быть меньше 1'
+                    'Количество материалов не может быть меньше 1'
                 )
 
             ingredient_tuple = (ingredient.id, amount)
             if ingredient_tuple in ingredients_set:
                 raise serializers.ValidationError(
-                    'В работу нельзя добавлять два одинаковых ингредиента'
+                    'В работу нельзя добавлять два одинаковых материала'
                 )
             ingredients_set.add(ingredient_tuple)
 
@@ -216,7 +216,7 @@ class WorksaveSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def get_ingredients(self, work, ingredients_data):
-        """Получает ингредиенты для работы."""
+        """Получает материалы для работы."""
 
         ingredients_to_create = []
         for ingredient_data in ingredients_data:
@@ -373,7 +373,7 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         Преобразует экземпляр модели ShoppingCart в сериализованные данные.
         """
         request = self.context.get('request')
-        return WorksaveSerializer(
+        return WorkSaveSerializer(
             instance.work,
             context={'request': request}
         ).data
@@ -398,7 +398,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         Преобразует экземпляр модели Favorite в сериализованные данные.
         """
         request = self.context.get('request')
-        return WorksaveSerializer(
+        return WorkSaveSerializer(
             instance.work,
             context={'request': request}
         ).data

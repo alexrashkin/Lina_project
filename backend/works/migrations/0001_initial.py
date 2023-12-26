@@ -19,12 +19,12 @@ class Migration(migrations.Migration):
             name='Ingredient',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название ингредиента')),
+                ('name', models.CharField(max_length=100, verbose_name='Название материала')),
                 ('measurement_unit', models.CharField(max_length=20, verbose_name='Единица измерения')),
             ],
             options={
-                'verbose_name': 'Ингредиент',
-                'verbose_name_plural': 'Ингредиенты',
+                'verbose_name': 'Материал',
+                'verbose_name_plural': 'Материалы',
             },
         ),
         migrations.CreateModel(
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('cooking_time', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(600)], verbose_name='Время приготовления')),
                 ('pub_date', models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='works', to=settings.AUTH_USER_MODEL, verbose_name='Автор публикации')),
-                ('ingredients', models.ManyToManyField(related_name='works', to='works.Ingredient', verbose_name='Список ингредиентов')),
+                ('ingredients', models.ManyToManyField(related_name='works', to='works.Ingredient', verbose_name='Список материалов')),
                 ('tags', models.ManyToManyField(to='works.Tag', verbose_name='Список тегов')),
             ],
             options={
@@ -63,13 +63,13 @@ class Migration(migrations.Migration):
             name='WorksIngredients',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1, message='Минимальное кол-во ингред-ов 1'), django.core.validators.MaxValueValidator(50, message='Максимальное кол-во ингред-ов 50')], verbose_name='Количество')),
+                ('amount', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1, message='Минимальное кол-во материалов 1'), django.core.validators.MaxValueValidator(50, message='Максимальное кол-во материалов 50')], verbose_name='Количество')),
                 ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='used_in_works', to='works.ingredient')),
                 ('work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='works_ingredients', to='works.work')),
             ],
             options={
-                'verbose_name': 'Ингредиент в работе',
-                'verbose_name_plural': 'Ингредиенты в работах',
+                'verbose_name': 'Материал в работе',
+                'verbose_name_plural': 'Материалы в работах',
             },
         ),
         migrations.CreateModel(

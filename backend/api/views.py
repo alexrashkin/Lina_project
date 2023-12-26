@@ -17,7 +17,7 @@ from users.models import Subscription, User
 from .filters import IngredientFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
 from .serializers import (FavoriteSerializer, IngredientSerializer,
-                          WorkGetSerializer, WorksaveSerializer,
+                          WorkGetSerializer, WorkSaveSerializer,
                           ShoppingCartSerializer, SubscribeSerializer,
                           TagSerializer, UserSerializer)
 
@@ -28,8 +28,8 @@ class IngredientsViewset(mixins.ListModelMixin,
                          mixins.RetrieveModelMixin,
                          viewsets.GenericViewSet):
     """
-    Вьюсет для ингредиентов.
-    Позволяет получать список ингредиентов и детали отдельных ингредиентов.
+    Вьюсет для материалов.
+    Позволяет получать список материалов и детали отдельных материалов.
     """
 
     queryset = Ingredient.objects.all()
@@ -59,11 +59,11 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     @action(methods=['POST', 'DELETE'], detail=True,
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk):
-        work = get_object_or_404(work, id=pk)
+        work = get_object_or_404(Work, id=pk)
 
         if request.method == 'POST':
             context = {'request': request}
-            work = get_object_or_404(work, id=pk)
+            work = get_object_or_404(Work, id=pk)
             data = {
                 'user': request.user.id,
                 'work': work.id
@@ -125,7 +125,7 @@ class WorksViewset(viewsets.ModelViewSet):
         """
         if self.action == 'list' or self.action == 'retrieve':
             return WorkGetSerializer
-        return WorksaveSerializer
+        return WorkSaveSerializer
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

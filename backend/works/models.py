@@ -35,11 +35,11 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    """Создание модели ингредиента."""
+    """Создание модели материала."""
 
     name = models.CharField(
         max_length=100,
-        verbose_name="Название ингредиента",
+        verbose_name="Название материала",
     )
     measurement_unit = models.CharField(
         max_length=20,
@@ -47,8 +47,8 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        verbose_name = "Ингредиент"
-        verbose_name_plural = "Ингредиенты"
+        verbose_name = "Материал"
+        verbose_name_plural = "Материалы"
 
     def __str__(self):
         return f'{self.name}, {self.measurement_unit}'
@@ -76,7 +76,7 @@ class Work(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        verbose_name="Список ингредиентов",
+        verbose_name="Список материалов",
         related_name="works",
     )
     tags = models.ManyToManyField(
@@ -105,7 +105,7 @@ class Work(models.Model):
 
 
 class WorksIngredients(models.Model):
-    """Создание модели связанных ингредиентов в работах."""
+    """Создание модели связанных материалов в работах."""
 
     work = models.ForeignKey(
         Work,
@@ -119,15 +119,15 @@ class WorksIngredients(models.Model):
     )
     amount = models.PositiveIntegerField(
         validators=[
-            MinValueValidator(1, message='Минимальное кол-во ингред-ов 1'),
-            MaxValueValidator(50, message='Максимальное кол-во ингред-ов 50')
+            MinValueValidator(1, message='Минимальное кол-во материалов 1'),
+            MaxValueValidator(50, message='Максимальное кол-во материалов 50')
         ],
         verbose_name="Количество"
     )
 
     class Meta:
-        verbose_name = "Ингредиент в работе"
-        verbose_name_plural = "Ингредиенты в работах"
+        verbose_name = "Материал в работе"
+        verbose_name_plural = "Материалы в работах"
 
     def __str__(self):
         return f'{self.ingredient} в {self.work}'
