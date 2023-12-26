@@ -2,7 +2,7 @@ import base64
 import logging
 
 from django.core.files.base import ContentFile
-from recipes.models import (Favorite, Ingredient, Recipe, RecipesIngredients,
+from works.models import (Favorite, Ingredient, Work, WorksIngredients,
                             ShoppingCart, Tag)
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -71,8 +71,8 @@ class GetUserSubscribesSerializer(UserSerializer):
     Сериализатор для получения информации о подписках пользователя.
     """
     is_subscribed = serializers.SerializerMethodField()
-    recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.SerializerMethodField()
+    works = serializers.SerializerMethodField()
+    works_count = serializers.SerializerMethodField()
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -101,8 +101,8 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'color', 'slug')
 
 
-class TagRecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор для связи тега с рецептом."""
+class Tagworkserializer(serializers.ModelSerializer):
+    """Сериализатор для связи тега с работой."""
     class Meta:
         fields = ('id',)
         model = Tag
@@ -115,8 +115,8 @@ class IngredientSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'measurement_unit')
 
 
-class IngredientRecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели связи рецепта и ингредиента с количеством."""
+class Ingredientworkserializer(serializers.ModelSerializer):
+    """Сериализатор для модели связи работы и ингредиента с количеством."""
 
     id = serializers.PrimaryKeyRelatedField(
         queryset=Ingredient.objects.all(),
@@ -131,20 +131,20 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
     amount = serializers.IntegerField()
 
     class Meta:
-        model = RecipesIngredients
+        model = WorksIngredients
         fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
-class RecipeSaveSerializer(serializers.ModelSerializer):
+class WorksaveSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для добавления и обновления рецепта.
+    Сериализатор для добавления и обновления работы.
     """
 
     author = UserSerializer(
         read_only=True, default=serializers.CurrentUserDefault()
     )
-    ingredients = IngredientRecipeSerializer(
-        many=True, source='recipes_ingredients'
+    ingredients = Ingredientworkserializer(
+        many=True, source='works_ingredients'
     )
     image = Base64ImageField()
     tags = serializers.PrimaryKeyRelatedField(
@@ -154,9 +154,9 @@ class RecipeSaveSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Проверяет данные рецепта перед созданием или обновлением.
+        Проверяет данные работы перед созданием или обновлением.
         """
-        ingredients_data = data.get('recipes_ingredients')
+        ingredients_data = data.get('works_ingredients')
         ingredients_set = set()
 
         for ingredient_data in ingredients_data:
@@ -176,118 +176,118 @@ class RecipeSaveSerializer(serializers.ModelSerializer):
             ingredient_tuple = (ingredient.id, amount)
             if ingredient_tuple in ingredients_set:
                 raise serializers.ValidationError(
-                    'В рецепт нельзя добавлять два одинаковых ингредиента'
+                    'В работу нельзя добавлять два одинаковых ингредиента'
                 )
             ingredients_set.add(ingredient_tuple)
 
         return data
 
     def create(self, validated_data):
-        """Создаёт новый рецепт."""
+        """Создаёт новую работу."""
 
-        ingredients_data = validated_data.pop('recipes_ingredients')
+        ingredients_data = validated_data.pop('works_ingredients')
         tags_data = validated_data.pop('tags')
-        recipe = Recipe.objects.create(**validated_data)
-        recipe.tags.set(tags_data)
+        work = Work.objects.create(**validated_data)
+        work.tags.set(tags_data)
 
         ingredients_to_create = []
         for ingredient_data in ingredients_data:
             ingredient = ingredient_data.get('ingredient')
             amount = ingredient_data.get('amount')
             ingredients_to_create.append(
-                RecipesIngredients(
-                    recipe=recipe,
+                WorksIngredients(
+                    work=work,
                     ingredient=ingredient,
                     amount=amount
                 )
             )
-        RecipesIngredients.objects.bulk_create(ingredients_to_create)
-        return recipe
+        WorksIngredients.objects.bulk_create(ingredients_to_create)
+        return work
 
     def update(self, instance, validated_data):
-        """Обновляет существующий рецепт."""
+        """Обновляет существующую работу."""
 
         tags = validated_data.pop('tags')
-        ingredients = validated_data.pop('recipes_ingredients')
+        ingredients = validated_data.pop('works_ingredients')
         validated_data.pop('author', None)
-        RecipesIngredients.objects.filter(recipe=instance).delete()
+        WorksIngredients.objects.filter(work=instance).delete()
         instance.tags.set(tags)
         self.get_ingredients(instance, ingredients)
         return super().update(instance, validated_data)
 
-    def get_ingredients(self, recipe, ingredients_data):
-        """Получает ингредиенты для рецепта."""
+    def get_ingredients(self, work, ingredients_data):
+        """Получает ингредиенты для работы."""
 
         ingredients_to_create = []
         for ingredient_data in ingredients_data:
             ingredient = ingredient_data.get('ingredient')
             amount = ingredient_data.get('amount')
             ingredients_to_create.append(
-                RecipesIngredients(
-                    recipe=recipe,
+                WorksIngredients(
+                    work=work,
                     ingredient=ingredient,
                     amount=amount
                 )
             )
-        RecipesIngredients.objects.bulk_create(ingredients_to_create)
-        return recipe
+        WorksIngredients.objects.bulk_create(ingredients_to_create)
+        return work
 
     def to_representation(self, instance):
         """
-        Преобразует экземпляр модели Recipe в сериализованные данные.
+        Преобразует экземпляр модели Work в сериализованные данные.
         """
         request = self.context.get('request')
 
         if request.user.is_authenticated:
             is_favorited = Favorite.objects.filter(
-                user=request.user, recipe=instance).exists()
+                user=request.user, work=instance).exists()
             instance.is_favorited = is_favorited
 
         return super().to_representation(instance)
 
     class Meta:
-        model = Recipe
+        model = Work
         validators = [
             UniqueTogetherValidator(
-                queryset=Recipe.objects.all(),
+                queryset=Work.objects.all(),
                 fields=['author', 'name'],
-                message='Рецепт с таким названием уже добавлен')
+                message='Работа с таким названием уже добавлена')
         ]
         fields = '__all__'
         read_only_fields = ('author',)
 
 
-class RecipeGetSerializer(serializers.ModelSerializer):
+class WorkGetSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для получения информации о рецепте.
+    Сериализатор для получения информации о работе.
     """
 
     tags = TagSerializer(many=True, read_only=True)
     author = UserSerializer(read_only=True)
-    ingredients = IngredientRecipeSerializer(
-        many=True, read_only=True, source='recipes_ingredients')
+    ingredients = Ingredientworkserializer(
+        many=True, read_only=True, source='works_ingredients')
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
     image = Base64ImageField(required=False)
 
     def get_is_favorited(self, obj):
         """
-        Проверяет, добавлен ли рецепт в избранное у текущего пользователя.
+        Проверяет, добавлена ли работа в избранное у текущего пользователя.
         """
         request = self.context.get('request')
         return request.user.is_authenticated and Favorite.objects.filter(
-            user=request.user, recipe=obj).exists()
+            user=request.user, work=obj).exists()
 
     def get_is_in_shopping_cart(self, obj):
         """
-        Проверяет, добавлен ли рецепт в список покупок у текущего пользователя.
+        Проверяет, добавлена ли работа в список покупок у текущего пользователя.
         """
         request = self.context.get('request')
         return request.user.is_authenticated and ShoppingCart.objects.filter(
-            user=request.user, recipe=obj).exists()
+            user=request.user, work=obj).exists()
 
     class Meta:
-        model = Recipe
+        model = Work
         fields = '__all__'
         read_only_fields = ('id', 'author',)
 
@@ -298,30 +298,30 @@ class UserSubscribeControlSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'username', 'first_name',
-                  'last_name', 'is_subscribed', 'recipes', 'recipes_count')
+                  'last_name', 'is_subscribed', 'works', 'works_count')
         read_only_fields = ('email', 'username', 'first_name', 'last_name',
-                            'is_subscribed', 'recipes', 'recipes_count')
+                            'is_subscribed', 'works', 'works_count')
 
-    def get_recipes(self, obj):
+    def get_works(self, obj):
         """
-        Возвращает список рецептов пользователя с опциональным ограничением
+        Возвращает список работ пользователя с опциональным ограничением
         по количеству.
         """
         request = self.context.get('request')
-        recipes_limit = None
+        works_limit = None
         if request:
-            recipes_limit = request.query_params.get('recipes_limit')
-        recipes = obj.recipes.all()
-        if recipes_limit:
-            recipes = obj.recipes.all()[:int(recipes_limit)]
-        return RecipeGetSerializer(recipes, many=True,
+            works_limit = request.query_params.get('works_limit')
+        works = obj.works.all()
+        if works_limit:
+            works = obj.works.all()[:int(works_limit)]
+        return WorkGetSerializer(works, many=True,
                                    context={'request': request}).data
 
-    def get_recipes_count(self, obj):
+    def get_works_count(self, obj):
         """
-        Возвращает общее количество рецептов пользователя.
+        Возвращает общее количество работ пользователя.
         """
-        return obj.recipes.count()
+        return obj.works.count()
 
 
 class SubscribeSerializer(serializers.ModelSerializer):
@@ -363,8 +363,8 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=ShoppingCart.objects.all(),
-                fields=('user', 'recipe'),
-                message='Рецепт уже добавлен в список покупок'
+                fields=('user', 'work'),
+                message='Работа уже добавлена в список покупок'
             )
         ]
 
@@ -373,14 +373,14 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         Преобразует экземпляр модели ShoppingCart в сериализованные данные.
         """
         request = self.context.get('request')
-        return RecipeSaveSerializer(
-            instance.recipe,
+        return WorksaveSerializer(
+            instance.work,
             context={'request': request}
         ).data
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    """Сериализатор для работы с избранными рецептами."""
+    """Сериализатор для работы с избранными работами."""
 
     class Meta:
         model = Favorite
@@ -388,8 +388,8 @@ class FavoriteSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=Favorite.objects.all(),
-                fields=('user', 'recipe'),
-                message='Рецепт уже добавлен в избранное'
+                fields=('user', 'work'),
+                message='Работа уже добавлена в избранное'
             )
         ]
 
@@ -398,15 +398,15 @@ class FavoriteSerializer(serializers.ModelSerializer):
         Преобразует экземпляр модели Favorite в сериализованные данные.
         """
         request = self.context.get('request')
-        return RecipeSaveSerializer(
-            instance.recipe,
+        return WorksaveSerializer(
+            instance.work,
             context={'request': request}
         ).data
 
 
-class RecipeFollowSerializer(serializers.ModelSerializer):
+class WorkFollowSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
 
     class Meta:
-        model = Recipe
+        model = Work
         fields = ('id', 'name', 'image', 'cooking_time')

@@ -3,14 +3,14 @@ import os
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from recipes.models import Ingredient
+from works.models import Ingredient
 
 
 class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        file_dir = '/home/sanya/lina-project-react/backend/'
+        file_dir = '/home/sanya/Lina_project/lina-project-react/backend' 
 
         if not os.path.exists(file_dir):
             file_dir = '/app/'

@@ -54,21 +54,21 @@ class Ingredient(models.Model):
         return f'{self.name}, {self.measurement_unit}'
 
 
-class Recipe(models.Model):
-    """Создание модели рецепта."""
+class Work(models.Model):
+    """Создание модели работы."""
 
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name="Автор публикации",
-        related_name="recipes",
+        related_name="works",
     )
     name = models.CharField(
         max_length=150,
         verbose_name="Название",
     )
     image = models.ImageField(
-        upload_to="recipes/images/",
+        upload_to="works/images/",
         verbose_name="Картинка",
     )
     text = models.TextField(
@@ -77,7 +77,7 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(
         Ingredient,
         verbose_name="Список ингредиентов",
-        related_name="recipes",
+        related_name="works",
     )
     tags = models.ManyToManyField(
         Tag,
@@ -97,25 +97,25 @@ class Recipe(models.Model):
 
     class Meta:
         ordering = ('-pub_date', )
-        verbose_name = "Рецепт"
-        verbose_name_plural = "Рецепты"
+        verbose_name = "Работа"
+        verbose_name_plural = "Работы"
 
     def __str__(self):
         return self.name
 
 
-class RecipesIngredients(models.Model):
-    """Создание модели связанных ингредиентов в рецептах."""
+class WorksIngredients(models.Model):
+    """Создание модели связанных ингредиентов в работах."""
 
-    recipe = models.ForeignKey(
-        Recipe,
+    work = models.ForeignKey(
+        Work,
         on_delete=models.CASCADE,
-        related_name="recipes_ingredients",
+        related_name="works_ingredients",
     )
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
-        related_name="used_in_recipes",
+        related_name="used_in_works",
     )
     amount = models.PositiveIntegerField(
         validators=[
@@ -126,11 +126,11 @@ class RecipesIngredients(models.Model):
     )
 
     class Meta:
-        verbose_name = "Ингредиент в рецепте"
-        verbose_name_plural = "Ингредиенты в рецептах"
+        verbose_name = "Ингредиент в работе"
+        verbose_name_plural = "Ингредиенты в работах"
 
     def __str__(self):
-        return f'{self.ingredient} в {self.recipe}'
+        return f'{self.ingredient} в {self.work}'
 
 
 class Favorite(models.Model):
@@ -141,25 +141,25 @@ class Favorite(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь",
     )
-    recipe = models.ForeignKey(
-        Recipe,
+    work = models.ForeignKey(
+        Work,
         on_delete=models.CASCADE,
         related_name="favorites",
-        verbose_name="Рецепт",
+        verbose_name="Работа",
     )
 
     class Meta:
-        verbose_name = "Избранный рецепт"
-        verbose_name_plural = "Избранные рецепты"
+        verbose_name = "Избранная работа"
+        verbose_name_plural = "Избранные работы"
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'recipe'],
+                fields=['user', 'work'],
                 name='unique_favorite'
             )
         ]
 
     def __str__(self):
-        return f'{self.recipe} {self.user}'
+        return f'{self.work} {self.user}'
 
 
 class ShoppingCart(models.Model):
@@ -170,21 +170,21 @@ class ShoppingCart(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь",
     )
-    recipe = models.ForeignKey(
-        Recipe,
+    work = models.ForeignKey(
+        Work,
         on_delete=models.CASCADE,
         related_name="shopping_cart",
-        verbose_name="Рецепт",
+        verbose_name="Работа",
     )
 
     class Meta:
         verbose_name = 'Список покупок'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'recipe'],
+                fields=['user', 'work'],
                 name='unique_shopping_cart'
             )
         ]
 
     def __str__(self):
-        return f'{self.recipe} в списке у {self.user}'
+        return f'{self.work} в списке у {self.user}'

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
+from .models import Favorite, Ingredient, Work, ShoppingCart, Tag
 
 
 @admin.register(Tag)
@@ -17,9 +17,9 @@ class IngredientAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-@admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
-    """Модель рецептов в админке."""
+@admin.register(Work)
+class WorkAdmin(admin.ModelAdmin):
+    """Модель работы в админке."""
 
     list_display = ('id', 'name', 'author')
     list_filter = ('name', 'author', 'tags')
@@ -33,10 +33,10 @@ class RecipeAdmin(admin.ModelAdmin):
 class FavoriteAdmin(admin.ModelAdmin):
     """Модель избранного в админке."""
 
-    list_display = ('id', 'user', 'recipe')
+    list_display = ('id', 'user', 'work')
 
 
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
     """Модель списка покупок в админке."""
-    list_display = ('id', 'user', 'recipe')
+    list_display = ('id', 'user', 'work')

@@ -1,6 +1,6 @@
 import django_filters
 from django.contrib.auth import get_user_model
-from recipes.models import Ingredient, Recipe, Tag
+from works.models import Ingredient, Work, Tag
 
 User = get_user_model()
 
@@ -16,7 +16,7 @@ class IngredientFilter(django_filters.FilterSet):
         fields = ('name', 'measurement_unit')
 
 
-class RecipeFilter(django_filters.FilterSet):
+class WorkFilter(django_filters.FilterSet):
     tags = django_filters.ModelMultipleChoiceFilter(
         field_name='tags__slug',
         to_field_name='slug',
@@ -25,5 +25,5 @@ class RecipeFilter(django_filters.FilterSet):
     author = django_filters.ModelChoiceFilter(queryset=User.objects.all())
 
     class Meta:
-        model = Recipe
+        model = Work
         fields = ('tags', 'author')

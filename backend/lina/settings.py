@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'api',
-    'recipes',
+    'works',
     'users',
     'corsheaders',
 ]
@@ -108,9 +108,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'collected_static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/media/'
+MEDIA_ROOT = os.getenv("MEDIA_ROOT")
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
