@@ -10,7 +10,7 @@ import {
 } from '../../components'
 import cn from 'classnames'
 import styles from './styles.module.css'
-import { useRecipes } from '../../utils/index.js'
+import { useWorks } from '../../utils/index.js'
 import { useEffect, useState, useContext } from 'react'
 import api from '../../api'
 import { useParams, useHistory } from 'react-router-dom'
@@ -19,31 +19,31 @@ import MetaTags from 'react-meta-tags'
 
 const UserPage = ({ updateOrders }) => {
   const {
-    recipes,
-    setRecipes,
-    recipesCount,
-    setRecipesCount,
-    recipesPage,
-    setRecipesPage,
+    works,
+    setworks,
+    worksCount,
+    setworksCount,
+    worksPage,
+    setworksPage,
     tagsValue,
     setTagsValue,
     handleTagsChange,
     handleLike,
     handleAddToCart
-  } = useRecipes()
+  } = useWorks()
   const { id } = useParams()
   const [ user, setUser ] = useState(null)
   const [ subscribed, setSubscribed ] = useState(false)
   const history = useHistory()
   const userContext = useContext(UserContext)
 
-  const getRecipes = ({ page = 1, tags }) => {
+  const getWorks = ({ page = 1, tags }) => {
     api
-      .getRecipes({ page, author: id, tags })
+      .getWorks({ page, author: id, tags })
         .then(res => {
           const { results, count } = res
-          setRecipes(results)
-          setRecipesCount(count)
+          setworks(results)
+          setworksCount(count)
         })
   }
 
@@ -54,14 +54,14 @@ const UserPage = ({ updateOrders }) => {
         setSubscribed(res.is_subscribed)
       })
       .catch(err => {
-        history.push('/recipes')
+        history.push('/works')
       })
   }
 
   useEffect(_ => {
     if (!user) { return }
-    getRecipes({ page: recipesPage, tags: tagsValue, author: user.id })
-  }, [ recipesPage, tagsValue, user ])
+    getWorks({ page: worksPage, tags: tagsValue, author: user.id })
+  }, [ worksPage, tagsValue, user ])
 
   useEffect(_ => {
     getUser()
@@ -79,7 +79,7 @@ const UserPage = ({ updateOrders }) => {
     <Container className={styles.container}>
       <MetaTags>
         <title>{user ? `${user.first_name} ${user.last_name}` : 'Страница пользователя'}</title>
-        <meta name="description" content={user ? `Продуктовый помощник - ${user.first_name} ${user.last_name}` : 'Продуктовый помощник - Страница пользователя'} />
+        <meta name="description" content={user ? `Художник Ангелина Хижняк - ${user.first_name} ${user.last_name}` : 'Художник Ангелина Хижняк - Страница пользователя'} />
         <meta property="og:title" content={user ? `${user.first_name} ${user.last_name}` : 'Страница пользователя'} />
       </MetaTags>
       <div className={styles.title}>
@@ -92,7 +92,7 @@ const UserPage = ({ updateOrders }) => {
         <CheckboxGroup
           values={tagsValue}
           handleChange={value => {
-            setRecipesPage(1)
+            setworksPage(1)
             handleTagsChange(value)
           }}
         />
@@ -112,7 +112,7 @@ const UserPage = ({ updateOrders }) => {
         {subscribed ? 'Отписаться от автора' : 'Подписаться на автора'}
       </Button>}
       <CardList>
-        {recipes.map(card => <Card
+        {works.map(card => <Card
           {...card}
           key={card.id}
           updateOrders={updateOrders}
@@ -121,10 +121,10 @@ const UserPage = ({ updateOrders }) => {
         />)}
       </CardList>
       <Pagination
-        count={recipesCount}
+        count={worksCount}
         limit={6}
-        page={recipesPage}
-        onPageChange={page => setRecipesPage(page)}
+        page={worksPage}
+        onPageChange={page => setworksPage(page)}
       />
     </Container>
   </Main>

@@ -16,8 +16,8 @@ import {
   Favorites,
   SingleCard,
   SignUp,
-  RecipeEdit,
-  RecipeCreate,
+  WorkEdit,
+  WorkCreate,
   User,
   ChangePassword
 } from './pages'
@@ -123,13 +123,13 @@ function App() {
 
   useEffect(_ => {
     if (loggedIn) {
-      // history.push('/recipes')
+      // history.push('/works')
     }
   }, [loggedIn])
 
   const getOrders = () => {
     api
-      .getRecipes({
+      .getWorks({
         page: 1,
         is_in_shopping_cart: Number(true)
       })
@@ -214,15 +214,15 @@ function App() {
 
           <ProtectedRoute
             exact
-            path='/recipes/create'
-            component={RecipeCreate}
+            path='/works/create'
+            component={WorkCreate}
             loggedIn={loggedIn}
           />
 
           <ProtectedRoute
             exact
-            path='/recipes/:id/edit'
-            component={RecipeEdit}
+            path='/works/:id/edit'
+            component={WorkEdit}
             loggedIn={loggedIn}
             loadItem={loadSingleItem}
             onItemDelete={getOrders}
@@ -237,7 +237,7 @@ function App() {
 
           <Route
             exact
-            path='/recipes/:id'
+            path='/works/:id'
           >
             <SingleCard
               loggedIn={loggedIn}
@@ -246,7 +246,7 @@ function App() {
             />
           </Route>
 
-          <Route exact path='/recipes'>
+          <Route exact path='/works'>
             <Main
               updateOrders={updateOrders}
             />
@@ -264,7 +264,7 @@ function App() {
             />
           </Route>
           <Route path='/'>
-            {loggedIn ? <Redirect to='/recipes' /> : <Redirect to='/signin'/>}
+            {loggedIn ? <Redirect to='/works' /> : <Redirect to='/signin'/>}
           </Route>
         </Switch>
         <Footer />

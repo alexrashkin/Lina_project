@@ -132,3 +132,7 @@ dmypy.json
 
 # .idea
 .idea
+
+
+#media files of local dev
+backend/media

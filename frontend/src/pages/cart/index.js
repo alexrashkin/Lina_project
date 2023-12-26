@@ -1,32 +1,32 @@
 import { PurchaseList, Title, Container, Main, Button } from '../../components'
 import styles from './styles.module.css'
-import { useRecipes } from '../../utils/index.js'
+import { useWorks } from '../../utils/index.js'
 import { useEffect, useState } from 'react'
 import api from '../../api'
 import MetaTags from 'react-meta-tags'
 
 const Cart = ({ updateOrders, orders }) => {
   const {
-    recipes,
-    setRecipes,
+    works,
+    setworks,
     handleAddToCart
-  } = useRecipes()
+  } = useWorks()
   
-  const getRecipes = () => {
+  const getWorks = () => {
     api
-      .getRecipes({
+      .getWorks({
         page: 1,
         limit: 999,
         is_in_shopping_cart: Number(true)
       })
       .then(res => {
         const { results } = res
-        setRecipes(results)
+        setworks(results)
       })
   }
 
   useEffect(_ => {
-    getRecipes()
+    getWorks()
   }, [])
 
   const downloadDocument = () => {
@@ -37,13 +37,13 @@ const Cart = ({ updateOrders, orders }) => {
     <Container className={styles.container}>
       <MetaTags>
         <title>Список покупок</title>
-        <meta name="description" content="Продуктовый помощник - Список покупок" />
+        <meta name="description" content="Художник Ангелина Хижняк - Список покупок" />
         <meta property="og:title" content="Список покупок" />
       </MetaTags>
       <div className={styles.cart}>
         <Title title='Список покупок' />
         <PurchaseList
-          orders={recipes}
+          orders={works}
           handleRemoveFromCart={handleAddToCart}
           updateOrders={updateOrders}
         />

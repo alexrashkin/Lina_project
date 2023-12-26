@@ -1,15 +1,15 @@
 export default [
   {
-    title: 'Рецепты',
-    href: '/recipes',
+    title: 'Работы',
+    href: '/works',
     auth: false
   },{
     title: 'Мои подписки',
     href: '/subscriptions',
     auth: true
   },{
-    title: 'Создать рецепт',
-    href: '/recipes/create',
+    title: 'Добавить работу',
+    href: '/works/create',
     auth: true
   },{
     title: 'Избранное',

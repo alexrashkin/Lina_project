@@ -1,38 +1,38 @@
 import { Card, Title, Pagination, CardList, Container, Main, CheckboxGroup  } from '../../components'
 import styles from './styles.module.css'
-import { useRecipes } from '../../utils/index.js'
+import { useWorks } from '../../utils/index.js'
 import { useEffect } from 'react'
 import api from '../../api'
 import MetaTags from 'react-meta-tags'
 
 const Favorites = ({ updateOrders }) => {
   const {
-    recipes,
-    setRecipes,
-    recipesCount,
-    setRecipesCount,
-    recipesPage,
-    setRecipesPage,
+    works,
+    setworks,
+    worksCount,
+    setworksCount,
+    worksPage,
+    setworksPage,
     tagsValue,
     handleTagsChange,
     setTagsValue,
     handleLike,
     handleAddToCart
-  } = useRecipes()
+  } = useWorks()
   
-  const getRecipes = ({ page = 1, tags }) => {
+  const getWorks = ({ page = 1, tags }) => {
     api
-      .getRecipes({ page, is_favorited: Number(true), tags })
+      .getWorks({ page, is_favorited: Number(true), tags })
       .then(res => {
         const { results, count } = res
-        setRecipes(results)
-        setRecipesCount(count)
+        setworks(results)
+        setworksCount(count)
       })
   }
 
   useEffect(_ => {
-    getRecipes({ page: recipesPage, tags: tagsValue })
-  }, [recipesPage, tagsValue])
+    getWorks({ page: worksPage, tags: tagsValue })
+  }, [worksPage, tagsValue])
 
   useEffect(_ => {
     api.getTags()
@@ -46,7 +46,7 @@ const Favorites = ({ updateOrders }) => {
     <Container>
       <MetaTags>
         <title>Избранное</title>
-        <meta name="description" content="Продуктовый помощник - Избранное" />
+        <meta name="description" content="Художник Ангелина Хижняк - Избранное" />
         <meta property="og:title" content="Избранное" />
       </MetaTags>
       <div className={styles.title}>
@@ -54,13 +54,13 @@ const Favorites = ({ updateOrders }) => {
         <CheckboxGroup
           values={tagsValue}
           handleChange={value => {
-            setRecipesPage(1)
+            setworksPage(1)
             handleTagsChange(value)
           }}
         />
       </div>
       <CardList>
-        {recipes.map(card => <Card
+        {works.map(card => <Card
           {...card}
           key={card.id}
           updateOrders={updateOrders}
@@ -69,10 +69,10 @@ const Favorites = ({ updateOrders }) => {
         />)}
       </CardList>
       <Pagination
-        count={recipesCount}
+        count={worksCount}
         limit={6}
-        page={recipesPage}
-        onPageChange={page => setRecipesPage(page)}
+        page={worksPage}
+        onPageChange={page => setworksPage(page)}
       />
     </Container>
   </Main>

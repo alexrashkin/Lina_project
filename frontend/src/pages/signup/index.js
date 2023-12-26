@@ -11,11 +11,11 @@ const SignUp = ({ onSignUp }) => {
   const authContext = useContext(AuthContext)
 
   return <Main>
-    {authContext && <Redirect to='/recipes' />}
+    {authContext && <Redirect to='/works' />}
     <Container>
       <MetaTags>
         <title>Регистрация</title>
-        <meta name="description" content="Продуктовый помощник - Регистрация" />
+        <meta name="description" content="Художник Ангелина Хижняк - Регистрация" />
         <meta property="og:title" content="Регистрация" />
       </MetaTags>
       <Title title='Регистрация' />

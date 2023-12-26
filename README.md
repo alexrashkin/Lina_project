@@ -1,6 +1,6 @@
-# Проект «Фудграм»
+# Проект «Lina-project»
 # Описание
-На этом сайте пользователи могут публиковать рецепты, добавлять чужие рецепты в избранное и подписываться на публикации других авторов. Пользователям сайта также доступен сервис «Список покупок». Он позволит создавать список продуктов, которые нужно купить для приготовления выбранных блюд.
+На этом сайте пользователи могут...
 
 Стек: Python3, Django3, Django REST framework, React, PostgreSQL, gunicorn, nginx, Яндекс.Облако
 
@@ -54,7 +54,3 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
-
-Над проектом работали: 
-- Backend  - https://github.com/alexrashkin
-- Frontend - https://github.com/yandex-praktikum/lina-project-react

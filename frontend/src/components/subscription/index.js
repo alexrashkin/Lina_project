@@ -10,27 +10,27 @@ const countForm = (number, titles) => {
   return titles[1];
 }
 
-const Subscription = ({ email, first_name, last_name, username, removeSubscription, recipes_count, id, recipes }) => {
-  const shouldShowButton = recipes_count  > 3
-  const moreRecipes = recipes_count - 3
+const Subscription = ({ email, first_name, last_name, username, removeSubscription, works_count, id, works }) => {
+  const shouldShowButton = works_count  > 3
+  const moreworks = works_count - 3
   return <div className={styles.subscription}>
     <div className={styles.subscriptionHeader}>
       <h2 className={styles.subscriptionTitle}>
-        <LinkComponent className={styles.subscriptionRecipeLink} href={`/user/${id}`} title={`${first_name} ${last_name}`} />
+        <LinkComponent className={styles.subscriptionworkLink} href={`/user/${id}`} title={`${first_name} ${last_name}`} />
       </h2>
     </div>
     <div className={styles.subscriptionBody}>
       <ul className={styles.subscriptionItems}>
-        {recipes.map(recipe => {
-          return <li className={styles.subscriptionItem} key={recipe.id}>
-            <LinkComponent className={styles.subscriptionRecipeLink} href={`/recipes/${recipe.id}`} title={
-              <div className={styles.subscriptionRecipe}>
-                <img src={recipe.image} alt={recipe.name} className={styles.subscriptionRecipeImage} />
-                <h3 className={styles.subscriptionRecipeTitle}>
-                  {recipe.name}
+        {works.map(work => {
+          return <li className={styles.subscriptionItem} key={work.id}>
+            <LinkComponent className={styles.subscriptionworkLink} href={`/works/${work.id}`} title={
+              <div className={styles.subscriptionwork}>
+                <img src={work.image} alt={work.name} className={styles.subscriptionworkImage} />
+                <h3 className={styles.subscriptionworkTitle}>
+                  {work.name}
                 </h3>
-                <p className={styles.subscriptionRecipeText}>
-                  <Icons.ClockIcon />{recipe.cooking_time} мин.
+                <p className={styles.subscriptionworkText}>
+                  <Icons.ClockIcon />{work.cooking_time} мин.
                 </p>
               </div>
             } />
@@ -39,7 +39,7 @@ const Subscription = ({ email, first_name, last_name, username, removeSubscripti
         {shouldShowButton && <li className={styles.subscriptionMore}>
           <LinkComponent
             className={styles.subscriptionLink}
-            title={`Еще ${moreRecipes} ${countForm(moreRecipes, ['рецепт', 'рецепта', 'рецептов'])}...`}
+            title={`Еще ${moreworks} ${countForm(moreworks, ['работа', 'работы', 'работ'])}...`}
             href={`/user/${id}`}
           />
         </li>}

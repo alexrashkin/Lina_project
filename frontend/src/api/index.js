@@ -101,9 +101,9 @@ class Api {
   }
 
 
-  // recipes
+  // works
 
-  getRecipes ({
+  getWorks ({
     page = 1,
     limit = 6,
     is_favorited = 0,
@@ -115,7 +115,7 @@ class Api {
       const authorization = token ? { 'authorization': `Token ${token}` } : {}
       const tagsString = tags ? tags.filter(tag => tag.value).map(tag => `&tags=${tag.slug}`).join('') : ''
       return fetch(
-        `/api/recipes/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${is_in_shopping_cart ? `&is_in_shopping_cart=${is_in_shopping_cart}` : ''}${tagsString}`,
+        `/api/works/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${is_in_shopping_cart ? `&is_in_shopping_cart=${is_in_shopping_cart}` : ''}${tagsString}`,
         {
           method: 'GET',
           headers: {
@@ -126,13 +126,13 @@ class Api {
       ).then(this.checkResponse)
   }
 
-  getRecipe ({
-    recipe_id
+  getWork ({
+    work_id
   }) {
     const token = localStorage.getItem('token')
     const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
-      `/api/recipes/${recipe_id}/`,
+      `/api/works/${work_id}/`,
       {
         method: 'GET',
         headers: {
@@ -143,7 +143,7 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  createRecipe ({
+  createWork ({
     name = '',
     image,
     tags = [],
@@ -153,7 +153,7 @@ class Api {
   }) {
     const token = localStorage.getItem('token')
     return fetch(
-      '/api/recipes/',
+      '/api/works/',
       {
         method: 'POST',
         headers: {
@@ -172,9 +172,9 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  updateRecipe ({
+  updateWork ({
     name,
-    recipe_id,
+    work_id,
     image,
     tags,
     cooking_time,
@@ -183,7 +183,7 @@ class Api {
   }, wasImageUpdated) { // image was changed
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${recipe_id}/`,
+      `/api/works/${work_id}/`,
       {
         method: 'PATCH',
         headers: {
@@ -192,7 +192,7 @@ class Api {
         },
         body: JSON.stringify({
           name,
-          id: recipe_id,
+          id: work_id,
           image: wasImageUpdated ? image : undefined,
           tags,
           cooking_time: Number(cooking_time),
@@ -206,7 +206,7 @@ class Api {
   addToFavorites ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/favorite/`,
+      `/api/works/${id}/favorite/`,
       {
         method: 'POST',
         headers: {
@@ -220,7 +220,7 @@ class Api {
   removeFromFavorites ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/favorite/`,
+      `/api/works/${id}/favorite/`,
       {
         method: 'DELETE',
         headers: {
@@ -267,11 +267,11 @@ class Api {
   getSubscriptions ({
     page, 
     limit = 6,
-    recipes_limit = 3
+    works_limit = 3
   }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/subscriptions/?page=${page}&limit=${limit}&recipes_limit=${recipes_limit}`,
+      `/api/users/subscriptions/?page=${page}&limit=${limit}&works_limit=${works_limit}`,
       {
         method: 'GET',
         headers: {
@@ -346,7 +346,7 @@ class Api {
   addToOrders ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/shopping_cart/`,
+      `/api/works/${id}/shopping_cart/`,
       {
         method: 'POST',
         headers: {
@@ -360,7 +360,7 @@ class Api {
   removeFromOrders ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/shopping_cart/`,
+      `/api/works/${id}/shopping_cart/`,
       {
         method: 'DELETE',
         headers: {
@@ -371,10 +371,10 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  deleteRecipe ({ recipe_id }) {
+  deleteWork ({ work_id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${recipe_id}/`,
+      `/api/works/${work_id}/`,
       {
         method: 'DELETE',
         headers: {
@@ -388,7 +388,7 @@ class Api {
   downloadFile () {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/download_shopping_cart/`,
+      `/api/works/download_shopping_cart/`,
       {
         method: 'GET',
         headers: {

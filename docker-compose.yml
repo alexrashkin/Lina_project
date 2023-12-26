@@ -2,19 +2,26 @@ version: '3'
 
 services:
 
+  backend:
+    build: ./backend/
+    env_file: .env
+    volumes:
+      - static:/backend_static/
+    command: cp -r /app/collected_static/. /backend_static/static/
+
   frontend:
     env_file: .env
     build: ./frontend/
     command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/frontend_static
+      - static:/frontend_static/
 
   nginx:
     build: ./nginx/
     env_file: .env
     volumes:
       - static:/backend_static/
-      - media:/media/
+      - ./backend/media:/media:Z
       - ./docs/:/usr/share/nginx/html/api/docs/
     network_mode: host
     depends_on:
@@ -22,4 +29,3 @@ services:
 
 volumes:
   static:
-  media:

@@ -109,9 +109,9 @@ paths:
           $ref: '#/components/responses/NotFound'
       tags:
         - Теги
-  /api/recipes/:
+  /api/works/:
     get:
-      operationId: Список рецептов
+      operationId: Список работ
       description: Страница доступна всем пользователям. Доступна фильтрация по избранному, автору, списку покупок и тегам.
       parameters:
         - name: page
@@ -129,27 +129,27 @@ paths:
         - name: is_favorited
           required: false
           in: query
-          description: Показывать только рецепты, находящиеся в списке избранного.
+          description: Показывать только работы, находящиеся в списке избранного.
           schema:
             type: integer
             enum: [0, 1]
         - name: is_in_shopping_cart
           required: false
           in: query
-          description: Показывать только рецепты, находящиеся в списке покупок.
+          description: Показывать только работы, находящиеся в списке покупок.
           schema:
             type: integer
             enum: [0, 1]
         - name: author
           required: false
           in: query
-          description: Показывать рецепты только автора с указанным id.
+          description: Показывать работы только автора с указанным id.
           schema:
             type: integer
         - name: tags
           required: false
           in: query
-          description: Показывать рецепты только с указанными тегами (по slug)
+          description: Показывать работы только с указанными тегами (по slug)
           example: 'lunch&tags=breakfast'
 
           schema:
@@ -171,40 +171,40 @@ paths:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://lina.example.org/api/recipes/?page=4
+                    example: http://lina.example.org/api/works/?page=4
                     description: 'Ссылка на следующую страницу'
                   previous:
                     type: string
                     nullable: true
                     format: uri
-                    example: http://lina.example.org/api/recipes/?page=2
+                    example: http://lina.example.org/api/works/?page=2
                     description: 'Ссылка на предыдущую страницу'
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/RecipeList'
+                      $ref: '#/components/schemas/workList'
                     description: 'Список объектов текущей страницы'
           description: ''
       tags:
-        - Рецепты
+        - Работы
     post:
       security:
         - Token: []
-      operationId: Создание рецепта
+      operationId: Добавление работы
       description: 'Доступно только авторизованному пользователю'
       parameters: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RecipeCreateUpdate'
+              $ref: '#/components/schemas/workCreateUpdate'
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeList'
-          description: 'Рецепт успешно создан'
+                $ref: '#/components/schemas/workList'
+          description: 'Работа успешно создана'
         '400':
           description: 'Ошибки валидации в стандартном формате DRF'
           content:
@@ -216,8 +216,8 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
-        - Рецепты
-  /api/recipes/download_shopping_cart/:
+        - Работы
+  /api/works/download_shopping_cart/:
     get:
       security:
         - Token: [ ]
@@ -240,15 +240,15 @@ paths:
           $ref: '#/components/responses/AuthenticationError'
       tags:
         - Список покупок
-  /api/recipes/{id}/:
+  /api/works/{id}/:
     get:
-      operationId: Получение рецепта
+      operationId: Получение работы
       description: ''
       parameters:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта"
+          description: "Уникальный идентификатор этой работы"
           schema:
             type: string
       responses:
@@ -256,34 +256,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeList'
+                $ref: '#/components/schemas/workList'
           description: ''
       tags:
-        - Рецепты
+        - Работы
     patch:
-      operationId: Обновление рецепта
+      operationId: Обновление работы
       security:
         - Token: [ ]
-      description: 'Доступно только автору данного рецепта'
+      description: 'Доступно только автору данной работы'
       parameters:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта."
+          description: "Уникальный идентификатор этой работы."
           schema:
             type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RecipeCreateUpdate'
+              $ref: '#/components/schemas/workCreateUpdate'
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeList'
-          description: 'Рецепт успешно обновлен'
+                $ref: '#/components/schemas/workList'
+          description: 'Работа успешно обновлена'
         '400':
           $ref: '#/components/responses/NestedValidationError'
         '401':
@@ -293,23 +293,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
-        - Рецепты
+        - Работы
     delete:
-      operationId: Удаление рецепта
+      operationId: Удаление работы
 
-      description: 'Доступно только автору данного рецепта'
+      description: 'Доступно только автору данной работы'
       security:
         - Token: [ ]
       parameters:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта"
+          description: "Уникальный идентификатор этой работы"
           schema:
             type: string
       responses:
         '204':
-          description: 'Рецепт успешно удален'
+          description: 'Работа успешно удалена'
         '401':
           $ref: '#/components/responses/AuthenticationError'
         '403':
@@ -317,10 +317,10 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
-        - Рецепты
-  /api/recipes/{id}/favorite/:
+        - Работы
+  /api/works/{id}/favorite/:
     post:
-      operationId: Добавить рецепт в избранное
+      operationId: Добавить работу в избранное
       description: 'Доступно только авторизованному пользователю.'
       security:
         - Token: [ ]
@@ -328,7 +328,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта"
+          description: "Уникальный идентификатор этой работы"
           schema:
             type: string
       responses:
@@ -336,10 +336,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeMinified'
-          description: 'Рецепт успешно добавлен в избранное'
+                $ref: '#/components/schemas/workMinified'
+          description: 'Работа успешно добавлена в избранное'
         '400':
-          description: 'Ошибка добавления в избранное (Например, когда рецепт уже есть в избранном)'
+          description: 'Ошибка добавления в избранное (Например, когда работа уже есть в избранном)'
           content:
             application/json:
               schema:
@@ -350,7 +350,7 @@ paths:
       tags:
         - Избранное
     delete:
-      operationId: Удалить рецепт из избранного
+      operationId: Удалить работу из избранного
       description: 'Доступно только авторизованным пользователям'
       security:
         - Token: [ ]
@@ -358,14 +358,14 @@ paths:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта."
+          description: "Уникальный идентификатор этой работы."
           schema:
             type: string
       responses:
         '204':
-          description: 'Рецепт успешно удален из избранного'
+          description: 'Работа успешно удалена из избранного'
         '400':
-          description: 'Ошибка удаления из избранного (Например, когда рецепта там не было)'
+          description: 'Ошибка удаления из избранного (Например, когда работы там не было)'
           content:
             application/json:
               schema:
@@ -374,9 +374,9 @@ paths:
           $ref: '#/components/responses/AuthenticationError'
       tags:
         - Избранное
-  /api/recipes/{id}/shopping_cart/:
+  /api/works/{id}/shopping_cart/:
     post:
-      operationId: Добавить рецепт в список покупок
+      operationId: Добавить работу в список покупок
       description: 'Доступно только авторизованным пользователям'
       security:
         - Token: [ ]
@@ -384,7 +384,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта."
+          description: "Уникальный идентификатор этой работы."
           schema:
             type: string
       responses:
@@ -392,10 +392,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeMinified'
-          description: 'Рецепт успешно добавлен в список покупок'
+                $ref: '#/components/schemas/workMinified'
+          description: 'Работа успешно добавлена в список покупок'
         '400':
-          description: 'Ошибка добавления в список покупок (Например, когда рецепт уже есть в списке покупок)'
+          description: 'Ошибка добавления в список покупок (Например, когда работа уже есть в списке покупок)'
           content:
             application/json:
               schema:
@@ -405,7 +405,7 @@ paths:
       tags:
         - Список покупок
     delete:
-      operationId: Удалить рецепт из списка покупок
+      operationId: Удалить работу из списка покупок
       description: 'Доступно только авторизованным пользователям'
       security:
         - Token: [ ]
@@ -413,14 +413,14 @@ paths:
         - name: id
           in: path
           required: true
-          description: "Уникальный идентификатор этого рецепта."
+          description: "Уникальный идентификатор этой работы."
           schema:
             type: string
       responses:
         '204':
-          description: 'Рецепт успешно удален из списка покупок'
+          description: 'Работа успешно удалена из списка покупок'
         '400':
-          description: 'Ошибка удаления из списка покупок (Например, когда рецепта там не было)'
+          description: 'Ошибка удаления из списка покупок (Например, когда работы там не было)'
           content:
             application/json:
               schema:
@@ -476,7 +476,7 @@ paths:
   /api/users/subscriptions/:
     get:
       operationId: Мои подписки
-      description: 'Возвращает пользователей, на которых подписан текущий пользователь. В выдачу добавляются рецепты.'
+      description: 'Возвращает пользователей, на которых подписан текущий пользователь. В выдачу добавляются работы.'
       parameters:
         - name: page
           required: false
@@ -490,10 +490,10 @@ paths:
           description: Количество объектов на странице.
           schema:
             type: integer
-        - name: recipes_limit
+        - name: works_limit
           required: false
           in: query
-          description: Количество объектов внутри поля recipes.
+          description: Количество объектов внутри поля works.
           schema:
             type: integer
       responses:
@@ -522,7 +522,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/UserWithRecipes'
+                      $ref: '#/components/schemas/UserWithworks'
                     description: 'Список объектов текущей страницы'
           description: ''
         '401':
@@ -542,10 +542,10 @@ paths:
           description: "Уникальный идентификатор этого пользователя."
           schema:
             type: string
-        - name: recipes_limit
+        - name: works_limit
           required: false
           in: query
-          description: Количество объектов внутри поля recipes.
+          description: Количество объектов внутри поля works.
           schema:
             type: integer
       responses:
@@ -553,7 +553,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithRecipes'
+                $ref: '#/components/schemas/UserWithworks'
           description: 'Подписка успешно создана'
         '400':
           description: 'Ошибка подписки (Например, если уже подписан или при подписке на себя самого)'
@@ -597,13 +597,13 @@ paths:
         - Подписки
   /api/ingredients/:
     get:
-      operationId: Список ингредиентов
-      description: 'Список ингредиентов с возможностью поиска по имени.'
+      operationId: Список материалов
+      description: 'Список материалов с возможностью поиска по имени.'
       parameters:
         - name: name
           required: false
           in: query
-          description: Поиск по частичному вхождению в начале названия ингредиента.
+          description: Поиск по частичному вхождению в начале названия материала.
           schema:
             type: string
       responses:
@@ -616,11 +616,11 @@ paths:
                   $ref: '#/components/schemas/Ingredient'
           description: ''
       tags:
-        - Ингредиенты
+        - Материалы
   /api/ingredients/{id}/:
     get:
-      operationId: Получение ингредиента
-      description: 'Уникальный идентификатор этого ингредиента.'
+      operationId: Получение материала
+      description: 'Уникальный идентификатор этого материала.'
       parameters:
         - name: id
           in: path
@@ -636,7 +636,7 @@ paths:
                 $ref: '#/components/schemas/Ingredient'
           description: ''
       tags:
-        - Ингредиенты
+        - Материалы
   /api/users/set_password/:
     post:
       operationId: Изменение пароля
@@ -698,7 +698,7 @@ paths:
 components:
   schemas:
     User:
-      description:  'Пользователь (В рецепте - автор рецепта)'
+      description:  'Пользователь (В работе - автор работы)'
       type: object
       properties:
         email:
@@ -731,8 +731,8 @@ components:
           example: false
       required:
         - username
-    UserWithRecipes:
-      description: 'Расширенный объект пользователя с рецептами'
+    UserWithworks:
+      description: 'Расширенный объект пользователя с работами'
       type: object
       properties:
         email:
@@ -762,13 +762,13 @@ components:
           type: boolean
           readOnly: true
           description: "Подписан ли текущий пользователь на этого"
-        recipes:
+        works:
           type: array
           items:
-            $ref: '#/components/schemas/RecipeMinified'
-        recipes_count:
+            $ref: '#/components/schemas/workMinified'
+        works_count:
           type: integer
-          description: 'Общее количество рецептов пользователя'
+          description: 'Общее количество работ пользователя'
 
     Tag:
       type: object
@@ -794,7 +794,7 @@ components:
           pattern: ^[-a-zA-Z0-9_]+$
           description: 'Уникальный слаг'
           example: 'breakfast'
-    RecipeList:
+    workList:
       type: object
       properties:
         id:
@@ -809,10 +809,10 @@ components:
         author:
           $ref: '#/components/schemas/User'
         ingredients:
-          description: 'Список ингредиентов'
+          description: 'Список материалов'
           type: array
           items:
-            $ref: '#/components/schemas/IngredientInRecipe'
+            $ref: '#/components/schemas/IngredientInwork'
         is_favorited:
           type: boolean
           description: 'Находится ли в избранном'
@@ -825,7 +825,7 @@ components:
           description: 'Название'
         image:
           description: 'Ссылка на картинку на сайте'
-          example: 'http://lina.example.org/media/recipes/images/image.jpeg'
+          example: 'http://lina.example.org/media/works/images/image.jpeg'
           type: string
           format: url
         text:
@@ -844,7 +844,7 @@ components:
         - image
         - text
         - cooking_time
-    RecipeMinified:
+    workMinified:
       type: object
       properties:
         id:
@@ -857,7 +857,7 @@ components:
           description: 'Название'
         image:
           description: 'Ссылка на картинку на сайте'
-          example: 'http://lina.example.org/media/recipes/images/image.jpeg'
+          example: 'http://lina.example.org/media/works/images/image.jpeg'
           type: string
           format: url
         cooking_time:
@@ -881,7 +881,7 @@ components:
       required:
         - name
         - measurement_unit
-    IngredientInRecipe:
+    IngredientInwork:
       type: object
       properties:
         id:
@@ -1048,14 +1048,14 @@ components:
       properties:
         auth_token:
           type: string
-    RecipeCreateUpdate:
+    workCreateUpdate:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
         ingredients:
-          description: Список ингредиентов
+          description: Список материалов
           type: array
           items:
             example:
@@ -1067,7 +1067,7 @@ components:
                 description: 'Уникальный id'
                 type: integer
               amount:
-                description: 'Количество в рецепте'
+                description: 'Количество в работе'
                 type: integer
             required:
               - id
@@ -1117,7 +1117,7 @@ components:
       type: object
       properties:
         ingredients:
-          description: 'Ошибки в ингредиентах. В приведенном примере в первом и третьем ингредиенте не было ошибок (amount >= 1), а во втором были.'
+          description: 'Ошибки в материалах. В приведенном примере в первом и третьем материалах не было ошибок (amount >= 1), а во втором были.'
           example: [{},{"amount":["Убедитесь, что это значение больше либо равно 1."]}, {}]
           type: array
           items:

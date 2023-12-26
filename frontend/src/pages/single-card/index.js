@@ -8,33 +8,33 @@ import cn from 'classnames'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
-import { useRecipe } from '../../utils/index.js'
+import { useWork } from '../../utils/index.js'
 import api from '../../api'
 
 const SingleCard = ({ loadItem, updateOrders }) => {
   const [ loading, setLoading ] = useState(true)
   const {
-    recipe,
-    setRecipe,
+    work,
+    setwork,
     handleLike,
     handleAddToCart,
     handleSubscribe
-  } = useRecipe()
+  } = useWork()
   const authContext = useContext(AuthContext)
   const userContext = useContext(UserContext)
   const { id } = useParams()
   const history = useHistory()
 
   useEffect(_ => {
-    api.getRecipe ({
-        recipe_id: id
+    api.getWork ({
+        work_id: id
       })
       .then(res => {
-        setRecipe(res)
+        setwork(res)
         setLoading(false)
       })
       .catch(err => {
-        history.push('/recipes')
+        history.push('/works')
       })
   }, [])
   
@@ -49,13 +49,13 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     text,
     is_favorited,
     is_in_shopping_cart
-  } = recipe
+  } = work
   
   return <Main>
     <Container>
       <MetaTags>
         <title>{name}</title>
-        <meta name="description" content={`Продуктовый помощник - ${name}`} />
+        <meta name="description" content={`Художник Ангелина Хижняк - ${name}`} />
         <meta property="og:title" content={name} />
       </MetaTags>
       <div className={styles['single-card']}>
@@ -85,7 +85,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
               </div>
               {(userContext || {}).id === author.id && <LinkComponent
                 href={`${url}/edit`}
-                title='Редактировать рецепт'
+                title='Редактировать работу'
                 className={styles['single-card__edit']}
               />}
             </p>
@@ -99,7 +99,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
               }}
             >
               
-            {is_in_shopping_cart ? <><Icons.DoneIcon color="#4A61DD"/>Рецепт добавлен</> : <><Icons.PlusIcon /> Добавить в покупки</>}
+            {is_in_shopping_cart ? <><Icons.DoneIcon color="#4A61DD"/>Работа добавлена</> : <><Icons.PlusIcon /> Добавить в покупки</>}
             </Button>}
             {(userContext || {}).id !== author.id && authContext && <Button
               className={styles['single-card__button']}

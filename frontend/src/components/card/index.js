@@ -20,13 +20,13 @@ const Card = ({
   return <div className={styles.card}>
       <LinkComponent
         className={styles.card__title}
-        href={`/recipes/${id}`}
+        href={`/works/${id}`}
         title={<div className={styles.card__image} style={{ backgroundImage: `url(${ image })` }} />}
       />
       <div className={styles.card__body}>
         <LinkComponent
           className={styles.card__title}
-          href={`/recipes/${id}`}
+          href={`/works/${id}`}
           title={name}
         />
         <TagsContainer tags={tags} />
@@ -55,7 +55,7 @@ const Card = ({
             }}
             disabled={!authContext}
           >
-            {is_in_shopping_cart ? <><Icons.DoneIcon />Рецепт добавлен</> : <><Icons.PlusIcon fill='#4A61DD' /> Добавить в покупки</>}
+            {is_in_shopping_cart ? <><Icons.DoneIcon />Работа добавлена</> : <><Icons.PlusIcon fill='#4A61DD' /> Добавить в покупки</>}
           </Button>}
           
           {authContext && <Button

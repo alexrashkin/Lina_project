@@ -118,5 +118,5 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: Деплой дипломного проекта успешно выполнен!
+        message: Деплой проекта Лины успешно выполнен!
     
