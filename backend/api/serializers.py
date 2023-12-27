@@ -2,7 +2,7 @@ import base64
 import logging
 
 from django.core.files.base import ContentFile
-from works.models import (Favorite, Ingredient, Work, WorksIngredients,
+from works.models import (Favorite, Material, Work, WorksMaterials,
                             ShoppingCart, Tag)
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -101,37 +101,37 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'color', 'slug')
 
 
-class Tagworkserializer(serializers.ModelSerializer):
+class TagWorkserializer(serializers.ModelSerializer):
     """Сериализатор для связи тега с работой."""
     class Meta:
         fields = ('id',)
         model = Tag
 
 
-class IngredientSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Ingredient."""
+class MaterialSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Material."""
     class Meta:
-        model = Ingredient
+        model = Material
         fields = ('id', 'name', 'measurement_unit')
 
 
-class Ingredientworkserializer(serializers.ModelSerializer):
+class MaterialWorkserializer(serializers.ModelSerializer):
     """Сериализатор для модели связи работы и материала с количеством."""
 
     id = serializers.PrimaryKeyRelatedField(
-        queryset=Ingredient.objects.all(),
-        source='ingredient',
+        queryset=Material.objects.all(),
+        source='material',
         write_only=True
     )
-    name = serializers.CharField(source='ingredient.name', read_only=True)
+    name = serializers.CharField(source='material.name', read_only=True)
     measurement_unit = serializers.CharField(
-        source='ingredient.measurement_unit',
+        source='material.measurement_unit',
         read_only=True
     )
     amount = serializers.IntegerField()
 
     class Meta:
-        model = WorksIngredients
+        model = WorksMaterials
         fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
@@ -143,8 +143,8 @@ class WorkSaveSerializer(serializers.ModelSerializer):
     author = UserSerializer(
         read_only=True, default=serializers.CurrentUserDefault()
     )
-    ingredients = Ingredientworkserializer(
-        many=True, source='works_ingredients'
+    materials = MaterialWorkserializer(
+        many=True, source='works_materials'
     )
     image = Base64ImageField()
     tags = serializers.PrimaryKeyRelatedField(
@@ -156,14 +156,14 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         """
         Проверяет данные работы перед созданием или обновлением.
         """
-        ingredients_data = data.get('works_ingredients')
-        ingredients_set = set()
+        materials_data = data.get('works_materials')
+        materials_set = set()
 
-        for ingredient_data in ingredients_data:
-            ingredient = ingredient_data.get('ingredient')
-            amount = ingredient_data.get('amount')
+        for material_data in materials_data:
+            material = material_data.get('material')
+            amount = material_data.get('amount')
 
-            if not ingredient:
+            if not material:
                 raise serializers.ValidationError(
                     'Материал не указан'
                 )
@@ -173,63 +173,63 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                     'Количество материалов не может быть меньше 1'
                 )
 
-            ingredient_tuple = (ingredient.id, amount)
-            if ingredient_tuple in ingredients_set:
+            material_tuple = (material.id, amount)
+            if material_tuple in materials_set:
                 raise serializers.ValidationError(
                     'В работу нельзя добавлять два одинаковых материала'
                 )
-            ingredients_set.add(ingredient_tuple)
+            materials_set.add(material_tuple)
 
         return data
 
     def create(self, validated_data):
         """Создаёт новую работу."""
 
-        ingredients_data = validated_data.pop('works_ingredients')
+        materials_data = validated_data.pop('works_materials')
         tags_data = validated_data.pop('tags')
         work = Work.objects.create(**validated_data)
         work.tags.set(tags_data)
 
-        ingredients_to_create = []
-        for ingredient_data in ingredients_data:
-            ingredient = ingredient_data.get('ingredient')
-            amount = ingredient_data.get('amount')
-            ingredients_to_create.append(
-                WorksIngredients(
+        materials_to_create = []
+        for material_data in materials_data:
+            material = material_data.get('material')
+            amount = material_data.get('amount')
+            materials_to_create.append(
+                WorksMaterials(
                     work=work,
-                    ingredient=ingredient,
+                    material=material,
                     amount=amount
                 )
             )
-        WorksIngredients.objects.bulk_create(ingredients_to_create)
+        WorksMaterials.objects.bulk_create(materials_to_create)
         return work
 
     def update(self, instance, validated_data):
         """Обновляет существующую работу."""
 
         tags = validated_data.pop('tags')
-        ingredients = validated_data.pop('works_ingredients')
+        materials = validated_data.pop('works_materials')
         validated_data.pop('author', None)
-        WorksIngredients.objects.filter(work=instance).delete()
+        WorksMaterials.objects.filter(work=instance).delete()
         instance.tags.set(tags)
-        self.get_ingredients(instance, ingredients)
+        self.get_materials(instance, materials)
         return super().update(instance, validated_data)
 
-    def get_ingredients(self, work, ingredients_data):
+    def get_materials(self, work, materials_data):
         """Получает материалы для работы."""
 
-        ingredients_to_create = []
-        for ingredient_data in ingredients_data:
-            ingredient = ingredient_data.get('ingredient')
-            amount = ingredient_data.get('amount')
-            ingredients_to_create.append(
-                WorksIngredients(
+        materials_to_create = []
+        for material_data in materials_data:
+            material = material_data.get('material')
+            amount = material_data.get('amount')
+            materials_to_create.append(
+                WorksMaterials(
                     work=work,
-                    ingredient=ingredient,
+                    material=material,
                     amount=amount
                 )
             )
-        WorksIngredients.objects.bulk_create(ingredients_to_create)
+        WorksMaterials.objects.bulk_create(materials_to_create)
         return work
 
     def to_representation(self, instance):
@@ -264,8 +264,8 @@ class WorkGetSerializer(serializers.ModelSerializer):
 
     tags = TagSerializer(many=True, read_only=True)
     author = UserSerializer(read_only=True)
-    ingredients = Ingredientworkserializer(
-        many=True, read_only=True, source='works_ingredients')
+    materials = MaterialWorkserializer(
+        many=True, read_only=True, source='works_materials')
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
     image = Base64ImageField(required=False)

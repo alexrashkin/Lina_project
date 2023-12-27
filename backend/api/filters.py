@@ -1,18 +1,18 @@
 import django_filters
 from django.contrib.auth import get_user_model
-from works.models import Ingredient, Work, Tag
+from works.models import Material, Work, Tag
 
 User = get_user_model()
 
 
-class IngredientFilter(django_filters.FilterSet):
+class MaterialFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(
         field_name='name',
         lookup_expr='istartswith'
     )
 
     class Meta:
-        model = Ingredient
+        model = Material
         fields = ('name', 'measurement_unit')
 
 

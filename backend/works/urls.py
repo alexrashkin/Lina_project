@@ -1,11 +1,11 @@
-from api.views import (FavoriteViewSet, IngredientsViewset, WorksViewset,
+from api.views import (FavoriteViewSet, MaterialsViewset, WorksViewset,
                        TagViewset)
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('works', WorksViewset, basename='works')
-router.register('ingredients', IngredientsViewset, basename='ingredients')
+router.register('materials', MaterialsViewset, basename='materials')
 router.register('tags', TagViewset, basename='tags')
 router.register('favorite', FavoriteViewSet, basename='favorite')
 

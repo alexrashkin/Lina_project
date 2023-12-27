@@ -4,7 +4,7 @@ from django.db.models import F, Sum
 from django.shortcuts import HttpResponse, get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
-from works.models import (Favorite, Ingredient, Work, WorksIngredients,
+from works.models import (Favorite, Material, Work, WorksMaterials,
                             ShoppingCart, Tag)
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -14,9 +14,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users.models import Subscription, User
 
-from .filters import IngredientFilter, WorkFilter
+from .filters import MaterialFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
-from .serializers import (FavoriteSerializer, IngredientSerializer,
+from .serializers import (FavoriteSerializer, MaterialSerializer,
                           WorkGetSerializer, WorkSaveSerializer,
                           ShoppingCartSerializer, SubscribeSerializer,
                           TagSerializer, UserSerializer)
@@ -24,7 +24,7 @@ from .serializers import (FavoriteSerializer, IngredientSerializer,
 logger = logging.getLogger(__name__)
 
 
-class IngredientsViewset(mixins.ListModelMixin,
+class MaterialsViewset(mixins.ListModelMixin,
                          mixins.RetrieveModelMixin,
                          viewsets.GenericViewSet):
     """
@@ -32,13 +32,13 @@ class IngredientsViewset(mixins.ListModelMixin,
     Позволяет получать список материалов и детали отдельных материалов.
     """
 
-    queryset = Ingredient.objects.all()
-    model = Ingredient
-    serializer_class = IngredientSerializer
+    queryset = Material.objects.all()
+    model = Material
+    serializer_class = MaterialSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     pagination_class = None
-    filterset_class = IngredientFilter
+    filterset_class = MaterialFilter
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
@@ -194,11 +194,11 @@ class WorksViewset(viewsets.ModelViewSet):
         """
 
         works = Work.objects.filter(shopping_cart__user=request.user)
-        shopping_cart = WorksIngredients.objects.filter(
+        shopping_cart = WorksMaterials.objects.filter(
             work__in=works).values(
-            name=F('ingredient__name'),
-            units=F('ingredient__measurement_unit')).order_by(
-            'ingredient__name').annotate(total=Sum('amount'))
+            name=F('material__name'),
+            units=F('material__measurement_unit')).order_by(
+            'material__name').annotate(total=Sum('amount'))
         text = 'Список покупок: \n\n'
         ingr_list = []
         for work in shopping_cart:

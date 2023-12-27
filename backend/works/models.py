@@ -34,7 +34,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Ingredient(models.Model):
+class Material(models.Model):
     """Создание модели материала."""
 
     name = models.CharField(
@@ -74,8 +74,8 @@ class Work(models.Model):
     text = models.TextField(
         verbose_name="Описание",
     )
-    ingredients = models.ManyToManyField(
-        Ingredient,
+    materials = models.ManyToManyField(
+        Material,
         verbose_name="Список материалов",
         related_name="works",
     )
@@ -104,16 +104,16 @@ class Work(models.Model):
         return self.name
 
 
-class WorksIngredients(models.Model):
+class WorksMaterials(models.Model):
     """Создание модели связанных материалов в работах."""
 
     work = models.ForeignKey(
         Work,
         on_delete=models.CASCADE,
-        related_name="works_ingredients",
+        related_name="works_materials",
     )
-    ingredient = models.ForeignKey(
-        Ingredient,
+    material = models.ForeignKey(
+        Material,
         on_delete=models.CASCADE,
         related_name="used_in_works",
     )
@@ -130,7 +130,7 @@ class WorksIngredients(models.Model):
         verbose_name_plural = "Материалы в работах"
 
     def __str__(self):
-        return f'{self.ingredient} в {self.work}'
+        return f'{self.material} в {self.work}'
 
 
 class Favorite(models.Model):

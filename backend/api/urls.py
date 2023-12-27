@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (FavoriteViewSet, IngredientsViewset, WorksViewset,
+from .views import (FavoriteViewSet, MaterialsViewset, WorksViewset,
                     TagViewset, UserViewset)
 
 app_name = 'api'
@@ -9,7 +9,7 @@ app_name = 'api'
 router = DefaultRouter()
 
 router.register('works', WorksViewset, basename='works')
-router.register('ingredients', IngredientsViewset, basename='ingredients')
+router.register('materials', MaterialsViewset, basename='materials')
 router.register('tags', TagViewset, basename='tags')
 router.register('users', UserViewset, basename='users')
 
