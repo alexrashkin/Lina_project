@@ -2,7 +2,7 @@ import styles from './styles.module.css'
 import cn from 'classnames'
 import { LinkComponent, Icons } from '../index'
 
-const Purchase = ({ image, name, cooking_time, id, handleRemoveFromCart, is_in_shopping_cart, updateOrders }) => {
+const Purchase = ({ image, name, id, handleRemoveFromCart, is_in_shopping_cart, updateOrders }) => {
   if (!is_in_shopping_cart) { return null }
   return <li className={styles.purchase}>
     <div className={styles.purchaseContent}>
@@ -16,9 +16,6 @@ const Purchase = ({ image, name, cooking_time, id, handleRemoveFromCart, is_in_s
       <h3 className={styles.purchaseTitle}>
         <LinkComponent className={styles.workLink} title={name} href={`/works/${id}`} />
       </h3>
-      <p className={styles.purchaseText}>
-        <Icons.ClockIcon />{cooking_time} мин.
-      </p>
     </div>
     <a
       href="#"

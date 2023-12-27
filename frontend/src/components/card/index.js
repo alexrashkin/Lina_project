@@ -10,7 +10,6 @@ const Card = ({
   is_favorited,
   is_in_shopping_cart,
   tags,
-  cooking_time,
   author = {},
   handleLike,
   handleAddToCart,
@@ -30,9 +29,6 @@ const Card = ({
           title={name}
         />
         <TagsContainer tags={tags} />
-        <div className={styles.card__time}>
-          <Icons.ClockIcon /> {cooking_time} мин.
-        </div>
         <div className={styles.card__author}>
           <Icons.UserIcon /> <LinkComponent
             href={`/user/${author.id}`}

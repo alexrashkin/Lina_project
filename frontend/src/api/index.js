@@ -147,7 +147,6 @@ class Api {
     name = '',
     image,
     tags = [],
-    cooking_time = 0,
     text = '',
     materials = []
   }) {
@@ -164,7 +163,6 @@ class Api {
           name,
           image,
           tags,
-          cooking_time,
           text,
           materials
         })
@@ -177,7 +175,6 @@ class Api {
     work_id,
     image,
     tags,
-    cooking_time,
     text,
     materials
   }, wasImageUpdated) { // image was changed
@@ -195,7 +192,6 @@ class Api {
           id: work_id,
           image: wasImageUpdated ? image : undefined,
           tags,
-          cooking_time: Number(cooking_time),
           text,
           materials
         })

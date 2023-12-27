@@ -17,7 +17,6 @@ const WorkEdit = ({ onItemDelete }) => {
 
   const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
-  const [ workTime, setWorkTime ] = useState(0)
   const [ workFile, setWorkFile ] = useState(null)
   const [
     workFileWasManuallyChanged,
@@ -56,14 +55,12 @@ const WorkEdit = ({ onItemDelete }) => {
       const {
         image,
         tags,
-        cooking_time,
         name,
         materials,
         text
       } = res
       setWorkText(text)
       setWorkName(name)
-      setWorkTime(cooking_time)
       setWorkFile(image)
       setWorkMaterials(materials)
 
@@ -93,7 +90,6 @@ const WorkEdit = ({ onItemDelete }) => {
     workName === '' ||
     workMaterials.length === 0 ||
     value.filter(item => item.value).length === 0 ||
-    workTime === '' ||
     workFile === '' ||
     workFile === null
   }
@@ -117,7 +113,6 @@ const WorkEdit = ({ onItemDelete }) => {
               id: item.id,
             })),
             tags: value.filter(item => item.value).map(item => item.id),
-            cooking_time: workTime,
             image: workFile,
             work_id: id
           }
@@ -127,7 +122,7 @@ const WorkEdit = ({ onItemDelete }) => {
               history.push(`/works/${id}`)
             })
             .catch(err => {
-              const { non_field_errors, materials, cooking_time } = err
+              const { non_field_errors, materials } = err
               console.log({  materials })
               if (non_field_errors) {
                 return alert(non_field_errors.join(', '))
@@ -137,9 +132,6 @@ const WorkEdit = ({ onItemDelete }) => {
                   const error = item[Object.keys(item)[0]]
                   return error && error.join(' ,')
                 })[0]}`)
-              }
-              if (cooking_time) {
-                return alert(`Время создания работы: ${cooking_time[0]}`)
               }
               const errors = Object.values(err)
               if (errors) {
@@ -223,20 +215,6 @@ const WorkEdit = ({ onItemDelete }) => {
           >
             Добавить материал
           </div>
-        </div>
-        <div className={styles.cookingTime}>
-          <Input
-            label='Время создания работы'
-            className={styles.materialsTimeInput}
-            labelClassName={styles.cookingTimeLabel}
-            inputClassName={styles.materialsTimeValue}
-            onChange={e => {
-              const value = e.target.value
-              setWorkTime(value)
-            }}
-            value={workTime}
-          />
-          <div className={styles.cookingTimeUnit}>мин.</div>
         </div>
         <Textarea
           label='Описание работы'

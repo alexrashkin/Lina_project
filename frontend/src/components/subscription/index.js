@@ -29,9 +29,6 @@ const Subscription = ({ email, first_name, last_name, username, removeSubscripti
                 <h3 className={styles.subscriptionworkTitle}>
                   {work.name}
                 </h3>
-                <p className={styles.subscriptionworkText}>
-                  <Icons.ClockIcon />{work.cooking_time} мин.
-                </p>
               </div>
             } />
           </li>

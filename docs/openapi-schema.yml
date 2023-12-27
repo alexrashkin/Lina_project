@@ -829,10 +829,6 @@ components:
         text:
           description: 'Описание'
           type: string
-        cooking_time:
-          description: 'Время приготовления (в минутах)'
-          type: integer
-          minimum: 1
       required:
         - tags
         - author
@@ -841,7 +837,6 @@ components:
         - name
         - image
         - text
-        - cooking_time
     workMinified:
       type: object
       properties:
@@ -858,10 +853,6 @@ components:
           example: 'http://lina.example.org/media/works/images/image.jpeg'
           type: string
           format: url
-        cooking_time:
-          description: 'Время приготовления (в минутах)'
-          type: integer
-          minimum: 1
     Material:
       type: object
       properties:
@@ -1067,18 +1058,13 @@ components:
         text:
           description: 'Описание'
           type: string
-        cooking_time:
-          description: 'Время приготовления (в минутах)'
-          type: integer
-          minimum: 1
       required:
         - materials
         - tags
         - image
         - name
         - text
-        - cooking_time
-
+    
     ValidationError:
       description: Стандартные ошибки валидации DRF
       type: object

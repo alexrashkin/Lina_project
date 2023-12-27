@@ -16,7 +16,6 @@ const WorkCreate = ({ onEdit }) => {
   })
   const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
-  const [ workTime, setWorkTime ] = useState('')
   const [ workFile, setWorkFile ] = useState(null)
 
   const [ materials, setMaterials ] = useState([])
@@ -52,7 +51,6 @@ const WorkCreate = ({ onEdit }) => {
     workName === '' ||
     workMaterials.length === 0 ||
     value.filter(item => item.value).length === 0 ||
-    workTime === '' ||
     workFile === '' ||
     workFile === null
   }
@@ -76,7 +74,6 @@ const WorkCreate = ({ onEdit }) => {
               id: item.id,
             })),
             tags: value.filter(item => item.value).map(item => item.id),
-            cooking_time: workTime,
             image: workFile
           }
           api
@@ -85,7 +82,7 @@ const WorkCreate = ({ onEdit }) => {
             history.push(`/works/${res.id}`)
           })
           .catch(err => {
-            const { non_field_errors, materials, cooking_time } = err
+            const { non_field_errors, materials } = err
             if (non_field_errors) {
               return alert(non_field_errors.join(', '))
             }
@@ -94,9 +91,6 @@ const WorkCreate = ({ onEdit }) => {
                 const error = item[Object.keys(item)[0]]
                 return error && error.join(' ,')
               })[0]}`)
-            }
-            if (cooking_time) {
-              return alert(`Время создания работы: ${cooking_time[0]}`)
             }
             const errors = Object.values(err)
             if (errors) {
@@ -180,20 +174,6 @@ const WorkCreate = ({ onEdit }) => {
           >
             Добавить материал
           </div>
-        </div>
-        <div className={styles.cookingTime}>
-          <Input
-            label='Время создания работы'
-            className={styles.materialsTimeInput}
-            labelClassName={styles.cookingTimeLabel}
-            inputClassName={styles.materialsTimeValue}
-            onChange={e => {
-              const value = e.target.value
-              setWorkTime(value)
-            }}
-            value={workTime}
-          />
-          <div className={styles.cookingTimeUnit}>мин.</div>
         </div>
         <Textarea
           label='Описание работы'
