@@ -1,4 +1,4 @@
-import { Container, IngredientsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Checkbox, Textarea } from '../../components'
+import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Checkbox, Textarea } from '../../components'
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
@@ -10,14 +10,12 @@ const WorkEdit = ({ onItemDelete }) => {
   const { value, handleChange, setValue } = UseTags()
   const [ workName, setWorkName ] = useState('')
 
-  const [ ingredientValue, setIngredientValue ] = useState({
+  const [ materialValue, setMaterialValue ] = useState({
     name: '',
     id: null,
-    amount: '',
-    measurement_unit: ''
   })
 
-  const [ workIngredients, setWorkIngredients ] = useState([])
+  const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
   const [ workTime, setWorkTime ] = useState(0)
   const [ workFile, setWorkFile ] = useState(null)
@@ -26,21 +24,21 @@ const WorkEdit = ({ onItemDelete }) => {
     setWorkFileWasManuallyChanged
   ] = useState(false)
 
-  const [ ingredients, setIngredients ] = useState([])
-  const [ showIngredients, setShowIngredients ] = useState(false)
+  const [ materials, setMaterials ] = useState([])
+  const [ showMaterials, setShowMaterials ] = useState(false)
   const [ loading, setLoading ] = useState(true)
   const history = useHistory()
 
   useEffect(_ => {
-    if (ingredientValue.name === '') {
-      return setIngredients([])
+    if (materialValue.name === '') {
+      return setMaterials([])
     }
     api
-      .getIngredients({ name: ingredientValue.name })
-      .then(ingredients => {
-        setIngredients(ingredients)
+      .getMaterials({ name: materialValue.name })
+      .then(materials => {
+        setMaterials(materials)
       })
-  }, [ingredientValue.name])
+  }, [materialValue.name])
 
   useEffect(_ => {
     api.getTags()
@@ -60,14 +58,14 @@ const WorkEdit = ({ onItemDelete }) => {
         tags,
         cooking_time,
         name,
-        ingredients,
+        materials,
         text
       } = res
       setWorkText(text)
       setWorkName(name)
       setWorkTime(cooking_time)
       setWorkFile(image)
-      setWorkIngredients(ingredients)
+      setWorkMaterials(materials)
 
 
       const tagsValueUpdated = value.map(item => {
@@ -82,19 +80,18 @@ const WorkEdit = ({ onItemDelete }) => {
     })
   }, [value])
 
-  const handleIngredientAutofill = ({ id, name, measurement_unit }) => {
-    setIngredientValue({
-      ...ingredientValue,
+  const handleMaterialAutofill = ({ id, name }) => {
+    setMaterialValue({
+      ...materialValue,
       id,
       name,
-      measurement_unit
     })
   }
 
   const checkIfDisabled = () => {
     return workText === '' ||
     workName === '' ||
-    workIngredients.length === 0 ||
+    workMaterials.length === 0 ||
     value.filter(item => item.value).length === 0 ||
     workTime === '' ||
     workFile === '' ||
@@ -116,9 +113,8 @@ const WorkEdit = ({ onItemDelete }) => {
           const data = {
             text: workText,
             name: workName,
-            ingredients: workIngredients.map(item => ({
+            materials: workMaterials.map(item => ({
               id: item.id,
-              amount: item.amount
             })),
             tags: value.filter(item => item.value).map(item => item.id),
             cooking_time: workTime,
@@ -131,13 +127,13 @@ const WorkEdit = ({ onItemDelete }) => {
               history.push(`/works/${id}`)
             })
             .catch(err => {
-              const { non_field_errors, ingredients, cooking_time } = err
-              console.log({  ingredients })
+              const { non_field_errors, materials, cooking_time } = err
+              console.log({  materials })
               if (non_field_errors) {
                 return alert(non_field_errors.join(', '))
               }
-              if (ingredients) {
-                return alert(`Материалы: ${ingredients.filter(item => Object.keys(item).length).map(item => {
+              if (materials) {
+                return alert(`Материалы: ${materials.filter(item => Object.keys(item).length).map(item => {
                   const error = item[Object.keys(item)[0]]
                   return error && error.join(' ,')
                 })[0]}`)
@@ -169,76 +165,59 @@ const WorkEdit = ({ onItemDelete }) => {
           checkboxClassName={styles.checkboxGroupItem}
           handleChange={handleChange}
         />
-        <div className={styles.ingredients}>
-          <div className={styles.ingredientsInputs}>
+        <div className={styles.materials}>
+          <div className={styles.materialsInputs}>
             <Input
               label='Материалы'
-              className={styles.ingredientsNameInput}
-              inputClassName={styles.ingredientsInput}
-              labelClassName={styles.ingredientsLabel}
+              className={styles.materialsNameInput}
+              inputClassName={styles.materialsInput}
+              labelClassName={styles.materialsLabel}
               onChange={e => {
                 const value = e.target.value
-                setIngredientValue({
-                  ...ingredientValue,
+                setMaterialValue({
+                  ...materialValue,
                   name: value
                 })
               }}
               onFocus={_ => {
-                setShowIngredients(true)
+                setShowMaterials(true)
               }}
-              value={ingredientValue.name}
+              value={materialValue.name}
             />
-            <div className={styles.ingredientsAmountInputContainer}>
-              <Input
-                className={styles.ingredientsAmountInput}
-                inputClassName={styles.ingredientsAmountValue}
-                onChange={e => {
-                  const value = e.target.value
-                  setIngredientValue({
-                    ...ingredientValue,
-                    amount: value
-                  })
-                }}
-                value={ingredientValue.amount}
-              />
-              {ingredientValue.measurement_unit !== '' && <div className={styles.measurementUnit}>{ingredientValue.measurement_unit}</div>}
-            </div>
-            {showIngredients && ingredients.length > 0 && <IngredientsSearch
-              ingredients={ingredients}
-              onClick={({ id, name, measurement_unit }) => {
-                handleIngredientAutofill({ id, name, measurement_unit })
-                setIngredients([])
-                setShowIngredients(false)
+            {showMaterials && materials.length > 0 && <MaterialsSearch
+              materials={materials}
+              onClick={({ id, name }) => {
+                handleMaterialAutofill({ id, name })
+                setMaterials([])
+                setShowMaterials(false)
               }}
             />}
           </div>
-          <div className={styles.ingredientsAdded}>
-            {workIngredients.map(item => {
+          <div className={styles.materialsAdded}>
+            {workMaterials.map(item => {
               return <div
-                className={styles.ingredientsAddedItem}
+                className={styles.materialsAddedItem}
               >
-                <span className={styles.ingredientsAddedItemTitle}>{item.name}</span> <span>-</span> <span>{item.amount}{item.measurement_unit}</span> <span
-                  className={styles.ingredientsAddedItemRemove}
+                <span className={styles.materialsAddedItemTitle}>{item.name}</span> <span></span> <span></span> <span
+                  className={styles.materialsAddedItemRemove}
                   onClick={_ => {
-                    const workIngredientsUpdated = workIngredients.filter(ingredient => {
-                      return ingredient.id !== item.id
+                    const workMaterialsUpdated = workMaterials.filter(material => {
+                      return material.id !== item.id
                     })
-                    setWorkIngredients(workIngredientsUpdated)
+                    setWorkMaterials(workMaterialsUpdated)
                   }}
                 >Удалить</span>
               </div>
             })}
           </div>
           <div
-            className={styles.ingredientAdd}
+            className={styles.materialAdd}
             onClick={_ => {
-              if (ingredientValue.amount === '' || ingredientValue.name === '') { return }
-              setWorkIngredients([...workIngredients, ingredientValue])
-              setIngredientValue({
+              if (materialValue.name === '') { return }
+              setWorkMaterials([...workMaterials, materialValue])
+              setMaterialValue({
                 name: '',
                 id: null,
-                amount: '',
-                measurement_unit: ''
               })
             }}
           >
@@ -248,9 +227,9 @@ const WorkEdit = ({ onItemDelete }) => {
         <div className={styles.cookingTime}>
           <Input
             label='Время создания работы'
-            className={styles.ingredientsTimeInput}
+            className={styles.materialsTimeInput}
             labelClassName={styles.cookingTimeLabel}
-            inputClassName={styles.ingredientsTimeValue}
+            inputClassName={styles.materialsTimeValue}
             onChange={e => {
               const value = e.target.value
               setWorkTime(value)

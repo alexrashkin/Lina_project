@@ -3,9 +3,9 @@ import { UseTags } from './index.js'
 import api from '../api'
 
 export default function useWorks () {
-  const [ works, setworks ] = useState([])
-  const [ worksCount, setworksCount ] = useState(0)
-  const [ worksPage, setworksPage ] = useState(1)
+  const [ works, setWorks ] = useState([])
+  const [ worksCount, setWorksCount ] = useState(0)
+  const [ worksPage, setWorksPage ] = useState(1)
   const { value: tagsValue, handleChange: handleTagsChange, setValue: setTagsValue } = UseTags()
 
   const handleLike = ({ id, toLike = true }) => {
@@ -17,7 +17,7 @@ export default function useWorks () {
         }
         return work
       })
-      setworks(worksUpdated)
+      setWorks(worksUpdated)
     })
     .catch(err => {
       const { errors } = err
@@ -36,7 +36,7 @@ export default function useWorks () {
         }
         return work
       })
-      setworks(worksUpdated)
+      setWorks(worksUpdated)
       callback && callback(toAdd)
     })
     .catch(err => {
@@ -49,11 +49,11 @@ export default function useWorks () {
 
   return {
     works,
-    setworks,
+    setWorks,
     worksCount,
-    setworksCount,
+    setWorksCount,
     worksPage,
-    setworksPage,
+    setWorksPage,
     tagsValue,
     handleLike,
     handleAddToCart,

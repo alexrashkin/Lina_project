@@ -20,11 +20,11 @@ import MetaTags from 'react-meta-tags'
 const UserPage = ({ updateOrders }) => {
   const {
     works,
-    setworks,
+    setWorks,
     worksCount,
-    setworksCount,
+    setWorksCount,
     worksPage,
-    setworksPage,
+    setWorksPage,
     tagsValue,
     setTagsValue,
     handleTagsChange,
@@ -42,8 +42,8 @@ const UserPage = ({ updateOrders }) => {
       .getWorks({ page, author: id, tags })
         .then(res => {
           const { results, count } = res
-          setworks(results)
-          setworksCount(count)
+          setWorks(results)
+          setWorksCount(count)
         })
   }
 
@@ -92,7 +92,7 @@ const UserPage = ({ updateOrders }) => {
         <CheckboxGroup
           values={tagsValue}
           handleChange={value => {
-            setworksPage(1)
+            setWorksPage(1)
             handleTagsChange(value)
           }}
         />
@@ -124,7 +124,7 @@ const UserPage = ({ updateOrders }) => {
         count={worksCount}
         limit={6}
         page={worksPage}
-        onPageChange={page => setworksPage(page)}
+        onPageChange={page => setWorksPage(page)}
       />
     </Container>
   </Main>

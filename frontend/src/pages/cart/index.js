@@ -8,7 +8,7 @@ import MetaTags from 'react-meta-tags'
 const Cart = ({ updateOrders, orders }) => {
   const {
     works,
-    setworks,
+    setWorks,
     handleAddToCart
   } = useWorks()
   
@@ -21,7 +21,7 @@ const Cart = ({ updateOrders, orders }) => {
       })
       .then(res => {
         const { results } = res
-        setworks(results)
+        setWorks(results)
       })
   }
 
@@ -50,7 +50,7 @@ const Cart = ({ updateOrders, orders }) => {
         {orders > 0 && <Button
           modifier='style_dark-blue'
           clickHandler={downloadDocument}
-        >Скачать список</Button>}
+        >Оплатить заказ</Button>}
       </div>
     </Container>
   </Main>

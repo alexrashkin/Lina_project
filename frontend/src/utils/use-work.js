@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import api from '../api'
 
 export default function useWork () {
-  const [ work, setwork ] = useState({})
+  const [ work, setWork ] = useState({})
 
   const handleLike = ({ id, toLike = 1 }) => {
     const method = toLike ? api.addToFavorites.bind(api) : api.removeFromFavorites.bind(api)
     method({ id }).then(res => {
       const workUpdated = { ...work, is_favorited: Number(toLike) }
-      setwork(workUpdated)
+      setWork(workUpdated)
     })
     .catch(err => {
       const { errors } = err
@@ -22,7 +22,7 @@ export default function useWork () {
     const method = toAdd ? api.addToOrders.bind(api) : api.removeFromOrders.bind(api)
     method({ id }).then(res => {
       const workUpdated = { ...work, is_in_shopping_cart: Number(toAdd) }
-      setwork(workUpdated)
+      setWork(workUpdated)
       callback && callback(toAdd)
     })
     .catch(err => {
@@ -40,7 +40,7 @@ export default function useWork () {
       })
       .then(_ => {
         const workUpdated = { ...work, author: { ...work.author, is_subscribed: toSubscribe } }
-        setwork(workUpdated)
+        setWork(workUpdated)
       })
       .catch(err => {
         const { errors } = err
@@ -52,7 +52,7 @@ export default function useWork () {
 
   return {
     work,
-    setwork,
+    setWork,
     handleLike,
     handleAddToCart,
     handleSubscribe

@@ -2,7 +2,7 @@ import { Container, Main, Button, TagsContainer, Icons, LinkComponent } from '..
 import { UserContext, AuthContext } from '../../contexts'
 import { useContext, useState, useEffect } from 'react'
 import styles from './styles.module.css'
-import Ingredients from './ingredients'
+import Materials from './materials'
 import Description from './description'
 import cn from 'classnames'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
@@ -15,7 +15,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
   const [ loading, setLoading ] = useState(true)
   const {
     work,
-    setwork,
+    setWork,
     handleLike,
     handleAddToCart,
     handleSubscribe
@@ -30,7 +30,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
         work_id: id
       })
       .then(res => {
-        setwork(res)
+        setWork(res)
         setLoading(false)
       })
       .catch(err => {
@@ -45,7 +45,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     tags,
     cooking_time,
     name,
-    ingredients,
+    materials,
     text,
     is_favorited,
     is_in_shopping_cart
@@ -111,7 +111,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
               {author.is_subscribed ? 'Отписаться от автора' : 'Подписаться на автора'}
             </Button>}
           </div>
-          <Ingredients ingredients={ingredients} />
+          <Materials materials={materials} />
           <Description description={text} />
         </div>
     </div>

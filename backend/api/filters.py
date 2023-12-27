@@ -11,9 +11,9 @@ class MaterialFilter(django_filters.FilterSet):
         lookup_expr='istartswith'
     )
 
-    # class Meta:
-    #     model = Material
-    #     fields = ('name')
+    class Meta:
+        model = Material
+        fields = ['name']
 
 
 class WorkFilter(django_filters.FilterSet):

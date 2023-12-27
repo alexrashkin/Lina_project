@@ -1,10 +1,9 @@
 import logging
 
-from django.db.models import F, Sum
-from django.shortcuts import HttpResponse, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
-from works.models import (Favorite, Material, Work, WorksMaterials,
+from works.models import (Favorite, Material, Work,
                             ShoppingCart, Tag)
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
