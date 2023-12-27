@@ -112,11 +112,11 @@ class MaterialSerializer(serializers.ModelSerializer):
     """Сериализатор для модели Material."""
     class Meta:
         model = Material
-        fields = ('id', 'name', 'measurement_unit')
+        fields = ('id', 'name')
 
 
 class MaterialWorkserializer(serializers.ModelSerializer):
-    """Сериализатор для модели связи работы и материала с количеством."""
+    """Сериализатор для модели связи работы и материала."""
 
     id = serializers.PrimaryKeyRelatedField(
         queryset=Material.objects.all(),
@@ -124,15 +124,10 @@ class MaterialWorkserializer(serializers.ModelSerializer):
         write_only=True
     )
     name = serializers.CharField(source='material.name', read_only=True)
-    measurement_unit = serializers.CharField(
-        source='material.measurement_unit',
-        read_only=True
-    )
-    amount = serializers.IntegerField()
-
+    
     class Meta:
         model = WorksMaterials
-        fields = ('id', 'name', 'measurement_unit', 'amount')
+        fields = ('id', 'name')
 
 
 class WorkSaveSerializer(serializers.ModelSerializer):
@@ -161,19 +156,13 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
         for material_data in materials_data:
             material = material_data.get('material')
-            amount = material_data.get('amount')
-
+            
             if not material:
                 raise serializers.ValidationError(
                     'Материал не указан'
                 )
 
-            if amount is not None and amount < 1:
-                raise serializers.ValidationError(
-                    'Количество материалов не может быть меньше 1'
-                )
-
-            material_tuple = (material.id, amount)
+            material_tuple = (material.id)
             if material_tuple in materials_set:
                 raise serializers.ValidationError(
                     'В работу нельзя добавлять два одинаковых материала'
@@ -193,12 +182,10 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
-            amount = material_data.get('amount')
             materials_to_create.append(
                 WorksMaterials(
                     work=work,
-                    material=material,
-                    amount=amount
+                    material=material
                 )
             )
         WorksMaterials.objects.bulk_create(materials_to_create)
@@ -221,12 +208,10 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
-            amount = material_data.get('amount')
             materials_to_create.append(
                 WorksMaterials(
                     work=work,
                     material=material,
-                    amount=amount
                 )
             )
         WorksMaterials.objects.bulk_create(materials_to_create)

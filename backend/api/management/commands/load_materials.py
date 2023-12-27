@@ -20,19 +20,17 @@ class Command(BaseCommand):
             reader = csv.reader(csvfile)
             next(reader)
             for row in reader:
-                if len(row) == 2:
-                    name, measurement_unit = row
-                    material, created = Material.objects.get_or_create(
+                if len(row) == 1:
+                    name = row[0]
+                    created = Material.objects.get_or_create(
                         name=name,
-                        measurement_unit=measurement_unit,
                     )
                     if created:
                         message = (
-                            f'Created material: {name}, {measurement_unit}'
+                            f'Created material: {name}'
                         )
                     else:
                         message = (
-                            f'Material already exists: {name}, '
-                            f'{measurement_unit}'
+                            f'Material already exists: {name}'
                         )
                     self.stdout.write(self.style.SUCCESS(message))

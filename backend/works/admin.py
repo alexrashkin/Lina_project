@@ -12,7 +12,7 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
     """Модель материалов в админке."""
-    list_display = ('name', 'measurement_unit')
+    list_display = ['name']
     list_filter = ['name']
     search_fields = ('name',)
 

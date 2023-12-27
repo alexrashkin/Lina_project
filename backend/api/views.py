@@ -185,31 +185,6 @@ class WorksViewset(viewsets.ModelViewSet):
                 {'detail': 'Работа успешно удалена из списка покупок.'},
                 status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=['get'],
-            permission_classes=(IsAuthenticated,))
-    def download_shopping_cart(self, request):
-        """
-        Генерирует список покупок для работ пользователя
-        и предоставляет его для скачивания.
-        """
-
-        works = Work.objects.filter(shopping_cart__user=request.user)
-        shopping_cart = WorksMaterials.objects.filter(
-            work__in=works).values(
-            name=F('material__name'),
-            units=F('material__measurement_unit')).order_by(
-            'material__name').annotate(total=Sum('amount'))
-        text = 'Список покупок: \n\n'
-        ingr_list = []
-        for work in shopping_cart:
-            ingr_list.append(work)
-        for i in ingr_list:
-            text += f'{i["name"]}: {i["total"]}, {i["units"]}.\n'
-        response = HttpResponse(text, content_type='text/plain')
-        response['Content-Disposition'] = ('attachment;'
-                                           'filename="shopping_cart.txt"')
-        return response
-
 
 class TagViewset(mixins.ListModelMixin,
                  mixins.RetrieveModelMixin,
