@@ -79,13 +79,6 @@ class Work(models.Model):
         Tag,
         verbose_name="Список тегов",
     )
-    cooking_time = models.PositiveIntegerField(
-        validators=[
-            MinValueValidator(1),
-            MaxValueValidator(600),
-        ],
-        verbose_name="Время приготовления",
-    )
     pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата публикации"

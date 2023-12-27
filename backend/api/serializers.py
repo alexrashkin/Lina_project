@@ -394,4 +394,4 @@ class WorkFollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Work
-        fields = ('id', 'name', 'image', 'cooking_time')
+        fields = ('id', 'name', 'image')

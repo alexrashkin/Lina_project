@@ -275,7 +275,6 @@ class UserViewset(UserViewSet):
                     "id": work.id,
                     "name": work.name,
                     "image": work.image.url,
-                    "cooking_time": work.cooking_time,
                 })
 
             result_entry = {
