@@ -27,26 +27,6 @@ export default function useWorks () {
     })
   }
 
-  const handleAddToCart = ({ id, toAdd = true, callback }) => {
-    const method = toAdd ? api.addToOrders.bind(api) : api.removeFromOrders.bind(api)
-    method({ id }).then(res => {
-      const worksUpdated = works.map(work => {
-        if (work.id === id) {
-          work.is_in_shopping_cart = toAdd
-        }
-        return work
-      })
-      setWorks(worksUpdated)
-      callback && callback(toAdd)
-    })
-    .catch(err => {
-      const { errors } = err
-      if (errors) {
-        alert(errors)
-      }
-    })
-  }
-
   return {
     works,
     setWorks,
@@ -56,7 +36,6 @@ export default function useWorks () {
     setWorksPage,
     tagsValue,
     handleLike,
-    handleAddToCart,
     handleTagsChange,
     setTagsValue
   }

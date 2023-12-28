@@ -17,7 +17,6 @@ const HomePage = ({ updateOrders }) => {
     setTagsValue,
     handleTagsChange,
     handleLike,
-    handleAddToCart
   } = useWorks()
 
 
@@ -66,7 +65,6 @@ const HomePage = ({ updateOrders }) => {
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination

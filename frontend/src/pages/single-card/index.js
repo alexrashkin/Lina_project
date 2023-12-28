@@ -17,7 +17,6 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     work,
     setWork,
     handleLike,
-    handleAddToCart,
   } = useWork()
   const authContext = useContext(AuthContext)
   const userContext = useContext(UserContext)
@@ -46,7 +45,6 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     materials,
     text,
     is_favorited,
-    is_in_shopping_cart
   } = work
   
   return <Main>
@@ -86,18 +84,6 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                 className={styles['single-card__edit']}
               />}
             </p>
-          </div>
-          <div className={styles['single-card__buttons']}>
-            {authContext && <Button
-              className={styles['single-card__button']}
-              modifier={is_in_shopping_cart ? 'style_light' : 'style_dark-blue'}
-              clickHandler={_ => {
-                handleAddToCart({ id, toAdd: Number(!is_in_shopping_cart), callback: updateOrders })
-              }}
-            >
-              
-            {is_in_shopping_cart ? <><Icons.DoneIcon color="#4A61DD"/>Работа добавлена</> : <><Icons.PlusIcon /> Добавить в покупки</>}
-            </Button>}
           </div>
           <Materials materials={materials} />
           <Description description={text} />

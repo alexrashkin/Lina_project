@@ -14,23 +14,6 @@ class Api {
     })
   }
 
-  checkFileDownloadResponse (res) {
-    return new Promise((resolve, reject) => {
-      if (res.status < 400) {
-        return res.blob().then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = "shopping-list";
-          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-          a.click();    
-          a.remove();  //afterwards we remove the element again 
-        })
-      }
-      reject()
-    })
-  }
-
   signin ({ email, password }) {
     return fetch(
       '/api/auth/token/login/',
@@ -107,7 +90,6 @@ class Api {
     page = 1,
     limit = 6,
     is_favorited = 0,
-    is_in_shopping_cart = 0,
     author,
     tags
   } = {}) {
@@ -115,7 +97,7 @@ class Api {
       const authorization = token ? { 'authorization': `Token ${token}` } : {}
       const tagsString = tags ? tags.filter(tag => tag.value).map(tag => `&tags=${tag.slug}`).join('') : ''
       return fetch(
-        `/api/works/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${is_in_shopping_cart ? `&is_in_shopping_cart=${is_in_shopping_cart}` : ''}${tagsString}`,
+        `/api/works/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${tagsString}`,
         {
           method: 'GET',
           headers: {
@@ -286,35 +268,6 @@ class Api {
     ).then(this.checkResponse)
   }
 
-
-  addToOrders ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/works/${id}/shopping_cart/`,
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  removeFromOrders ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/works/${id}/shopping_cart/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
   deleteWork ({ work_id }) {
     const token = localStorage.getItem('token')
     return fetch(
@@ -327,21 +280,7 @@ class Api {
         }
       }
     ).then(this.checkResponse)
-  }
-
-  downloadFile () {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/works/download_shopping_cart/`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkFileDownloadResponse)
-  }
+  }  
 }
 
 export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })

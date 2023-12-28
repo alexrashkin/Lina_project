@@ -29,7 +29,6 @@ const UserPage = ({ updateOrders }) => {
     setTagsValue,
     handleTagsChange,
     handleLike,
-    handleAddToCart
   } = useWorks()
   const { id } = useParams()
   const [ user, setUser ] = useState(null)
@@ -101,7 +100,6 @@ const UserPage = ({ updateOrders }) => {
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination

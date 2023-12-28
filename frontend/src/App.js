@@ -10,7 +10,6 @@ import hamburgerImg from './images/hamburger-menu.png'
 
 import {
   Main,
-  Cart,
   SignIn,
   Favorites,
   SingleCard,
@@ -130,7 +129,6 @@ function App() {
     api
       .getWorks({
         page: 1,
-        is_in_shopping_cart: Number(true)
       })
       .then(res => {
         const { count } = res
@@ -185,14 +183,6 @@ function App() {
             exact
             path='/user/:id'
             component={User}
-            loggedIn={loggedIn}
-            updateOrders={updateOrders}
-          />
-          <ProtectedRoute
-            exact
-            path='/cart'
-            component={Cart}
-            orders={orders}
             loggedIn={loggedIn}
             updateOrders={updateOrders}
           />

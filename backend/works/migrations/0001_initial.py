@@ -71,17 +71,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='ShoppingCart',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
-                ('work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shopping_cart', to='works.work', verbose_name='Работа')),
-            ],
-            options={
-                'verbose_name': 'Список покупок',
-            },
-        ),
-        migrations.CreateModel(
             name='Favorite',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -92,10 +81,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Избранная работа',
                 'verbose_name_plural': 'Избранные работы',
             },
-        ),
-        migrations.AddConstraint(
-            model_name='shoppingcart',
-            constraint=models.UniqueConstraint(fields=('user', 'work'), name='unique_shopping_cart'),
         ),
         migrations.AddConstraint(
             model_name='favorite',

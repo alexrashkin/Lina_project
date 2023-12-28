@@ -133,13 +133,6 @@ paths:
           schema:
             type: integer
             enum: [0, 1]
-        - name: is_in_shopping_cart
-          required: false
-          in: query
-          description: Показывать только работы, находящиеся в списке покупок.
-          schema:
-            type: integer
-            enum: [0, 1]
         - name: author
           required: false
           in: query
@@ -217,27 +210,6 @@ paths:
           $ref: '#/components/responses/NotFound'
       tags:
         - Работы
-  /api/works/download_shopping_cart/:
-    get:
-      security:
-        - Token: [ ]
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-            text/plain:
-              schema:
-                type: string
-                format: binary
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-      tags:
-        - Список покупок
   /api/works/{id}/:
     get:
       operationId: Получение работы
@@ -372,61 +344,6 @@ paths:
           $ref: '#/components/responses/AuthenticationError'
       tags:
         - Избранное
-  /api/works/{id}/shopping_cart/:
-    post:
-      operationId: Добавить работу в список покупок
-      description: 'Доступно только авторизованным пользователям'
-      security:
-        - Token: [ ]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: "Уникальный идентификатор этой работы."
-          schema:
-            type: string
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workMinified'
-          description: 'Работа успешно добавлена в список покупок'
-        '400':
-          description: 'Ошибка добавления в список покупок (Например, когда работа уже есть в списке покупок)'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfMadeError'
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-      tags:
-        - Список покупок
-    delete:
-      operationId: Удалить работу из списка покупок
-      description: 'Доступно только авторизованным пользователям'
-      security:
-        - Token: [ ]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: "Уникальный идентификатор этой работы."
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Работа успешно удалена из списка покупок'
-        '400':
-          description: 'Ошибка удаления из списка покупок (Например, когда работы там не было)'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfMadeError'
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-      tags:
-        - Список покупок
   /api/users/{id}/:
     get:
       operationId: Профиль пользователя
@@ -683,9 +600,6 @@ components:
         is_favorited:
           type: boolean
           description: 'Находится ли в избранном'
-        is_in_shopping_cart:
-          type: boolean
-          description: 'Находится ли в корзине'
         name:
           type: string
           maxLength: 200
@@ -702,7 +616,6 @@ components:
         - tags
         - author
         - is_favorited
-        - is_in_shopping_cart
         - name
         - image
         - text

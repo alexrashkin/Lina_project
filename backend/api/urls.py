@@ -17,11 +17,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
-    path('works/<int:pk>/shopping_cart/',
-         WorksViewset.as_view({
-             'post': 'shopping_cart',
-             'delete': 'shopping_cart'
-         }), name='shopping_cart'),
     path('works/<int:pk>/favorite/',
          FavoriteViewSet.as_view({
              'post': 'favorite',

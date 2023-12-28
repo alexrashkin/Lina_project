@@ -17,7 +17,6 @@ const Favorites = ({ updateOrders }) => {
     handleTagsChange,
     setTagsValue,
     handleLike,
-    handleAddToCart
   } = useWorks()
   
   const getWorks = ({ page = 1, tags }) => {
@@ -65,7 +64,6 @@ const Favorites = ({ updateOrders }) => {
           key={card.id}
           updateOrders={updateOrders}
           handleLike={handleLike}
-          handleAddToCart={handleAddToCart}
         />)}
       </CardList>
       <Pagination

@@ -8,12 +8,9 @@ const Card = ({
   id,
   image,
   is_favorited,
-  is_in_shopping_cart,
   tags,
   author = {},
   handleLike,
-  handleAddToCart,
-  updateOrders
 }) => {
   const authContext = useContext(AuthContext)
   return <div className={styles.card}>
@@ -39,21 +36,6 @@ const Card = ({
       </div>
       
       <div className={styles.card__footer}>
-          {authContext && <Button
-            className={styles.card__add}
-            modifier={is_in_shopping_cart ? 'style_light' : 'style_light-blue'}
-            clickHandler={_ => {
-              handleAddToCart({
-                id,
-                toAdd: Number(!is_in_shopping_cart),
-                callback: updateOrders
-              })
-            }}
-            disabled={!authContext}
-          >
-            {is_in_shopping_cart ? <><Icons.DoneIcon />Работа добавлена</> : <><Icons.PlusIcon fill='#4A61DD' /> Добавить в покупки</>}
-          </Button>}
-          
           {authContext && <Button
             modifier='style_none'
             clickHandler={_ => {

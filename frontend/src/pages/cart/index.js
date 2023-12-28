@@ -9,7 +9,6 @@ const Cart = ({ updateOrders, orders }) => {
   const {
     works,
     setWorks,
-    handleAddToCart
   } = useWorks()
   
   const getWorks = () => {
@@ -17,7 +16,6 @@ const Cart = ({ updateOrders, orders }) => {
       .getWorks({
         page: 1,
         limit: 999,
-        is_in_shopping_cart: Number(true)
       })
       .then(res => {
         const { results } = res

@@ -3,7 +3,7 @@ import logging
 
 from django.core.files.base import ContentFile
 from works.models import (Favorite, Material, Work, WorksMaterials,
-                            ShoppingCart, Tag)
+                            Tag)
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import User
@@ -227,7 +227,6 @@ class WorkGetSerializer(serializers.ModelSerializer):
     materials = MaterialWorkserializer(
         many=True, read_only=True, source='works_materials')
     is_favorited = serializers.SerializerMethodField()
-    is_in_shopping_cart = serializers.SerializerMethodField()
     image = Base64ImageField(required=False)
 
     def get_is_favorited(self, obj):
@@ -238,43 +237,10 @@ class WorkGetSerializer(serializers.ModelSerializer):
         return request.user.is_authenticated and Favorite.objects.filter(
             user=request.user, work=obj).exists()
 
-    def get_is_in_shopping_cart(self, obj):
-        """
-        Проверяет, добавлена ли работа в список покупок у текущего пользователя.
-        """
-        request = self.context.get('request')
-        return request.user.is_authenticated and ShoppingCart.objects.filter(
-            user=request.user, work=obj).exists()
-
     class Meta:
         model = Work
         fields = '__all__'
         read_only_fields = ('id', 'author',)
-
-
-class ShoppingCartSerializer(serializers.ModelSerializer):
-    """Сериализатор для работы со списком покупок."""
-
-    class Meta:
-        model = ShoppingCart
-        fields = '__all__'
-        validators = [
-            UniqueTogetherValidator(
-                queryset=ShoppingCart.objects.all(),
-                fields=('user', 'work'),
-                message='Работа уже добавлена в список покупок'
-            )
-        ]
-
-    def to_representation(self, instance):
-        """
-        Преобразует экземпляр модели ShoppingCart в сериализованные данные.
-        """
-        request = self.context.get('request')
-        return WorkSaveSerializer(
-            instance.work,
-            context={'request': request}
-        ).data
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -300,11 +266,3 @@ class FavoriteSerializer(serializers.ModelSerializer):
             instance.work,
             context={'request': request}
         ).data
-
-
-class WorkFollowSerializer(serializers.ModelSerializer):
-    image = Base64ImageField()
-
-    class Meta:
-        model = Work
-        fields = ('id', 'name', 'image')

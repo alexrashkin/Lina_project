@@ -11,9 +11,5 @@ export default [
     title: 'Избранное',
     href: '/favorites',
     auth: true
-  }, {
-    title: 'Список покупок',
-    href: '/cart',
-    auth: true
-  }
+  },
 ]

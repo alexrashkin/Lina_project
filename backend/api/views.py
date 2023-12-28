@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from works.models import (Favorite, Material, Work,
-                            ShoppingCart, Tag)
+                            Tag)
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import MethodNotAllowed
@@ -17,7 +17,6 @@ from .filters import MaterialFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
 from .serializers import (FavoriteSerializer, MaterialSerializer,
                           WorkGetSerializer, WorkSaveSerializer,
-                          ShoppingCartSerializer,
                           TagSerializer, UserSerializer)
 
 logger = logging.getLogger(__name__)
@@ -88,7 +87,6 @@ class WorksViewset(viewsets.ModelViewSet):
     Вьюсет для работ.
     Позволяет получать список работ, создавать, изменять и удалять работы.
     Может добавлять и удалять работы из избранного.
-    Может генерировать список покупок для работ.
     """
 
     queryset = Work.objects.all()
@@ -101,12 +99,6 @@ class WorksViewset(viewsets.ModelViewSet):
         is_favorited = self.request.query_params.get('is_favorited')
         if is_favorited is not None and int(is_favorited) == 1:
             return Work.objects.filter(favorites__user=self.request.user)
-
-        is_in_shopping_cart = self.request.query_params.get(
-            'is_in_shopping_cart'
-        )
-        if is_in_shopping_cart is not None and int(is_in_shopping_cart) == 1:
-            return Work.objects.filter(shopping_cart__user=self.request.user)
 
         return Work.objects.all()
 
@@ -157,32 +149,6 @@ class WorksViewset(viewsets.ModelViewSet):
             self.perform_destroy(old_fav)
             return Response(status=status.HTTP_204_NO_CONTENT)
         raise MethodNotAllowed(request.method)
-
-    @action(methods=['POST', 'DELETE'], detail=True,
-            permission_classes=[IsAuthenticated])
-    def shopping_cart(self, request, pk):
-        work = self.get_object()
-
-        if request.method == 'POST':
-            new_cart_item, created = ShoppingCart.objects.get_or_create(
-                user=request.user, work=work)
-
-            if not created:
-                return Response(
-                    {'detail': 'Работа уже добавлена в список покупок.'},
-                    status=status.HTTP_400_BAD_REQUEST)
-
-            serializer = ShoppingCartSerializer(new_cart_item,
-                                                context={'request': request})
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        if request.method == 'DELETE':
-            cart_item = get_object_or_404(ShoppingCart, user=request.user,
-                                          work=work)
-            cart_item.delete()
-            return Response(
-                {'detail': 'Работа успешно удалена из списка покупок.'},
-                status=status.HTTP_204_NO_CONTENT)
 
 
 class TagViewset(mixins.ListModelMixin,

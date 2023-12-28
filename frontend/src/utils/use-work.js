@@ -18,25 +18,9 @@ export default function useWork () {
     })
   }
 
-  const handleAddToCart = ({ id, toAdd = 1, callback }) => {
-    const method = toAdd ? api.addToOrders.bind(api) : api.removeFromOrders.bind(api)
-    method({ id }).then(res => {
-      const workUpdated = { ...work, is_in_shopping_cart: Number(toAdd) }
-      setWork(workUpdated)
-      callback && callback(toAdd)
-    })
-    .catch(err => {
-      const { errors } = err
-      if (errors) {
-        alert(errors)
-      }
-    })
-  }
-
   return {
     work,
     setWork,
     handleLike,
-    handleAddToCart,
   }
 }
