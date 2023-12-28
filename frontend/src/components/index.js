@@ -21,8 +21,6 @@ import CheckboxGroup from './checkbox-group'
 import Pagination from './pagination'
 import Purchase from './purchase'
 import PurchaseList from './purchase-list'
-import Subscription from './subscription'
-import SubscriptionList from './subscription-list'
 import FileInput from './file-input'
 import MaterialsSearch from './materials-search'
 
@@ -50,8 +48,6 @@ export {
   Pagination,
   Purchase,
   PurchaseList,
-  Subscription,
-  SubscriptionList,
   FileInput,
   MaterialsSearch
 }

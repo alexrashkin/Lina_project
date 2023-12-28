@@ -471,128 +471,6 @@ paths:
           $ref: '#/components/responses/AuthenticationError'
       tags:
         - Пользователи
-  /api/users/subscriptions/:
-    get:
-      operationId: Мои подписки
-      description: 'Возвращает пользователей, на которых подписан текущий пользователь. В выдачу добавляются работы.'
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: Номер страницы.
-          schema:
-            type: integer
-        - name: limit
-          required: false
-          in: query
-          description: Количество объектов на странице.
-          schema:
-            type: integer
-        - name: works_limit
-          required: false
-          in: query
-          description: Количество объектов внутри поля works.
-          schema:
-            type: integer
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    example: 123
-                    description: 'Общее количество объектов в базе'
-                  next:
-                    type: string
-                    nullable: true
-                    format: uri
-                    example: http://lina.example.org/api/users/subscriptions/?page=4
-                    description: 'Ссылка на следующую страницу'
-                  previous:
-                    type: string
-                    nullable: true
-                    format: uri
-                    example: http://lina.example.org/api/users/subscriptions/?page=2
-                    description: 'Ссылка на предыдущую страницу'
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/UserWithworks'
-                    description: 'Список объектов текущей страницы'
-          description: ''
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-      tags:
-        - Подписки
-  /api/users/{id}/subscribe/:
-    post:
-      operationId: Подписаться на пользователя
-      description: 'Доступно только авторизованным пользователям'
-      security:
-        - Token: [ ]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: "Уникальный идентификатор этого пользователя."
-          schema:
-            type: string
-        - name: works_limit
-          required: false
-          in: query
-          description: Количество объектов внутри поля works.
-          schema:
-            type: integer
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserWithworks'
-          description: 'Подписка успешно создана'
-        '400':
-          description: 'Ошибка подписки (Например, если уже подписан или при подписке на себя самого)'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfMadeError'
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      tags:
-        - Подписки
-    delete:
-      operationId: Отписаться от пользователя
-      description: 'Доступно только авторизованным пользователям'
-      security:
-        - Token: [ ]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: "Уникальный идентификатор этого пользователя."
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Успешная отписка'
-        '400':
-          description: 'Ошибка отписки (Например, если не был подписан)'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfMadeError'
-        '401':
-          $ref: '#/components/responses/AuthenticationError'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-      tags:
-        - Подписки
   /api/materials/:
     get:
       operationId: Список материалов
@@ -722,11 +600,6 @@ components:
           maxLength: 150
           description: "Фамилия"
           example: "Пупкин"
-        is_subscribed:
-          type: boolean
-          readOnly: true
-          description: "Подписан ли текущий пользователь на этого"
-          example: false
       required:
         - username
     UserWithworks:
@@ -756,10 +629,6 @@ components:
           maxLength: 150
           description: "Фамилия"
           example: "Пупкин"
-        is_subscribed:
-          type: boolean
-          readOnly: true
-          description: "Подписан ли текущий пользователь на этого"
         works:
           type: array
           items:

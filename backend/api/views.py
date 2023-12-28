@@ -11,13 +11,13 @@ from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from users.models import Subscription, User
+from users.models import User
 
 from .filters import MaterialFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
 from .serializers import (FavoriteSerializer, MaterialSerializer,
                           WorkGetSerializer, WorkSaveSerializer,
-                          ShoppingCartSerializer, SubscribeSerializer,
+                          ShoppingCartSerializer,
                           TagSerializer, UserSerializer)
 
 logger = logging.getLogger(__name__)
@@ -203,98 +203,7 @@ class UserViewset(UserViewSet):
     """
     Вьюсет для работы с пользователем.
     Позволяет получать список пользователей и детали отдельных пользователей.
-    Может добавлять и удалять подписки на пользователей.
-    Может получать список подписок пользователя.
     """
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    @action(methods=['POST', 'DELETE'], detail=True,
-            permission_classes=(IsAuthenticated,))
-    def subscribe(self, request, id=None):
-        """
-        Добавляет или удаляет подписку на пользователя.
-        POST - добавление подписки, DELETE - удаление подписки.
-        """
-
-        user = request.user
-        author = get_object_or_404(User, id=id)
-
-        if request.method == 'POST':
-            if request.user == author:
-                return Response({
-                    'detail': 'Вы не можете подписаться на себя'
-                }, status=status.HTTP_400_BAD_REQUEST)
-
-            if Subscription.objects.filter(user=user, author=author).exists():
-                return Response({
-                    'detail': 'Подписка уже существует'
-                }, status=status.HTTP_400_BAD_REQUEST)
-
-            new_sub = Subscription.objects.create(user=user, author=author)
-            serializer = SubscribeSerializer(
-                new_sub, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        if request.method == 'DELETE':
-            instance = get_object_or_404(
-                Subscription, user=user, author=author
-            )
-            self.perform_destroy(instance)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        raise MethodNotAllowed(request.method)
-
-    @action(methods=['GET'], detail=False,
-            permission_classes=(IsAuthenticated,))
-    def subscriptions(self, request):
-        """
-        Получает список подписок пользователя.
-        """
-
-        user = request.user
-        queryset = Subscription.objects.filter(user=user)
-        page = self.paginate_queryset(queryset)
-        serializer = SubscribeSerializer(
-            page,
-            many=True,
-            context={'request': request}
-        )
-
-        subscriptions_data = serializer.data
-
-        results = []
-        for subscription in subscriptions_data:
-            author = User.objects.get(id=subscription['author'])
-            works = Work.objects.filter(author=author)\
-                            .order_by('-pub_date')
-            work_data = []
-            for work in works:
-                work_data.append({
-                    "id": work.id,
-                    "name": work.name,
-                    "image": work.image.url,
-                })
-
-            result_entry = {
-                "email": author.email,
-                "id": author.id,
-                "username": author.username,
-                "first_name": author.first_name,
-                "last_name": author.last_name,
-                "is_subscribed": True,
-                "works": work_data,
-                "works_count": works.count(),
-            }
-
-            results.append(result_entry)
-
-        response_data = {
-            "count": queryset.count(),
-            "next": None,
-            "previous": None,
-            "results": results,
-        }
-
-        return Response(response_data, status=status.HTTP_200_OK)

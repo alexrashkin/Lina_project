@@ -258,58 +258,6 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // subscriptions
-
-  getSubscriptions ({
-    page, 
-    limit = 6,
-    works_limit = 3
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/subscriptions/?page=${page}&limit=${limit}&works_limit=${works_limit}`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  deleteSubscriptions ({
-    author_id
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/${author_id}/subscribe/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  subscribe ({
-    author_id
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/${author_id}/subscribe/`,
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
   // materials
   getMaterials ({ name }) {
     const token = localStorage.getItem('token')

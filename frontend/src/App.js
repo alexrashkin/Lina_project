@@ -12,7 +12,6 @@ import {
   Main,
   Cart,
   SignIn,
-  Subscriptions,
   Favorites,
   SingleCard,
   SignUp,
@@ -197,13 +196,6 @@ function App() {
             loggedIn={loggedIn}
             updateOrders={updateOrders}
           />
-          <ProtectedRoute
-            exact
-            path='/subscriptions'
-            component={Subscriptions}
-            loggedIn={loggedIn}
-          />
-
           <ProtectedRoute
             exact
             path='/favorites'

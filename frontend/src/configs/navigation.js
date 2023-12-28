@@ -4,10 +4,6 @@ export default [
     href: '/works',
     auth: false
   },{
-    title: 'Мои подписки',
-    href: '/subscriptions',
-    auth: true
-  },{
     title: 'Добавить работу',
     href: '/works/create',
     auth: true

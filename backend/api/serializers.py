@@ -6,7 +6,7 @@ from works.models import (Favorite, Material, Work, WorksMaterials,
                             ShoppingCart, Tag)
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from users.models import Subscription, User
+from users.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'username', 'first_name',
-                  'last_name', 'password', 'is_subscribed')
+                  'last_name', 'password')
 
     def create(self, validated_data):
         """
@@ -48,31 +48,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-    def get_is_subscribed(self, obj):
-        """
-        Возвращает True, если текущий пользователь подписан на автора.
-        """
-        user = self.context['request'].user
-        if user.is_anonymous:
-            return False
-        return Subscription.objects.filter(user=user, author=obj).exists()
-
-    def to_representation(self, instance):
-        """Функция для измения представления при GET и POST запросах."""
-        instance = super().to_representation(instance)
-        if self.context.get('request').method == 'POST':
-            instance.pop('is_subscribed')
-        return instance
-
-
-class GetUserSubscribesSerializer(UserSerializer):
-    """
-    Сериализатор для получения информации о подписках пользователя.
-    """
-    is_subscribed = serializers.SerializerMethodField()
-    works = serializers.SerializerMethodField()
-    works_count = serializers.SerializerMethodField()
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -275,68 +250,6 @@ class WorkGetSerializer(serializers.ModelSerializer):
         model = Work
         fields = '__all__'
         read_only_fields = ('id', 'author',)
-
-
-class UserSubscribeControlSerializer(UserSerializer):
-    """Сериализатор для управления подпиской/отпиской пользователя."""
-
-    class Meta:
-        model = User
-        fields = ('id', 'email', 'username', 'first_name',
-                  'last_name', 'is_subscribed', 'works', 'works_count')
-        read_only_fields = ('email', 'username', 'first_name', 'last_name',
-                            'is_subscribed', 'works', 'works_count')
-
-    def get_works(self, obj):
-        """
-        Возвращает список работ пользователя с опциональным ограничением
-        по количеству.
-        """
-        request = self.context.get('request')
-        works_limit = None
-        if request:
-            works_limit = request.query_params.get('works_limit')
-        works = obj.works.all()
-        if works_limit:
-            works = obj.works.all()[:int(works_limit)]
-        return WorkGetSerializer(works, many=True,
-                                   context={'request': request}).data
-
-    def get_works_count(self, obj):
-        """
-        Возвращает общее количество работ пользователя.
-        """
-        return obj.works.count()
-
-
-class SubscribeSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для работы с подпиской на пользователя.
-    """
-
-    class Meta:
-        model = Subscription
-        fields = ('id', 'author', 'user')
-        read_only_fields = fields
-
-    def validate(self, data):
-        """
-        Проверяет, можно ли подписаться на пользователя,
-        иначе вызывает исключение.
-        """
-        author = self.context['author']
-        user = self.context['request'].user
-        if (
-            author == user
-            or Subscription.objects.filter(
-                author=author,
-                user=user
-            ).exists()
-        ):
-            raise serializers.ValidationError(
-                'Нельзя подписаться на этого пользователя!'
-            )
-        return data
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):

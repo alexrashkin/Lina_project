@@ -18,7 +18,6 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     setWork,
     handleLike,
     handleAddToCart,
-    handleSubscribe
   } = useWork()
   const authContext = useContext(AuthContext)
   const userContext = useContext(UserContext)
@@ -98,15 +97,6 @@ const SingleCard = ({ loadItem, updateOrders }) => {
             >
               
             {is_in_shopping_cart ? <><Icons.DoneIcon color="#4A61DD"/>Работа добавлена</> : <><Icons.PlusIcon /> Добавить в покупки</>}
-            </Button>}
-            {(userContext || {}).id !== author.id && authContext && <Button
-              className={styles['single-card__button']}
-              modifier='style_light-blue'
-              clickHandler={_ => {
-                handleSubscribe({ author_id: author.id, toSubscribe: !author.is_subscribed })
-              }}
-            >
-              {author.is_subscribed ? 'Отписаться от автора' : 'Подписаться на автора'}
             </Button>}
           </div>
           <Materials materials={materials} />

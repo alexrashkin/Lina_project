@@ -33,28 +33,10 @@ export default function useWork () {
     })
   }
 
-  const handleSubscribe = ({ author_id, toSubscribe = 1 }) => {
-    const method = toSubscribe ? api.subscribe.bind(api) : api.deleteSubscriptions.bind(api)
-      method({
-        author_id
-      })
-      .then(_ => {
-        const workUpdated = { ...work, author: { ...work.author, is_subscribed: toSubscribe } }
-        setWork(workUpdated)
-      })
-      .catch(err => {
-        const { errors } = err
-        if (errors) {
-          alert(errors)
-        }
-      })
-  }
-
   return {
     work,
     setWork,
     handleLike,
     handleAddToCart,
-    handleSubscribe
   }
 }

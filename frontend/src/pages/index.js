@@ -5,7 +5,6 @@ import SingleCard from './single-card'
 import WorkEdit from './work-edit'
 import Cart from './cart'
 import Favorites from './favorites'
-import Subscriptions from './subscriptions'
 import WorkCreate from './work-create'
 import User from './user'
 import ChangePassword from './change-password'
@@ -18,7 +17,6 @@ export {
   WorkEdit,
   Cart,
   Favorites,
-  Subscriptions,
   WorkCreate,
   User,
   ChangePassword

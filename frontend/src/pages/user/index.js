@@ -33,7 +33,6 @@ const UserPage = ({ updateOrders }) => {
   } = useWorks()
   const { id } = useParams()
   const [ user, setUser ] = useState(null)
-  const [ subscribed, setSubscribed ] = useState(false)
   const history = useHistory()
   const userContext = useContext(UserContext)
 
@@ -51,7 +50,6 @@ const UserPage = ({ updateOrders }) => {
     api.getUser({ id })
       .then(res => {
         setUser(res)
-        setSubscribed(res.is_subscribed)
       })
       .catch(err => {
         history.push('/works')
@@ -97,20 +95,6 @@ const UserPage = ({ updateOrders }) => {
           }}
         />
       </div>
-      {(userContext || {}).id !== (user || {}).id && <Button
-        className={styles.buttonSubscribe}
-        clickHandler={_ => {
-          const method = subscribed ? api.deleteSubscriptions.bind(api) : api.subscribe.bind(api) 
-            method({
-              author_id: id
-            })
-            .then(_ => {
-              setSubscribed(!subscribed)
-            })
-        }}
-      >
-        {subscribed ? 'Отписаться от автора' : 'Подписаться на автора'}
-      </Button>}
       <CardList>
         {works.map(card => <Card
           {...card}
