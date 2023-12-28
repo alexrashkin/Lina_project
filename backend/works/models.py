@@ -16,7 +16,7 @@ class Tag(models.Model):
 
     color = models.CharField(
         verbose_name="Цветовой HEX-код",
-        unique=True,
+        unique=False,
         max_length=7,
     )
 
