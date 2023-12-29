@@ -13,7 +13,7 @@ html[data-theme="light"],
     --body-fg: #333;
     --body-bg: #fff;
     --body-quiet-color: #666;
-    --body-loud-color: #000;
+    --body-loud-color: #626262;
 
     --header-color: #ffc;
     --header-branding-color: var(--accent);

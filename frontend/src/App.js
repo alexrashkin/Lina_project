@@ -17,7 +17,8 @@ import {
   WorkEdit,
   WorkCreate,
   User,
-  ChangePassword
+  ChangePassword,
+  Artist,
 } from './pages'
 
 import { AuthContext, UserContext } from './contexts'
@@ -245,6 +246,10 @@ function App() {
               onSignUp={registration}
             />
           </Route>
+          <Route exact path='/artist'>
+            <Artist />
+          </Route>
+
           <Route path='/'>
             {loggedIn ? <Redirect to='/works' /> : <Redirect to='/signin'/>}
           </Route>

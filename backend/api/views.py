@@ -1,7 +1,8 @@
 import logging
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django_filters.rest_framework import DjangoFilterBackend
+from django.views import View
 from djoser.views import UserViewSet
 from works.models import (Favorite, Material, Work,
                             Tag)

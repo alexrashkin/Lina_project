@@ -7,6 +7,7 @@ import Favorites from './favorites'
 import WorkCreate from './work-create'
 import User from './user'
 import ChangePassword from './change-password'
+import Artist from './artist'
 
 export {
   Main,
@@ -17,5 +18,6 @@ export {
   Favorites,
   WorkCreate,
   User,
-  ChangePassword
+  ChangePassword,
+  Artist,
 }
