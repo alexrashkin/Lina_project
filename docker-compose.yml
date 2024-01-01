@@ -21,7 +21,7 @@ services:
     env_file: .env
     volumes:
       - static:/backend_static/
-      - ./backend/media:/media:Z
+      - ./backend/media:/media
       - ./docs/:/usr/share/nginx/html/api/docs/
     network_mode: host
     depends_on:
