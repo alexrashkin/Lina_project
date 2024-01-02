@@ -43,7 +43,7 @@ const Artist = () => {
             <p>Задать вопрос, оставить отзыв на работу или оформить индивидуальный заказ можно в Telegram</p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-              <span>@angelinasvs777</span>
+              <a href="https://web.telegram.org/k/#@angelinasvs777" target="_blank" rel="noopener noreferrer">@angelinasvs777</a>
             </div>
           </div>
         </div>
