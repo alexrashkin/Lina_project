@@ -41,23 +41,44 @@ class MaterialsViewset(mixins.ListModelMixin,
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
+    """
+    Вьюсет для избранных работ.
+    Позволяет получать, создавать, изменять и удалять избранные работы.
+    """
+
     serializer_class = FavoriteSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        """
+        Получает избранные работы для текущего пользователя.
+        """
+
         user = self.request.user
         return Favorite.objects.filter(user=user)
 
     def perform_create(self, serializer):
+        """
+        Создаёт новую избранную работу для текущего пользователя.
+        """
+
         serializer.save(user=self.request.user)
 
     def perform_destroy(self, instance):
+        """
+        Удаляет избранную работу текущего пользователя.
+        """
+
         if instance.user == self.request.user:
             instance.delete()
 
     @action(methods=['POST', 'DELETE'], detail=True,
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk):
+        """
+        Добавляет или удаляет работу из избранного для пользователя.
+        """
+
         work = get_object_or_404(Work, id=pk)
 
         if request.method == 'POST':
@@ -97,10 +118,13 @@ class WorksViewset(viewsets.ModelViewSet):
     filterset_class = WorkFilter
 
     def get_queryset(self):
+        """
+        Получает список работ в зависимости от параметров запроса.
+        """
+
         is_favorited = self.request.query_params.get('is_favorited')
         if is_favorited is not None and int(is_favorited) == 1:
             return Work.objects.filter(favorites__user=self.request.user)
-
         return Work.objects.all()
 
     def perform_create(self, serializer):
@@ -112,14 +136,16 @@ class WorksViewset(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         """
-        Возвращает соответствующий сериализатор
-        в зависимости от метода запроса.
+        Возвращает соответствующий сериализатор в зависимости от метода запроса.
         """
+        
         if self.action == 'list' or self.action == 'retrieve':
             return WorkGetSerializer
         return WorkSaveSerializer
 
     def destroy(self, request, *args, **kwargs):
+        # Удаляет работу
+        
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response('Работа успешно удалена',
