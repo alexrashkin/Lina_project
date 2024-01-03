@@ -1,9 +1,11 @@
 .footer {
-  background-image: url('./footer2.jpg');
+  box-sizing: border-box;
+  background-image: url('./footer.jpg');
   height: 90px;
   flex: 0 0 auto;
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: 40px;
 }
 
 .footer__brand {

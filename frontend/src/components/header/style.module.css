@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 50px;
   margin-bottom: 30px;
+  background-image: url('./header.jpg');
 }
 
 .headerContent {
