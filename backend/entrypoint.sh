@@ -11,6 +11,6 @@ python3 manage.py load_tags
 
 gunicorn lina.wsgi:application --bind 0.0.0.0:80
 
-#cp -r /app/collected_static/. /backend_static/static/
+cp -r /app/collected_static/. /backend_static/static/
 
 #source load_env.sh
