@@ -218,15 +218,16 @@ function App() {
             onPasswordChange={changePassword}
           />
 
-          <Route
-            exact
-            path='/works/:id'
-          >
+          <Route exact path='/works/:id'>
             <SingleCard
               loggedIn={loggedIn}
               loadItem={loadSingleItem}
               updateOrders={updateOrders}
             />
+          </Route>
+
+          <Route exact path='/'>
+            <Artist />
           </Route>
 
           <Route exact path='/works'>
@@ -235,16 +236,17 @@ function App() {
             />
           </Route>
 
-
           <Route exact path='/signin'>
             <SignIn
               onSignIn={authorization}
             />
           </Route>
+
           <Route exact path='/signup'>
             <SignUp
               onSignUp={registration}
             />
+          
           </Route>
           <Route exact path='/artist'>
             <Artist />
