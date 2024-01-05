@@ -1,37 +1,3 @@
-.menu {
-  display: flex;
-  align-items: center;
-
-  @media screen and (max-width: 770px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.menuLink {
-  white-space: nowrap;
-  color: #000;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  display: inline-block;
-  padding: 0;
-  font-weight: 500;
-  line-height: 19px;
-  padding-bottom: 14px;
-  margin-right: 28px;
-
-  @media screen and (max-width: 770px) {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-}
-
-.menuLink:last-child {
-  margin-right: 0px;
-}
-
 .menuButton {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
@@ -54,12 +20,79 @@
   background: rgb(95, 94, 94);
   color: #FFF;
   transform: translateY(-9px);
-
-  @media screen and (max-width: 770px) {
-    margin-top: 20px;
-  }
 }
 
 .menuButton:hover {
   background: rgb(95, 94, 94);
+}
+
+.menuLink {
+  white-space: nowrap;
+  color: #000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+  padding: 0;
+  font-weight: 500;
+  line-height: 19px;
+  padding-bottom: 14px;
+  margin-right: 28px;
+}
+
+.menuLink:last-child {
+  margin-right: 0px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .menuLink {
+    font-size: 14px;
+    margin-right: 14px;
+  }
+
+  .menuButton {
+    font-size: 14px;
+    line-height: 24px;
+    height: 24px;
+    line-height: 22px;
+    padding: 0px 10px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .menuLink {
+    font-size: 12px;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .menu {
+    width: 100%;
+  }
+
+  .menuLink {
+    padding-bottom: 0px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .menuButton {
+    margin-top: 20px;
+  }
+
+  .menuButton {
+    display: none;
+  }
 }
