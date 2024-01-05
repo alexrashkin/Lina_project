@@ -23,7 +23,7 @@
 }
 
 .appMenuToggled {
-  transform: translateX(0);
+  transform: translateX(50px);
 }
 
 @media screen and (max-width: 770px) {
