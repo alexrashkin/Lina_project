@@ -23,8 +23,13 @@
   margin-right: 28px;
 
   @media screen and (max-width: 770px) {
+    font-size: 14px;
     margin-bottom: 10px;
   }
+}
+
+.menuLink:last-child {
+  margin-right: 0px;
 }
 
 .menuButton {
@@ -53,4 +58,8 @@
   @media screen and (max-width: 770px) {
     margin-top: 20px;
   }
+}
+
+.menuButton:hover {
+  background: rgb(95, 94, 94);
 }
