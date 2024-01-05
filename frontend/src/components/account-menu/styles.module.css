@@ -46,7 +46,7 @@
 }
 
 .menu {
-  display: flex;
+  display: fixed;
   align-items: center;
 }
 
@@ -76,6 +76,7 @@
 
 @media screen and (max-width: 770px) {
   .menu {
+    width: 100%;
     height: 50px;
   }
 
