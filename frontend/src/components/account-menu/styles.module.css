@@ -48,8 +48,12 @@
 .menu {
   display: flex;
   align-items: center;
-}
 
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 @media screen and (max-width: 990px) {
   .menuLink {
@@ -66,7 +70,6 @@
   }
 }
 
-
 @media screen and (max-width: 900px) {
   .menuLink {
     font-size: 12px;
@@ -76,8 +79,7 @@
 
 @media screen and (max-width: 770px) {
   .menu {
-    height: 50px;
-    display: none;
+    height: auto; 
   }
 
   .menuLink {
