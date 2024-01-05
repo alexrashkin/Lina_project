@@ -23,6 +23,7 @@
 }
 
 .appMenuToggled {
+  position: fixed;
   transform: translateX(200px);
 }
 

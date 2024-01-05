@@ -19,7 +19,7 @@
 }
 
 .paginationItemActive {
-  color: #FFF;
+  color: gray;
   background-color: transparent;
   cursor: default;
 }

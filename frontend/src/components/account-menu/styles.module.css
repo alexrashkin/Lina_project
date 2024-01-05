@@ -17,13 +17,13 @@
   cursor: pointer;
   width: max-content;
   display: inline-block;
-  background: #4A61DD;
+  background: rgb(95, 94, 94);
   color: #FFF;
   transform: translateY(-9px);
 }
 
 .menuButton:hover {
-  background: #2845DF;
+  background: rgb(95, 94, 94);
 }
 
 .menuLink {
