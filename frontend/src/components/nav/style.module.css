@@ -125,7 +125,7 @@
   }
 
   .nav__items {
-    display: block;
+    display: none;
     position: absolute;
     left: 0;
     height: auto;
