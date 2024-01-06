@@ -19,11 +19,11 @@
 }
 
 .menuButton img {
-  width: 100%;
+  display: none;
 }
 
 .appMenuToggled {
-  transform: translateX(200px);
+  transform: translateX(0);
 }
 
 @media screen and (max-width: 770px) {
