@@ -16,7 +16,7 @@ const AccountMenu = ({ onSignOut }) => {
       <LinkComponent
         href='/signup'
         title='Создать аккаунт'
-        className={styles.menuButton}
+        className={styles.menuLink}
       />
     </div>
   }

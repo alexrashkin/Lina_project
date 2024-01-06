@@ -7,9 +7,3 @@
   line-height: 100vh;
   text-align: center;
 }
-
-@media screen and (max-width: 770px) {
-  .menuButton {
-    display: block
-  }
-}
