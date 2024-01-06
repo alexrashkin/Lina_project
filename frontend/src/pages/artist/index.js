@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Main } from '../../components';
 
 import artist_photo from '../../pages/artist/artist.jpg';
@@ -19,7 +19,18 @@ const Artist = () => {
     maxWidth: '100%',
     height: 'auto',
     borderRadius: '8px',
-  }
+  };
+
+  useEffect(() => {
+    const isMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
+    const telegramLink = document.getElementById('telegramLink');
+
+    if (isMobile) {
+      telegramLink.href = 'https://t.me/angelinasvs777';
+    } else {
+      telegramLink.href = 'https://web.telegram.org/k/#@angelinasvs777';
+    }
+  }, []);
 
   return (
     <Main>
@@ -43,7 +54,9 @@ const Artist = () => {
             <p>Задать вопрос, оставить отзыв на работу или оформить индивидуальный заказ можно в Telegram</p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-              <a href="https://web.telegram.org/k/#@angelinasvs777" target="_blank" rel="noopener noreferrer">@angelinasvs777</a>
+              <a id="telegramLink" target="_blank" rel="noopener noreferrer">
+                Телеграм
+              </a>
             </div>
           </div>
         </div>
