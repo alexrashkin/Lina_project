@@ -74,7 +74,7 @@
 @media screen and (max-width: 770px) {
   .menu {
     height: 50px;
-    flex-direction: column; 
+    flex-direction: column;
   }
 
   .menuLink {
