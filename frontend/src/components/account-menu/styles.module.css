@@ -26,6 +26,7 @@
 }
 
 .menuLink {
+  white-space: nowrap;
   color: #000;
   background: none;
   border: none;
@@ -46,6 +47,7 @@
 .menu {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 @media screen and (max-width: 990px) {
@@ -72,13 +74,14 @@
 
 @media screen and (max-width: 770px) {
   .menu {
-    height: 0px;
-    flex-direction: column;
+    height: auto;
+    flex-direction: row;
   }
 
   .menuLink {
     padding-bottom: 0px;
     font-size: 14px;
+    margin-right: 10px;
     margin-bottom: 10px;
   }
 
