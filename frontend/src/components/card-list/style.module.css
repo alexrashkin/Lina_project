@@ -1,31 +1,35 @@
 .cardList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 40px;
   margin-bottom: 52px;
 }
 
 @media screen and (max-width: 860px) {
   .cardList {
-    flex-direction: column; 
-    align-items: flex-start; 
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 830px) {
   .cardList {
-    margin-bottom: 20px; 
+    grid-gap: 20px;
   }
 }
+
 
 @media screen and (max-width: 770px) {
   .cardList {
-    margin-bottom: 10px; 
+    grid-gap: 10px;
   }
 }
 
+
+
+
 @media screen and (max-width: 550px) {
   .cardList {
-    margin-bottom: 0; 
+    grid-template-columns: 1fr;
   }
 }
