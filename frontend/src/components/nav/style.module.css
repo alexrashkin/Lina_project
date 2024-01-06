@@ -122,6 +122,7 @@
 
   .nav__link {
     font-size: 16px;
+    display: inline-block;
   }
 
   .nav__items {
