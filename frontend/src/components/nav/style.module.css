@@ -125,7 +125,6 @@
   }
 
   .nav__items {
-    display: block;
     position: relative;
     left: 0;
     height: auto;
@@ -134,9 +133,5 @@
 
   .orders-count {
     transform: translateY(-3px);
-  }
-
-  .nav__item {
-    margin-bottom: 30px;
-  }
+  }  
 }
