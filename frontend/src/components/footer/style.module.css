@@ -6,6 +6,9 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer__brand {
