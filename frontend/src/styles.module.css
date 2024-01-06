@@ -18,18 +18,6 @@
   display: none;
 }
 
-.menuButton::before {
-  content: none !important;
-}
-
-.menuButton img {
-  display: none;
-}
-
-.appMenuToggled {
-  transform: translateX(0);
-}
-
 @media screen and (max-width: 770px) {
   .menuButton {
     display: block
