@@ -1,5 +1,9 @@
 export default [
   {
+    title: 'Главная',
+    href: '/',
+    auth: false
+  },{
     title: 'О художнике',
     href: '/artist',
     auth: false
