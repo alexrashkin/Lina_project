@@ -6,7 +6,6 @@ import { Header, Footer, ProtectedRoute } from './components'
 import api from './api'
 import styles from './styles.module.css'
 import cn from 'classnames'
-import hamburgerImg from './images/hamburger-menu.png'
 
 import {
   Main,
@@ -176,7 +175,6 @@ function App() {
           className={styles.menuButton}
           onClick={_ => setMenuToggled(!menuToggled)}
         >
-          <img src={hamburgerImg} />
         </div>
         <Header orders={orders} loggedIn={loggedIn} onSignOut={onSignOut} />
         <Switch>
