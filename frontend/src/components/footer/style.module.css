@@ -1,11 +1,11 @@
 .footer {
   box-sizing: border-box;
   background-image: url('./footer.jpg');
-  height: 50px;
+  height: 55px;
   flex: 0 0 auto;
   background-repeat: no-repeat;
   background-size: cover;
-  margin-top: 40px;
+  margin-top: auto;
 }
 
 .footer__brand {
