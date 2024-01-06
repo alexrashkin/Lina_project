@@ -18,6 +18,10 @@
   display: none;
 }
 
+.menuButton::before {
+  display: none;
+}
+
 .menuButton img {
   display: none;
 }
