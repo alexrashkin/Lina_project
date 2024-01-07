@@ -101,7 +101,7 @@ jobs:
         username: ${{ secrets.USER }}
         password: ${{ secrets.PASSWORD }}
         script: |
-          cd Lina-project
+          cd Lina_project
           sudo docker-compose -f docker-compose.production.yml down
           sudo docker-compose -f docker-compose.production.yml pull
           sudo docker-compose -f docker-compose.production.yml up -d
