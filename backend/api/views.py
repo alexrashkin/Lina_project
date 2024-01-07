@@ -1,11 +1,8 @@
 import logging
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from django.views import View
 from djoser.views import UserViewSet
-from works.models import (Favorite, Material, Work,
-                            Tag)
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import MethodNotAllowed
@@ -13,19 +10,20 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users.models import User
+from works.models import Favorite, Material, Tag, Work
 
 from .filters import MaterialFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
 from .serializers import (FavoriteSerializer, MaterialSerializer,
-                          WorkGetSerializer, WorkSaveSerializer,
-                          TagSerializer, UserSerializer)
+                          TagSerializer, UserSerializer, WorkGetSerializer,
+                          WorkSaveSerializer)
 
 logger = logging.getLogger(__name__)
 
 
 class MaterialsViewset(mixins.ListModelMixin,
-                         mixins.RetrieveModelMixin,
-                         viewsets.GenericViewSet):
+                       mixins.RetrieveModelMixin,
+                       viewsets.GenericViewSet):
     """
     Вьюсет для материалов.
     Позволяет получать список материалов и детали отдельных материалов.
@@ -136,16 +134,17 @@ class WorksViewset(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         """
-        Возвращает соответствующий сериализатор в зависимости от метода запроса.
+        Возвращает соответствующий сериализатор в зависимости от метода
+        запроса.
         """
-        
+
         if self.action == 'list' or self.action == 'retrieve':
             return WorkGetSerializer
         return WorkSaveSerializer
 
     def destroy(self, request, *args, **kwargs):
         # Удаляет работу
-        
+
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response('Работа успешно удалена',
@@ -159,11 +158,11 @@ class WorksViewset(viewsets.ModelViewSet):
         POST - добавление в избранное, DELETE - удаление из избранного.
         """
 
-        work = get_object_or_404(work, id=pk)
+        work = get_object_or_404(Work, id=pk)
         if request.method == 'POST':
             if Favorite.objects.filter(user=request.user,
                                        work=work).exists():
-                return Response({'detail': 'Работа уже добавлена в избранное.'},
+                return Response({'detail': 'Работа уже добавлена в избранное'},
                                 status=status.HTTP_400_BAD_REQUEST)
             new_fav = Favorite.objects.create(user=request.user, work=work)
             serializer = FavoriteSerializer(new_fav,

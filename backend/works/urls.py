@@ -1,5 +1,5 @@
-from api.views import (FavoriteViewSet, MaterialsViewset, WorksViewset,
-                       TagViewset)
+from api.views import (FavoriteViewSet, MaterialsViewset, TagViewset,
+                       WorksViewset)
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 

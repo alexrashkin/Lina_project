@@ -40,7 +40,7 @@ class Material(models.Model):
         max_length=100,
         verbose_name="Название материала",
     )
-    
+
     class Meta:
         verbose_name = "Материал"
         verbose_name_plural = "Материалы"
@@ -105,7 +105,7 @@ class WorksMaterials(models.Model):
         on_delete=models.CASCADE,
         related_name="used_in_works",
     )
-    
+
     class Meta:
         verbose_name = "Материал в работе"
         verbose_name_plural = "Материалы в работах"

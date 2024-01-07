@@ -2,11 +2,10 @@ import base64
 import logging
 
 from django.core.files.base import ContentFile
-from works.models import (Favorite, Material, Work, WorksMaterials,
-                            Tag)
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import User
+from works.models import Favorite, Material, Tag, Work, WorksMaterials
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +98,7 @@ class MaterialWorkserializer(serializers.ModelSerializer):
         write_only=True
     )
     name = serializers.CharField(source='material.name', read_only=True)
-    
+
     class Meta:
         model = WorksMaterials
         fields = ('id', 'name')
@@ -131,7 +130,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
         for material_data in materials_data:
             material = material_data.get('material')
-            
+
             if not material:
                 raise serializers.ValidationError(
                     'Материал не указан'

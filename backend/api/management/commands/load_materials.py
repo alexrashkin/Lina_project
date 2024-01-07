@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        file_dir = '/home/alex/Dev/Lina_project/backend' 
+        file_dir = '/home/alex/Dev/Lina_project/backend'
 
         if not os.path.exists(file_dir):
             file_dir = '/app/'

@@ -1,6 +1,6 @@
 import django_filters
 from django.contrib.auth import get_user_model
-from works.models import Material, Work, Tag
+from works.models import Material, Tag, Work
 
 User = get_user_model()
 
