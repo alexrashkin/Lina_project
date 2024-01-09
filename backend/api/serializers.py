@@ -1,7 +1,7 @@
 import base64
-import pyheif
 import logging
 
+import pyheif
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
