@@ -2,26 +2,25 @@ import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Mai
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { UseTags } from '../../utils'
 import { useHistory, Redirect } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
 const WorkCreate = ({ onEdit }) => {
-  const { value, handleChange, setValue } = UseTags()
-  const [ workName, setWorkName ] = useState('')
-  const history = useHistory()
+  const { value, handleChange, setValue } = UseTags();
+  const [ workName, setWorkName ] = useState('');
+  const history = useHistory();
   const [ materialValue, setMaterialValue ] = useState({
     name: '',
     id: null,
   })
-  const [ workMaterials, setWorkMaterials ] = useState([])
-  const [ workText, setWorkText ] = useState('')
-  const [ workFile, setWorkFile ] = useState(null)
-
-  const [ materials, setMaterials ] = useState([])
-  const [ showMaterials, setShowMaterials ] = useState(false)
-  
-  const [isSuperuser, setIsSuperuser] = useState(false)
+  const [ workMaterials, setWorkMaterials ] = useState([]);
+  const [ workText, setWorkText ] = useState('');
+  const [ workFile, setWorkFile ] = useState(null);
+  const [ materials, setMaterials ] = useState([]);
+  const [ showMaterials, setShowMaterials ] = useState(false);
+  const [isSuperuser, setIsSuperuser] = useState(false);
 
   useEffect(() => {
     // Проверка статуса суперпользователя при загрузке страницы
@@ -33,7 +32,7 @@ const WorkCreate = ({ onEdit }) => {
       .then(tags => {
         setValue(tags.map(tag => ({ ...tag, value: true })))
       })
-  }, []);
+  }, [setValue]);
 
   useEffect(() => {
     if (materialValue.name === '') {
