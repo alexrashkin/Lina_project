@@ -134,7 +134,7 @@ class Api {
   }) {
     const token = localStorage.getItem('token')
     return fetch(
-      '/api/works/',
+      '/api/works/create',
       {
         method: 'POST',
         headers: {
