@@ -58,7 +58,7 @@ const WorkCreate = ({ onEdit }) => {
     workFile === null
   }
 
-  const isSuperuser = localStorage.getItem('token');
+  const isSuperuser = localStorage.getItem('is_superuser');
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
   if (!isSuperuser) {
