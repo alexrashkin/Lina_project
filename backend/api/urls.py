@@ -18,7 +18,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('check-superuser-status/', CheckSuperuserStatusView.as_view(),
-    name='check_superuser_status'),
+         name='check_superuser_status'),
     path('works/<int:pk>/favorite/',
          FavoriteViewSet.as_view({
              'post': 'favorite',
