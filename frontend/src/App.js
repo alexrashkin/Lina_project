@@ -24,6 +24,7 @@ import { AuthContext, UserContext } from './contexts'
 
 function App() {
   const [ loggedIn, setLoggedIn ] = useState(null)
+  const [ isSuperuser, setIsSuperuser ] = useState(false)
   const [ user, setUser ] = useState({})
   const [ loading, setLoading ] = useState(false)
   const [ orders, setOrders ] = useState(0)
@@ -76,6 +77,7 @@ function App() {
         localStorage.setItem('token', res.auth_token)
         api.checkSuperuserStatus().then(data => {
           localStorage.setItem('is_superuser', "" + data.is_superuser)
+          setIsSuperuser(data.is_superuser)
           console.log(data); // TODO Remove
           api.getUserData()
           .then(res => {
@@ -171,6 +173,8 @@ function App() {
     return <div className={styles.loading}>Loading</div>
   }
   
+  setIsSuperuser(localStorage.getItem('is_superuser') != 'true');
+
   return <AuthContext.Provider value={loggedIn}>
     <UserContext.Provider value={user}>
       <div className={cn("App", {
@@ -181,7 +185,7 @@ function App() {
           onClick={_ => setMenuToggled(!menuToggled)}
         >
         </div>
-        <Header orders={orders} loggedIn={loggedIn} onSignOut={onSignOut} />
+        <Header orders={orders} loggedIn={loggedIn} onSignOut={onSignOut} isSuperuser={isSuperuser} />
         <Switch>
           <ProtectedRoute
             exact
