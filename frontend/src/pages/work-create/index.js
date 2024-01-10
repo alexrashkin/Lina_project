@@ -1,49 +1,47 @@
-import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Checkbox, Textarea } from '../../components'
-import styles from './styles.module.css'
-import api from '../../api'
 import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
+import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
+import styles from './styles.module.css'
+import api from '../../api'
 import { UseTags } from '../../utils'
-import { useHistory, Redirect } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
 const WorkCreate = ({ onEdit }) => {
-  const { value, handleChange, setValue } = UseTags();
-  const [ workName, setWorkName ] = useState('');
-  const history = useHistory();
+  const { value, handleChange, setValue } = UseTags()
+  const [ workName, setWorkName ] = useState('')
   const [ materialValue, setMaterialValue ] = useState({
     name: '',
     id: null,
   })
-  const [ workMaterials, setWorkMaterials ] = useState([]);
-  const [ workText, setWorkText ] = useState('');
-  const [ workFile, setWorkFile ] = useState(null);
-  const [ materials, setMaterials ] = useState([]);
-  const [ showMaterials, setShowMaterials ] = useState(false);
-  const [isSuperuser, setIsSuperuser] = useState(false);
+  const [ workMaterials, setWorkMaterials ] = useState([])
+  const [ workText, setWorkText ] = useState('')
+  const [ workFile, setWorkFile ] = useState(null)
+  const [ materials, setMaterials ] = useState([])
+  const [ showMaterials, setShowMaterials ] = useState(false)
+  const [ isSuperuser, setIsSuperuser ] = useState(false)
 
   useEffect(() => {
     // Проверка статуса суперпользователя при загрузке страницы
     api.checkSuperuserStatus()
       .then(response => setIsSuperuser(response.is_superuser))
-      .catch(error => console.error('Error checking superuser status:', error));
+      .catch(error => console.error('Error checking superuser status:', error))
 
     api.getTags()
       .then(tags => {
         setValue(tags.map(tag => ({ ...tag, value: true })))
       })
-  }, [setValue]);
+  }, [setValue])
 
   useEffect(() => {
     if (materialValue.name === '') {
-      return setMaterials([]);
+      return setMaterials([])
     }
     api
       .getMaterials({ name: materialValue.name })
       .then(materials => {
-        setMaterials(materials);
+        setMaterials(materials)
       })
-  }, [materialValue.name]);
+  }, [materialValue.name])
 
   const handleMaterialAutofill = ({ id, name }) => {
     setMaterialValue({
@@ -64,7 +62,7 @@ const WorkCreate = ({ onEdit }) => {
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
   if (!isSuperuser) {
-    return <Redirect to="/" />;
+    return <Redirect to="/works" />
   }
 
   return <Main>
