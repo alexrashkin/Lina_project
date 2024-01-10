@@ -292,7 +292,7 @@ class Api {
           'authorization': `Token ${token}`
         },
     })
-    .then(this.checkresponse)
+    .then(this.checkResponse)
     
     
   }
