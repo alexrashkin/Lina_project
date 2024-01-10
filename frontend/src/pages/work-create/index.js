@@ -64,7 +64,7 @@ const WorkCreate = ({ onEdit }) => {
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
   if (!isSuperuser) {
-    return <Redirect to="/works" />;
+    return <Redirect to="/" />;
   }
 
   return <Main>
