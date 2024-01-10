@@ -134,7 +134,7 @@ class Api {
   }) {
     const token = localStorage.getItem('token')
     return fetch(
-      '/api/works/create',
+      '/api/works/',
       {
         method: 'POST',
         headers: {
@@ -159,7 +159,7 @@ class Api {
     tags,
     text,
     materials
-  }, wasImageUpdated) { // image was changed
+  }, wasImageUpdated) {
     const token = localStorage.getItem('token')
     return fetch(
       `/api/works/${work_id}/`,
@@ -292,15 +292,9 @@ class Api {
           'authorization': `Token ${token}`
         },
     })
-    .then(response => this.checkresponse(response))
-    .then(data => {
-          console.log(data);
-          return data;
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-        throw error;
-    });
+    .then(this.checkresponse)
+    
+    
   }
 }
 

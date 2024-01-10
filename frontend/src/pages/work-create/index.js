@@ -20,14 +20,8 @@ const WorkCreate = ({ onEdit }) => {
 
   const [ materials, setMaterials ] = useState([])
   const [ showMaterials, setShowMaterials ] = useState(false)
-  const [isSuperuser, setIsSuperuser] = useState(false);
-
-  useEffect(() => {
-    // Проверка статуса суперпользователя при загрузке страницы
-    api.checkSuperuserStatus()
-      .then(response => setIsSuperuser(response.is_superuser))
-      .catch(error => console.error('Error checking superuser status:', error));
-  }, []);
+  
+  
   
   useEffect(_ => {
     if (materialValue.name === '') {
@@ -63,6 +57,8 @@ const WorkCreate = ({ onEdit }) => {
     workFile === '' ||
     workFile === null
   }
+
+  const isSuperuser = localStorage.getItem('token');
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
   if (!isSuperuser) {

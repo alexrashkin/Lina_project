@@ -74,7 +74,10 @@ function App() {
     }).then(res => {
       if (res.auth_token) {
         localStorage.setItem('token', res.auth_token)
-        api.getUserData()
+        checkSuperuserStatus().then(data => {
+          localStorage.setItem('is_superuser', res.is_superuser)
+          console.log(data); // TODO Remove
+          api.getUserData()
           .then(res => {
             setUser(res)
             setLoggedIn(true)
@@ -84,6 +87,8 @@ function App() {
             setLoggedIn(false)
             history.push('/signin')
           })
+      })
+        
       } else {
         setLoggedIn(false)
       }
