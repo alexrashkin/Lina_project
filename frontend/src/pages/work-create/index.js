@@ -64,7 +64,7 @@ const WorkCreate = ({ onEdit }) => {
     workFile === null
   }
 
-  // Проверка статуса суперпользователя и редирект в случае отсутствия прав
+  // Проверка статуса суперпользователя и редирект в случае наличия прав
   if (isSuperuser) {
     return <Redirect to="/works/create" />;
   }
