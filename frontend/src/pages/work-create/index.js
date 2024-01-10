@@ -3,7 +3,7 @@ import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
 import { UseTags } from '../../utils'
-import { useHistoryz } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
 const WorkCreate = ({ onEdit }) => {
