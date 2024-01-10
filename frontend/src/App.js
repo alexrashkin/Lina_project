@@ -197,6 +197,7 @@ function App() {
             exact
             path='/works/create'
             component={WorkCreate}
+            loggedIn={loggedIn}
           />
 
           <ProtectedRoute

@@ -26,8 +26,8 @@ const WorkCreate = ({ onEdit }) => {
     // Проверка статуса суперпользователя при загрузке страницы
     api.checkSuperuserStatus()
       .then(response => setIsSuperuser(response.is_superuser))
-      .catch(error => console.error('Error checking superuser status:', error))
-    },[])
+      .catch(error => console.error('Error checking superuser status:', error));
+  }, []);
   
   useEffect(_ => {
     if (materialValue.name === '') {
@@ -64,9 +64,9 @@ const WorkCreate = ({ onEdit }) => {
     workFile === null
   }
 
-  // Проверка статуса суперпользователя и редирект в случае наличия прав
-  if (isSuperuser) {
-    return <Redirect to="/works/create" />;
+  // Проверка статуса суперпользователя и редирект в случае отсутствия прав
+  if (!isSuperuser) {
+    return <Redirect to="/works" />;
   }
 
   return <Main>

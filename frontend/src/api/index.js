@@ -285,20 +285,22 @@ class Api {
   checkSuperuserStatus() {
     const token = localStorage.getItem('token');
     
-    fetch('/api/check-superuser-status/', {
+    return fetch('/api/check-superuser-status/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'authorization': `Token ${token}`
         },
-      })
-        .then(response => response.json())
-        .then(data => {
+    })
+    .then(response => this.checkresponse(response))
+    .then(data => {
           console.log(data);
-        })
-        .catch(error => {
-          console.error('Ошибка:', error);
-        });
+          return data;
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        throw error;
+    });
   }
 }
 
