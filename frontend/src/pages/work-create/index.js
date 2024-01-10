@@ -3,7 +3,7 @@ import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
 import { UseTags } from '../../utils'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
 const WorkCreate = ({ onEdit }) => {
@@ -20,6 +20,15 @@ const WorkCreate = ({ onEdit }) => {
 
   const [ materials, setMaterials ] = useState([])
   const [ showMaterials, setShowMaterials ] = useState(false)
+  const [isSuperuser, setIsSuperuser] = useState(false);
+
+  useEffect(_ => {
+    // Проверка статуса суперпользователя при загрузке страницы
+    api.checkSuperuserStatus()
+      .then(response => setIsSuperuser(response.is_superuser))
+      .catch(error => console.error('Error checking superuser status:', error))
+    })
+  
   useEffect(_ => {
     if (materialValue.name === '') {
       return setMaterials([])
@@ -53,6 +62,11 @@ const WorkCreate = ({ onEdit }) => {
     value.filter(item => item.value).length === 0 ||
     workFile === '' ||
     workFile === null
+  }
+
+  // Проверка статуса суперпользователя и редирект в случае отсутствия прав
+  if (!isSuperuser) {
+    return <Redirect to="/works" />;
   }
 
   return <Main>
