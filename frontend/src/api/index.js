@@ -281,6 +281,20 @@ class Api {
       }
     ).then(this.checkResponse)
   }  
+
+  checkSuperuserStatus() {
+    const token = localStorage.getItem('token');
+    return fetch(
+      '/api/check-superuser-status/',
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse);
+  }
 }
 
 export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })

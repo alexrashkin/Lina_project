@@ -1,5 +1,6 @@
 import logging
 
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
@@ -9,6 +10,7 @@ from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from users.models import User
 from works.models import Favorite, Material, Tag, Work
 
@@ -199,3 +201,11 @@ class UserViewset(UserViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class CheckSuperuserStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        is_superuser = request.user.is_superuser
+        return JsonResponse({'is_superuser': is_superuser})
