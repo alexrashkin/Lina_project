@@ -204,8 +204,7 @@ class UserViewset(UserViewSet):
 
 
 class CheckSuperuserStatusView(APIView):
-    permission_classes = [IsAuthenticated]
-
+    
     def get(self, request, *args, **kwargs):
         is_superuser = request.user.is_superuser
         return JsonResponse({'is_superuser': is_superuser})
