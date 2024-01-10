@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.exceptions import MethodNotAllowed, PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -127,11 +127,15 @@ class WorksViewset(viewsets.ModelViewSet):
             return Work.objects.filter(favorites__user=self.request.user)
         return Work.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied(detail="Only admin can do that")
+        return super().create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         """
         Создает новую работу и связывает с текущим пользователем как автором.
         """
-
         serializer.save(author=self.request.user)
 
     def get_serializer_class(self):
