@@ -61,7 +61,7 @@ const WorkCreate = ({ onEdit }) => {
   const isSuperuser = localStorage.getItem('is_superuser');
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
-  if (!isSuperuser) {
+  if (isSuperuser != 'true') {
     return <Redirect to="/works" />;
   }
 

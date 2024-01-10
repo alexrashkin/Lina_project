@@ -75,7 +75,7 @@ function App() {
       if (res.auth_token) {
         localStorage.setItem('token', res.auth_token)
         api.checkSuperuserStatus().then(data => {
-          localStorage.setItem('is_superuser', data.is_superuser)
+          localStorage.setItem('is_superuser', "" + data.is_superuser)
           console.log(data); // TODO Remove
           api.getUserData()
           .then(res => {
