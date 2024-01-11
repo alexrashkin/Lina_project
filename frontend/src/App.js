@@ -24,7 +24,7 @@ import { AuthContext, UserContext } from './contexts'
 
 function App() {
   const [ loggedIn, setLoggedIn ] = useState(null)
-  const [ isSuperuser, setIsSuperuser ] = useState(false)
+  const [ isSuperuser, setIsSuperuser ] = useState(null)
   const [ user, setUser ] = useState({})
   const [ loading, setLoading ] = useState(false)
   const [ orders, setOrders ] = useState(0)
@@ -172,8 +172,10 @@ function App() {
   if (loggedIn === null) {
     return <div className={styles.loading}>Loading</div>
   }
-  
-  setIsSuperuser(localStorage.getItem('is_superuser') != 'true');
+  if (isSuperuser == null)
+  {
+    setIsSuperuser(localStorage.getItem('is_superuser') != 'true');
+  }
 
   return <AuthContext.Provider value={loggedIn}>
     <UserContext.Provider value={user}>
