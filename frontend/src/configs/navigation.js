@@ -12,15 +12,15 @@ export default [
     admin: false
   },
   {
-    title: 'Добавить работу',
-    href: '/works/create',
-    auth: true,
-    admin: true
-  },
-  {
     title: 'Избранное',
     href: '/favorites',
     auth: true,
     admin: false
   },
+  {
+    title: 'Добавить работу',
+    href: '/works/create',
+    auth: true,
+    admin: true
+  }
 ]
