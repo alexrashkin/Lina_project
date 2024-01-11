@@ -3,7 +3,7 @@ import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
 import { UseTags } from '../../utils'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Redirect } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
 const WorkEdit = ({ onItemDelete }) => {
