@@ -1,4 +1,4 @@
-import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Checkbox, Textarea } from '../../components'
+import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
@@ -92,6 +92,13 @@ const WorkEdit = ({ onItemDelete }) => {
     value.filter(item => item.value).length === 0 ||
     workFile === '' ||
     workFile === null
+  }
+
+  const isSuperuser = localStorage.getItem('is_superuser') != 'true';
+
+  // Проверка статуса суперпользователя и редирект в случае отсутствия прав
+  if (isSuperuser ) {
+    return <Redirect to="/works" />;
   }
 
   return <Main>

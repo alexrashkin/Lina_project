@@ -1,4 +1,4 @@
-import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Checkbox, Textarea } from '../../components'
+import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
