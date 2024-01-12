@@ -19,21 +19,22 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <Container className={styles.footer__container}>
-        <LinkComponent href='#' className={styles.footer__brand}>
-          Художник Ангелина Хижняк
-        </LinkComponent>
-        <div className={styles.footer__brand}>
+        <LinkComponent href='#' title='Художник Ангелина Хижняк'
+          className={styles.footer__brand} />
+        <p className={styles.footer__brand}>
           Все права защищены © {new Date().getFullYear()}
-        </div>
-        <div className={styles.footer__brand}>
-          <LinkComponent
-            href={telegramLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Телеграм
-          </LinkComponent>
-        </div>
+        </p>
+        <p>
+          <div className={styles.footer__brand}>
+            <LinkComponent
+              href={telegramLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Телеграм
+            </LinkComponent>
+          </div>
+        </p>
       </Container>
     </footer>
   );
