@@ -5,13 +5,16 @@ import styles from './style.module.css';
 
 
 const Footer = () => {
-  const [telegramLink, setTelegramLink] = useState('');
-
+  
   useEffect(() => {
     const isMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
-    const linkValue = isMobile ? 'https://t.me/angelinasvs777' : 'https://web.telegram.org/k/#@angelinasvs777';
-    
-    setTelegramLink(linkValue);
+    const telegramLink = document.getElementById('telegramLink');
+
+    if (isMobile) {
+      telegramLink.href = 'https://t.me/angelinasvs777';
+    } else {
+      telegramLink.href = 'https://web.telegram.org/k/#@angelinasvs777';
+    }
   }, []);
 
   return (
@@ -23,14 +26,9 @@ const Footer = () => {
         </p>
         <div className={styles.footer__brand}>
           <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-            <LinkComponent
-              href={telegramLink}
-              title='Телеграм'
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Телеграм
-            </LinkComponent>
+          <a id="telegramLink" target="_blank" rel="noopener noreferrer">
+                Телеграм
+          </a>
         </div>
       </Container>
     </footer>
