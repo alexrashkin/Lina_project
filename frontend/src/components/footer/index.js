@@ -24,7 +24,7 @@ const Footer = () => {
         <p className={styles.footer__brand}>
           Все права защищены © {new Date().getFullYear()}
         </p>
-        <p>
+        <p className={styles.footer__brand}>
           <div className={styles.footer__brand}>
             <LinkComponent
               href={telegramLink}
