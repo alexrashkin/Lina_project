@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
         <div className={styles.footer__brand}>
           <LinkComponent
-            to={{ pathname: telegramLink }}
+            href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.telegramLink}
