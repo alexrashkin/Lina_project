@@ -148,12 +148,13 @@ class WorksViewset(viewsets.ModelViewSet):
             return WorkGetSerializer
         return WorkSaveSerializer
 
-    @action(methods=['post', 'delete'], detail=True,
-            permission_classes=(IsOwnerAdmin,))
     def destroy(self, request, *args, **kwargs):
         # Удаляет работу
 
         instance = self.get_object()
+        if not request.user.is_superuser:
+            raise PermissionDenied(detail="Only admin can do that")
+
         self.perform_destroy(instance)
         return Response('Работа успешно удалена',
                         status=status.HTTP_204_NO_CONTENT)
