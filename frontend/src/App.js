@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Switch, Route, useHistory, Redirect, useLocation } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
-import { Header, ProtectedRoute } from './components'
+import { Header, Footer, ProtectedRoute } from './components'
 import api from './api'
 import styles from './styles.module.css'
 import cn from 'classnames'
@@ -265,6 +265,7 @@ function App() {
             {loggedIn ? <Redirect to='/works' /> : <Redirect to='/signin'/>}
           </Route> */}
         </Switch>
+        <Footer />
       </div>
     </UserContext.Provider>
   </AuthContext.Provider>
