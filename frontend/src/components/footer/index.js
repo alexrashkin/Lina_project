@@ -30,7 +30,6 @@ const Footer = () => {
             href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.telegramLink}
           >
             Телеграм
           </LinkComponent>
