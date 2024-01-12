@@ -8,13 +8,9 @@ const Footer = () => {
   
   useEffect(() => {
     const isMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
-    const telegramLink = document.getElementById('telegramLink');
-
-    if (isMobile) {
-      telegramLink.href = 'https://t.me/angelinasvs777';
-    } else {
-      telegramLink.href = 'https://web.telegram.org/k/#@angelinasvs777';
-    }
+    const linkValue = isMobile ? 'https://t.me/angelinasvs777' : 'https://web.telegram.org/k/#@angelinasvs777';
+    
+    setTelegramLink(linkValue);
   }, []);
 
   return (
