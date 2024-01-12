@@ -14,6 +14,10 @@ const Footer = () => {
     setTelegramLink(linkValue);
   }, []);
 
+const handleTelegramClick = () => {
+  window.open(telegramLink, '_blank');
+}
+
   return (
     <footer className={styles.footer}>
       <Container className={styles.footer__container}>
@@ -23,14 +27,12 @@ const Footer = () => {
         </p>
         <div className={styles.footer__brand}>
           <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-            <LinkComponent
-              href={telegramLink}
+            <span
+              onClick={handleTelegramClick}
               title='Телеграм'
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Телеграм
-            </LinkComponent>
+            </span>
         </div>
       </Container>
     </footer>
