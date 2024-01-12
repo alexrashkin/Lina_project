@@ -19,7 +19,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <Container className={styles.footer__container}>
-        <LinkComponent to="/artist" className={styles.footer__brand}>
+        <LinkComponent href='#' className={styles.footer__brand}>
           Художник Ангелина Хижняк
         </LinkComponent>
         <div className={styles.footer__brand}>
