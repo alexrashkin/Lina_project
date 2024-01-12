@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Link } from '../index';
+import { Container, LinkComponent } from '../index';
 import styles from './style.module.css';
 
 const Footer = () => {
@@ -19,21 +19,21 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <Container className={styles.footer__container}>
-        <Link to="/artist" className={styles.footer__brand}>
+        <LinkComponent to="/artist" className={styles.footer__brand}>
           Художник Ангелина Хижняк
-        </Link>
+        </LinkComponent>
         <div className={styles.footer__brand}>
           Все права защищены © {new Date().getFullYear()}
         </div>
         <div className={styles.footer__brand}>
-          <Link
+          <LinkComponent
             to={{ pathname: telegramLink }}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.telegramLink}
           >
             Телеграм
-          </Link>
+          </LinkComponent>
         </div>
       </Container>
     </footer>
