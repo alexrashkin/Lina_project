@@ -148,7 +148,7 @@ class WorksViewset(viewsets.ModelViewSet):
             return WorkGetSerializer
         return WorkSaveSerializer
 
-    @action(methods=['delete'], detail=True,
+    @action(methods=['post', 'delete'], detail=True,
             permission_classes=(IsOwnerAdmin,))
     def destroy(self, request, *args, **kwargs):
         # Удаляет работу
