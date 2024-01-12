@@ -261,9 +261,9 @@ function App() {
             <Artist />
           </Route>
 
-          {/* <Route path='/'>
+          <Route path='/'>
             {loggedIn ? <Redirect to='/works' /> : <Redirect to='/signin'/>}
-          </Route> */}
+          </Route>
         </Switch>
         <Footer />
       </div>
