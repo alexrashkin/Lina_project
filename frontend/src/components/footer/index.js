@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Link } from 'react-router-dom';
+import { Container, LinkComponent } from 'react-router-dom';
 
 import styles from './style.module.css';
 import telegramLogo from '../../pages/artist/telegram.png';
@@ -19,7 +19,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <Container className={styles.footer__container}>
-        <Link to="#" title="Художник Ангелина Хижняк" className={styles.footer__brand} />
+        <LinkComponent to="#" title="Художник Ангелина Хижняк" className={styles.footer__brand} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src={telegramLogo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
           <a id="telegramLink" target="_blank" rel="noopener noreferrer">
