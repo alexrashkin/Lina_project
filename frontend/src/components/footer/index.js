@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Link } from 'react-router-dom'; // Импортируйте Link из react-router-dom
+import { Container, Link } from 'react-router-dom';
 
 import styles from './style.module.css';
 import telegramLogo from '../../pages/artist/telegram.png';
