@@ -26,9 +26,14 @@ const Footer = () => {
         </p>
         <div className={styles.footer__brand}>
           <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-          <a id="telegramLink" target="_blank" rel="noopener noreferrer">
-                Телеграм
-          </a>
+            <LinkComponent
+              href={telegramLink}
+              title='Телеграм'
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Телеграм
+            </LinkComponent>
         </div>
       </Container>
     </footer>
