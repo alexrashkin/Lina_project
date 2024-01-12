@@ -5,7 +5,8 @@ import styles from './style.module.css';
 
 
 const Footer = () => {
-  
+  const [telegramLink, setTelegramLink] = useState('');
+
   useEffect(() => {
     const isMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
     const linkValue = isMobile ? 'https://t.me/angelinasvs777' : 'https://web.telegram.org/k/#@angelinasvs777';
