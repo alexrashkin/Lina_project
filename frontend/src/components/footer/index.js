@@ -1,35 +1,41 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
+import { Container, Link } from '../index';
 import styles from './style.module.css';
-import telegramLogo from '../../pages/artist/telegram.png';
 
 const Footer = () => {
+  const [telegramLink, setTelegramLink] = useState('');
+
   useEffect(() => {
     const isMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
-    const telegramLink = document.getElementById('telegramLink');
+    const telegramUsername = 'angelinasvs777';
 
     if (isMobile) {
-      telegramLink.href = 'https://t.me/angelinasvs777';
+      setTelegramLink(`https://t.me/${telegramUsername}`);
     } else {
-      telegramLink.href = 'https://web.telegram.org/k/#@angelinasvs777';
+      setTelegramLink(`https://web.telegram.org/k/#@${telegramUsername}`);
     }
   }, []);
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.footer__container}>
-        <Link to="#" title="Художник Ангелина Хижняк" className={styles.footer__brand} />
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={telegramLogo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-          <a id="telegramLink" target="_blank" rel="noopener noreferrer">
-            Телеграм
-          </a>
-        </div>
-        <p className={styles.footer__brand}>
+      <Container className={styles.footer__container}>
+        <Link to="/artist" className={styles.footer__brand}>
+          Художник Ангелина Хижняк
+        </Link>
+        <div className={styles.footer__brand}>
           Все права защищены © {new Date().getFullYear()}
-        </p>
-      </div>
+        </div>
+        <div className={styles.footer__brand}>
+          <Link
+            to={{ pathname: telegramLink }}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.telegramLink}
+          >
+            Телеграм
+          </Link>
+        </div>
+      </Container>
     </footer>
   );
 };
