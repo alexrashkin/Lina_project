@@ -29,9 +29,6 @@ const handleTelegramClick = () => {
               >
                 Художник Ангелина Хижняк
         </Link>
-        <p className={styles.footer__brand}>
-          Все права защищены © {new Date().getFullYear()}
-        </p>
         <div className={styles.footer__brand} onClick={handleTelegramClick}>
           <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
             <span
@@ -40,6 +37,9 @@ const handleTelegramClick = () => {
               Телеграм
             </span>
         </div>
+        <p className={styles.footer__brand}>
+          Все права защищены © {new Date().getFullYear()}
+        </p>
       </Container>
     </footer>
   );
