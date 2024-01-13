@@ -1,6 +1,6 @@
 .nav {
   height: 90px;
-  width: 100%;
+  align-items: center;
 }
 
 .nav__container {
@@ -54,7 +54,6 @@
     color: inherit;
     padding-bottom: 14px;
     cursor: inherit;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .nav__link_active {
