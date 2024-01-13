@@ -18,6 +18,13 @@
     text-decoration: none;
     align-items: center;
     display: flex;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.footer__brand:hover {
+    color: silver;
+    border-bottom-color: silver;
 }
 
 .footer__container {
@@ -45,4 +52,8 @@
     font-size: 16px;
     line-height: 20px;
     color: #FFFFFF;
+}
+
+.footer__icon {
+    margin-right: 5px;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, LinkComponent } from '../index';
+import { Container } from '../index';
 import telegram_logo from '../../pages/artist/telegram.png';
 import styles from './style.module.css';
 import { Link } from 'react-router-dom'
@@ -30,7 +30,7 @@ const handleTelegramClick = () => {
                 Художник Ангелина Хижняк
         </Link>
         <div className={styles.footer__brand} onClick={handleTelegramClick}>
-          <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
+          <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon}/>
             <span
               title='Телеграм'
             >
