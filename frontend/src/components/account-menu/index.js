@@ -9,14 +9,14 @@ const AccountMenu = ({ onSignOut }) => {
   if (!authContext) {
     return <div className={styles.menu}>
       <LinkComponent
-        className={styles.menuLink}
-        href='/signin'
-        title='Войти'
-      />
-      <LinkComponent
         href='/signup'
         title='Создать аккаунт'
         className={styles.menuLink}
+      />
+      <LinkComponent
+        className={styles.menuLink}
+        href='/signin'
+        title='Войти'
       />
     </div>
   }
