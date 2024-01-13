@@ -7,12 +7,12 @@ import telegram_logo from '../../pages/artist/telegram.png';
 const Artist = () => {
   const headingStyle = {
     color: '#3e3e3e',
-    marginBottom: '20px',
+    marginBottom: '40px',
     textAlign: 'center',
   };
 
   const sectionStyle = {
-    marginBottom: '20px',
+    marginBottom: '60px',
   };
 
   const imageStyle = {
@@ -43,7 +43,7 @@ const Artist = () => {
           <p>Выполню художественную роспись на стенах, мебели, рамах и предметах интерьера только материалами высшего качества.</p>
           <p>Напишу неповторимую картину под Ваш интерьер любого размера в единственном экземпляре.</p>
           <p>Так же кастомизирую разнообразные предметы и технику, например, наушники AirPods, консоли PlayStation, джойстики, статуэтки, шлемы и др.</p>
-          <div style={sectionStyle}>
+          <div style={{sectionStyle, marginBottom: '60px', marginTop: '40px'}}>
             <strong>Образование:</strong>
             <p>Санкт-Петербургский государственный университет промышленных технологий и дизайна (2013 - 2019 гг.)</p>
             <p>Художественная школа г. Ставрополь (2003 - 2013 гг.)</p>
