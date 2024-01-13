@@ -15,6 +15,9 @@
     font-size: 16px;
     line-height: 20px;
     color: #FFFFF0;
+    text-decoration: none;
+    align-items: center;
+    display: flex;
 }
 
 .footer__container {
