@@ -4,7 +4,6 @@
   font-weight: 600;
   font-size: 20px;
   line-height: 20px;
-  background: none;
   height: auto;
   line-height: 48px;
   border-radius: 6px;
@@ -19,10 +18,13 @@
   background: rgb(95, 94, 94);
   color: #FFF;
   transform: translateY(-9px);
+  align-items: baseline;
 }
 
+.menuButton.active,
 .menuButton:hover {
   background: rgb(95, 94, 94);
+  color:#FFF;
 }
 
 .menuLink {
@@ -35,9 +37,15 @@
   display: inline-block;
   padding: 0;
   font-weight: 500;
-  line-height: 19px;
-  padding-bottom: 14px;
+  line-height: 20px;
   margin-right: 28px;
+  align-items: baseline;
+}
+
+.menulink_active,
+.menuLink:hover {
+  border-bottom: 1px solid #FFF;
+  color: #FFF;
 }
 
 .menuLink:last-child {
