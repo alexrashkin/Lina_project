@@ -1,7 +1,6 @@
 .card {
   display: flex;
   flex-direction: column;
-  max-width: 363px;
   border: 1px solid #EEEEEE;
   box-sizing: border-box;
   border-radius: 8px;
@@ -55,10 +54,10 @@
 }
 
 .card__image {
-  height: 240px;
+  height: 220px;
   width: 100%;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
 }
 
 .card__title {
