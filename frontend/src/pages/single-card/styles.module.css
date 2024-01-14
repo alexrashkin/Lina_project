@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   text-align: left;
+  max-width: 480px;
 }
 
 .single-card__buttons {
@@ -43,7 +44,6 @@
 }
 
 .single-card__image {
-  object-fit: cover;
   align-self: flex-start;
   border-radius: 15px;
   max-width: 100%;
