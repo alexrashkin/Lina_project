@@ -45,8 +45,6 @@
 .single-card__image {
   object-fit: cover;
   align-self: flex-start;
-  height: auto;
-  width: auto;
   border-radius: 15px;
   max-width: 100%;
 }
