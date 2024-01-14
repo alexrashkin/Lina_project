@@ -54,10 +54,10 @@
 }
 
 .card__image {
-  height: 220px;
+  height: 215px;
   width: 100%;
-  background-position: center;
-  background-size: contain;
+  background-position: 50%;
+  background-size: cover;
 }
 
 .card__title {
@@ -92,7 +92,10 @@
 
 @media screen and (max-width: 1000px) {
   .card__image {
-    height: 160px;
+    height: 215px;
+    width: 100%;
+    background-position: 50%;
+    background-size: cover;
   }
 
   .card__body {
