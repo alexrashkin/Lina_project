@@ -4,7 +4,6 @@ import { useContext, useState, useEffect } from 'react'
 import styles from './styles.module.css'
 import Materials from './materials'
 import Description from './description'
-import cn from 'classnames'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 import MetaTags from 'react-meta-tags'
 
