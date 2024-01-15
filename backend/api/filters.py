@@ -1,4 +1,5 @@
 import django_filters
+import django_filters.rest_framework as filters
 from django.contrib.auth import get_user_model
 from works.models import Material, Tag, Work
 
@@ -16,14 +17,22 @@ class MaterialFilter(django_filters.FilterSet):
         fields = ['name']
 
 
-class WorkFilter(django_filters.FilterSet):
-    tags = django_filters.ModelMultipleChoiceFilter(
+class WorkFilter(filters.FilterSet):
+    tags = filters.ModelMultipleChoiceFilter(
         field_name='tags__slug',
         to_field_name='slug',
         queryset=Tag.objects.all(),
     )
-    author = django_filters.ModelChoiceFilter(queryset=User.objects.all())
+    author = filters.ModelChoiceFilter(queryset=User.objects.all())
 
     class Meta:
         model = Work
         fields = ('tags', 'author')
+
+    def filter_queryset(self, queryset):
+        tags = self.data.get('tags')
+
+        if not tags:
+            return Work.objects.none()
+
+        return super().filter_queryset(queryset)
