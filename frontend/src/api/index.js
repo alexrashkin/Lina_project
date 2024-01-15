@@ -114,7 +114,7 @@ class Api {
     const token = localStorage.getItem('token')
     const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
-      `/api/works/${work_id}/`,
+      `/api/works/${work_id}/?tags=__all__`,
       {
         method: 'GET',
         headers: {

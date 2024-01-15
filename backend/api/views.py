@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -194,7 +195,7 @@ class TagViewset(mixins.ListModelMixin,
     Позволяет получать список тегов и детали отдельных тегов.
     """
 
-    queryset = Tag.objects.all()
+    queryset = Tag.objects.filter(~Q(color="srv"))
     serializer_class = TagSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     pagination_class = None
