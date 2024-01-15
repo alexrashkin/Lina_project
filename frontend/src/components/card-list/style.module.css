@@ -1,5 +1,5 @@
 .cardList {
-  display: flex;
+  display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
   grid-gap: 40px;
@@ -8,12 +8,30 @@
 
 @media screen and (max-width: 830px) {
   .cardList {
-    grid-gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 1px;
+    margin-bottom: 52px;
   }
 }
 
 @media screen and (max-width: 770px) {
   .cardList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
     grid-gap: 1px;
+    margin-bottom: 52px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .cardList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 1px;
+    margin-bottom: 52px;
   }
 }
