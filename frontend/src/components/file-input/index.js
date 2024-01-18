@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import styles from './styles.module.css'
-import { Button } from '../index'
 import cn from 'classnames'
 
 const FileInput = ({ label, onChange, file = null, className }) => {

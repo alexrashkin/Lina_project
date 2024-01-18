@@ -44,6 +44,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     materials,
     text,
     is_favorited,
+    video,
   } = work
   
   return <Main>
@@ -86,6 +87,14 @@ const SingleCard = ({ loadItem, updateOrders }) => {
           </div>
           <Materials materials={materials} />
           <Description description={text} />
+          {video && ( // проверка наличия видео
+            <div className={styles.mediaContainer}>
+              <video className={styles.video} controls>
+                <source src={video} type='video/mp4' />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
         </div>
     </div>
     </Container>

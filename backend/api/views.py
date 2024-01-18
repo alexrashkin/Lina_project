@@ -18,7 +18,7 @@ from works.models import Favorite, Material, Tag, Work
 from .filters import MaterialFilter, WorkFilter
 from .permissions import IsAdminUserOrReadOnly, IsOwnerAdmin
 from .serializers import (FavoriteSerializer, MaterialSerializer,
-                          TagSerializer, UserSerializer, WorkGetSerializer,
+                          TagSerializer, UserSerializer1, WorkGetSerializer,
                           WorkSaveSerializer)
 
 logger = logging.getLogger(__name__)
@@ -208,7 +208,7 @@ class UserViewset(UserViewSet):
     """
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSerializer1
 
 
 class CheckSuperuserStatusView(APIView):

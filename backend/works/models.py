@@ -65,14 +65,17 @@ class Work(models.Model):
     image = models.ImageField(
         upload_to="works/images/",
         verbose_name="Картинка",
+        blank=True,
+        null=True,
+    )
+    video = models.FileField(
+        upload_to="works/videos/",
+        verbose_name="Видео",
+        blank=True,
+        null=True,
     )
     text = models.TextField(
         verbose_name="Описание",
-    )
-    materials = models.ManyToManyField(
-        Material,
-        verbose_name="Список материалов",
-        related_name="works",
     )
     tags = models.ManyToManyField(
         Tag,

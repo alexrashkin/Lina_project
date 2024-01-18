@@ -125,14 +125,30 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  createWork ({
+  createWork({
     name = '',
     image,
+    video,
     tags = [],
     text = '',
     materials = []
   }) {
-    const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
+      const requestBody = {
+        name,
+        text,
+        tags,
+        materials,
+      };
+      
+      if (image) {
+        requestBody.image = image;
+      }
+      
+      if (video) {
+        requestBody.video = video;
+      }
+      
     return fetch(
       '/api/works/',
       {
@@ -141,42 +157,45 @@ class Api {
           ...this._headers,
           'authorization': `Token ${token}`
         },
-        body: JSON.stringify({
-          name,
-          image,
-          tags,
-          text,
-          materials
-        })
+        body: JSON.stringify(requestBody),
       }
-    ).then(this.checkResponse)
+    ).then(this.checkResponse);
   }
 
   updateWork ({
     name,
     work_id,
     image,
+    video,
     tags,
     text,
     materials
-  }, wasImageUpdated) {
+  }, wasImageUpdated, wasVideoUpdated) {
     const token = localStorage.getItem('token')
+    const requestBody = {
+      name,
+      id: work_id,
+      text,
+      tags,
+      materials,
+    };
+    
+    if (image) {
+      requestBody.image = wasImageUpdated ? image : undefined;
+    }
+    
+    if (video) {
+      requestBody.video = wasVideoUpdated ? video : undefined;
+    }
     return fetch(
-      `/api/works/${work_id}/`,
+      `/api/works/${work_id}/?tags=__all__`,
       {
         method: 'PATCH',
         headers: {
           ...this._headers,
           'authorization': `Token ${token}`
         },
-        body: JSON.stringify({
-          name,
-          id: work_id,
-          image: wasImageUpdated ? image : undefined,
-          tags,
-          text,
-          materials
-        })
+        body: JSON.stringify(requestBody)
       }
     ).then(this.checkResponse)
   }
@@ -271,7 +290,7 @@ class Api {
   deleteWork ({ work_id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/works/${work_id}/`,
+      `/api/works/${work_id}/?tags=__all__`,
       {
         method: 'DELETE',
         headers: {

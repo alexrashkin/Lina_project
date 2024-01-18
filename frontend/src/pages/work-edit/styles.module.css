@@ -46,11 +46,16 @@
 
 .button {
   font-size: 18px;
+  margin-right: 20px;
 }
 
 .cookingTimeUnit {
   align-self: center;
   margin-bottom: 35px;
+}
+
+.videoFileInput {
+  margin-bottom: 72px;
 }
 
 .fileInput {
@@ -94,10 +99,6 @@
 
 .deletework {
   font-size: 18px;
-  text-decoration: underline;
-  margin-left: 26px;
-  color: #000;
-  cursor: pointer;
 }
 
 @media screen and (max-width: 820px) {

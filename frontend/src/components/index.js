@@ -22,6 +22,7 @@ import Pagination from './pagination'
 import Purchase from './purchase'
 import PurchaseList from './purchase-list'
 import FileInput from './file-input'
+import VideoFileInput from './video-file-input'
 import MaterialsSearch from './materials-search'
 
 export {
@@ -49,5 +50,6 @@ export {
   Purchase,
   PurchaseList,
   FileInput,
+  VideoFileInput,
   MaterialsSearch
 }

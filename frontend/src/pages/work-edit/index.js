@@ -1,4 +1,4 @@
-import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
+import { Container, MaterialsSearch, FileInput, VideoFileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
@@ -17,10 +17,16 @@ const WorkEdit = ({ onItemDelete }) => {
 
   const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
-  const [ workFile, setWorkFile ] = useState(null)
+  const [ workImageFile, _setWorkImageFile ] = useState(null)
+  const [ workVideoFile, _setWorkVideoFile ] = useState(null)
   const [
-    workFileWasManuallyChanged,
-    setWorkFileWasManuallyChanged
+    workImageFileWasManuallyChanged,
+    setWorkImageFileWasManuallyChanged
+  ] = useState(false)
+
+  const [
+    workVideoFileWasManuallyChanged,
+    setWorkVideoFileWasManuallyChanged
   ] = useState(false)
 
   const [ materials, setMaterials ] = useState([])
@@ -54,6 +60,7 @@ const WorkEdit = ({ onItemDelete }) => {
     }).then(res => {
       const {
         image,
+        video,
         tags,
         name,
         materials,
@@ -61,8 +68,9 @@ const WorkEdit = ({ onItemDelete }) => {
       } = res
       setWorkText(text)
       setWorkName(name)
-      setWorkFile(image)
-      setWorkMaterials(materials)
+      _setWorkImageFile(image)
+      _setWorkVideoFile(video)
+      setWorkMaterials(materials)    
 
 
       const tagsValueUpdated = value.map(item => {
@@ -85,13 +93,25 @@ const WorkEdit = ({ onItemDelete }) => {
     })
   }
 
+  const setWorkImageFile = (data) => {
+    _setWorkImageFile(data);
+    setWorkImageFileWasManuallyChanged(true);
+  }
+
+  const setWorkVideoFile = (data) => {
+    _setWorkVideoFile(data);
+    setWorkVideoFileWasManuallyChanged(true);
+  }
+
   const checkIfDisabled = () => {
     return workText === '' ||
     workName === '' ||
     workMaterials.length === 0 ||
     value.filter(item => item.value).length === 0 ||
-    workFile === '' ||
-    workFile === null
+    workImageFile === '' ||
+    workImageFile === null ||
+    workVideoFile === '' ||
+    workVideoFile === null
   }
 
   const isSuperuser = localStorage.getItem('is_superuser') != 'true';
@@ -120,13 +140,14 @@ const WorkEdit = ({ onItemDelete }) => {
               id: item.id,
             })),
             tags: value.filter(item => item.value).map(item => item.id),
-            image: workFile,
+            image: workImageFile,
+            video: workVideoFile,
             work_id: id
           }
           api
-            .updateWork(data, workFileWasManuallyChanged)
+            .updateWork(data, workImageFileWasManuallyChanged, workVideoFileWasManuallyChanged)
             .then(res => {
-              history.push(`/works/${id}`)
+              history.push(`/works/${res.id}`)
             })
             .catch(err => {
               const { non_field_errors, materials } = err
@@ -233,12 +254,19 @@ const WorkEdit = ({ onItemDelete }) => {
         />
         <FileInput
           onChange={file => {
-            setWorkFileWasManuallyChanged(true)
-            setWorkFile(file)
+            setWorkImageFile(file)
           }}
           className={styles.fileInput}
           label='Загрузить фото'
-          file={workFile}
+          file={workImageFile}
+        />
+        <VideoFileInput
+          onChange={file => {
+            setWorkVideoFile(file)
+          }}
+          className={styles.fileInput}
+          label='Загрузить видео'
+          file={workVideoFile}
         />
         <div className={styles.actions}>
           <Button
@@ -258,7 +286,7 @@ const WorkEdit = ({ onItemDelete }) => {
                 })
             }}
           >
-            Удалить
+            Удалить работу
           </div>
         </div>
       </Form>

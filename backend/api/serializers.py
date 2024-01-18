@@ -1,5 +1,6 @@
 import base64
 import logging
+from datetime import datetime
 
 from django.core.files.base import ContentFile
 from rest_framework import serializers
@@ -8,6 +9,22 @@ from users.models import User
 from works.models import Favorite, Material, Tag, Work, WorksMaterials
 
 logger = logging.getLogger(__name__)
+
+
+class Base64FileField(serializers.FileField):
+    """
+    Кастомное поле для сериализации файла в формате base64.
+    """
+
+    def to_internal_value(self, data):
+        """
+        Преобразует строку данных файла в объект ContentFile.
+        """
+        if isinstance(data, str) and data.startswith('data:video'):
+            _, file_data = data.split(';base64,')
+            decoded_file = base64.b64decode(file_data)
+            return ContentFile(decoded_file)
+        return super().to_internal_value(data)
 
 
 class Base64ImageField(serializers.ImageField):
@@ -26,7 +43,7 @@ class Base64ImageField(serializers.ImageField):
         return super().to_internal_value(data)
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer1(serializers.ModelSerializer):
     """Сериализатор для пользовательской модели."""
 
     class Meta:
@@ -95,7 +112,6 @@ class MaterialWorkserializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
         queryset=Material.objects.all(),
         source='material',
-        write_only=True
     )
     name = serializers.CharField(source='material.name', read_only=True)
 
@@ -109,17 +125,18 @@ class WorkSaveSerializer(serializers.ModelSerializer):
     Сериализатор для добавления и обновления работы.
     """
 
-    author = UserSerializer(
+    author = UserSerializer1(
         read_only=True, default=serializers.CurrentUserDefault()
     )
     materials = MaterialWorkserializer(
         many=True, source='works_materials'
     )
-    image = Base64ImageField()
+    image = Base64ImageField(required=False)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
         many=True
     )
+    video = Base64FileField(required=False)
 
     def validate(self, data):
         """
@@ -152,7 +169,10 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags')
         work = Work.objects.create(**validated_data)
         work.tags.set(tags_data)
-
+        if "video" in validated_data:
+            timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
+            fname = f"uploaded_video_{timestamp}.mp4"
+            work.video.save(fname, validated_data["video"].file)
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
@@ -222,11 +242,12 @@ class WorkGetSerializer(serializers.ModelSerializer):
     """
 
     tags = TagSerializer(many=True, read_only=True)
-    author = UserSerializer(read_only=True)
+    author = UserSerializer1(read_only=True)
     materials = MaterialWorkserializer(
         many=True, read_only=True, source='works_materials')
     is_favorited = serializers.SerializerMethodField()
     image = Base64ImageField(required=False)
+    video = Base64FileField(required=False)
 
     def get_is_favorited(self, obj):
         """

@@ -1,4 +1,4 @@
-import { Container, MaterialsSearch, FileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
+import { Container, MaterialsSearch, FileInput, VideoFileInput, Input, Title, CheckboxGroup, Main, Form, Button, Textarea } from '../../components'
 import styles from './styles.module.css'
 import api from '../../api'
 import { useEffect, useState } from 'react'
@@ -17,6 +17,7 @@ const WorkCreate = ({ onEdit }) => {
   const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
   const [ workFile, setWorkFile ] = useState(null)
+  const [ workVideo, setWorkVideo ] = useState(null)
 
   const [ materials, setMaterials ] = useState([])
   const [ showMaterials, setShowMaterials ] = useState(false)
@@ -54,8 +55,8 @@ const WorkCreate = ({ onEdit }) => {
     workName === '' ||
     workMaterials.length === 0 ||
     value.filter(item => item.value).length === 0 ||
-    workFile === '' ||
-    workFile === null
+    (workFile === '' && workVideo === '') ||
+    (workFile === null && workVideo === null)
   }
 
   const isSuperuser = localStorage.getItem('is_superuser') != 'true';
@@ -84,7 +85,8 @@ const WorkCreate = ({ onEdit }) => {
               id: item.id,
             })),
             tags: value.filter(item => item.value).map(item => item.id),
-            image: workFile
+            image: workFile,
+            video: workVideo,
           }
           api
           .createWork(data)
@@ -198,6 +200,13 @@ const WorkCreate = ({ onEdit }) => {
           }}
           className={styles.fileInput}
           label='Загрузить фото'
+        />
+        <VideoFileInput
+          onChange={file => {
+            setWorkVideo(file)
+          }}
+          className={styles.fileInput}
+          label='Загрузить видео'
         />
         <Button
           modifier='style_dark-blue'
