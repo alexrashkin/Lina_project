@@ -104,15 +104,13 @@ const WorkEdit = ({ onItemDelete }) => {
   }
 
   const checkIfDisabled = () => {
-    return workText === '' ||
+    return (
+    workText === '' ||
     workName === '' ||
     workMaterials.length === 0 ||
-    value.filter(item => item.value).length === 0 ||
-    workImageFile === '' ||
-    workImageFile === null ||
-    workVideoFile === '' ||
-    workVideoFile === null
-  }
+    value.filter(item => item.value).length === 0
+    );
+  };
 
   const isSuperuser = localStorage.getItem('is_superuser') != 'true';
 
