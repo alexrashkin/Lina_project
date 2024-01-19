@@ -1,8 +1,8 @@
 .single-card {
-  display: flow-root;
-  justify-content: space-between;
+  display: inline flow-root list-item;
   text-align: left;
   max-width: 480px;
+  list-style: none;
 }
 
 .single-card__buttons {
