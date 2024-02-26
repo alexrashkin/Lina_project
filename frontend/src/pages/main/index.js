@@ -1,4 +1,5 @@
 import { Card, Title, Pagination, CardList, Container, Main, CheckboxGroup  } from '../../components'
+import { useLocation, useHistory } from 'react-router-dom'
 import styles from './styles.module.css'
 import { useWorks } from '../../utils/index.js'
 import { useEffect } from 'react'
@@ -18,9 +19,21 @@ const HomePage = ({ updateOrders }) => {
     handleTagsChange,
     handleLike,
   } = useWorks()
-
-
-  const getWorks = ({ page = 1, tags }) => {
+  const history = useHistory()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search);
+  let  page = queryParams.get("page");
+  if (page == undefined || page == null)
+  {
+    page = 1
+  }
+  else
+  {
+    if (page != worksPage)
+        setWorksPage(page);
+  }
+  
+  const getWorks = ({ page = page, tags }) => {
     api
       .getWorks({ page, tags })
       .then(res => {
@@ -31,8 +44,11 @@ const HomePage = ({ updateOrders }) => {
   }
 
   useEffect(_ => {
-    getWorks({ page: worksPage, tags: tagsValue })
+    if (tagsValue.length != 0) {
+        getWorks({ page: worksPage, tags: tagsValue })
+    }
   }, [worksPage, tagsValue])
+
 
   useEffect(_ => {
     api.getTags()
@@ -71,7 +87,7 @@ const HomePage = ({ updateOrders }) => {
         count={worksCount}
         limit={6}
         page={worksPage}
-        onPageChange={page => setWorksPage(page)}
+        onPageChange={page => history.push(`/works?page=${page}`)}
       />
     </Container>
   </Main>
