@@ -6,8 +6,8 @@ python3 manage.py makemigrations
 
 python3 manage.py migrate
 
-python3 manage.py load_materials
-python3 manage.py load_tags
+#python3 manage.py load_materials
+#python3 manage.py load_tags
 
 gunicorn lina.wsgi:application --bind 0.0.0.0:80
 

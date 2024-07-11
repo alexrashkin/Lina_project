@@ -25,7 +25,7 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
-     
+
 
   nginx:
     image: alexrashkin/lina_nginx
@@ -33,9 +33,9 @@ services:
     volumes:
       - static:/backend_static/
       - media:/media/
-      - ./docs/:/usr/share/nginx/html/api/docs/     
-      - /etc/letsencrypt/archive/foodgram-project.myvnc.com/fullchain1.pem:/cert_fullchain.pem
-      - /etc/letsencrypt/archive/foodgram-project.myvnc.com/privkey1.pem:/cert_privkey.pem 
+      - ./docs/:/usr/share/nginx/html/api/docs/
+      - /etc/letsencrypt/archive/angelina-art.ru/fullchain1.pem:/cert_fullchain.pem
+      - /etc/letsencrypt/archive/angelina-art.ru/privkey1.pem:/cert_privkey.pem
     ports:
       - 8000:80
       - 8001:443

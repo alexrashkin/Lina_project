@@ -80,7 +80,7 @@ set -e
 
 # Git commit from https://github.com/docker/docker-install when
 # the script was uploaded (Should only be modified by upload job):
-SCRIPT_COMMIT_SHA="e5543d473431b782227f8908005543bb4389b8de"
+SCRIPT_COMMIT_SHA="6d9743e9656cc56f699a64800b098d5ea5a60020"
 
 # strip "v" prefix if present
 VERSION="${VERSION#v}"
@@ -450,7 +450,7 @@ do_install() {
 			esac
 		;;
 
-		centos|rhel|sles)
+		centos|rhel)
 			if [ -z "$dist_version" ] && [ -r /etc/os-release ]; then
 				dist_version="$(. /etc/os-release && echo "$VERSION_ID")"
 			fi
@@ -482,7 +482,7 @@ do_install() {
 		ubuntu.xenial|ubuntu.trusty)
 			deprecation_notice "$lsb_dist" "$dist_version"
 			;;
-		ubuntu.impish|ubuntu.hirsute|ubuntu.groovy|ubuntu.eoan|ubuntu.disco|ubuntu.cosmic)
+		ubuntu.lunar|ubuntu.kinetic|ubuntu.impish|ubuntu.hirsute|ubuntu.groovy|ubuntu.eoan|ubuntu.disco|ubuntu.cosmic)
 			deprecation_notice "$lsb_dist" "$dist_version"
 			;;
 		fedora.*)
@@ -496,10 +496,7 @@ do_install() {
 	case "$lsb_dist" in
 		ubuntu|debian|raspbian)
 			pre_reqs="apt-transport-https ca-certificates curl"
-			if ! command -v gpg > /dev/null; then
-				pre_reqs="$pre_reqs gnupg"
-			fi
-			apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] $DOWNLOAD_URL/linux/$lsb_dist $dist_version $CHANNEL"
+			apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] $DOWNLOAD_URL/linux/$lsb_dist $dist_version $CHANNEL"
 			(
 				if ! is_dry_run; then
 					set -x
@@ -507,8 +504,8 @@ do_install() {
 				$sh_c 'apt-get update -qq >/dev/null'
 				$sh_c "DEBIAN_FRONTEND=noninteractive apt-get install -y -qq $pre_reqs >/dev/null"
 				$sh_c 'install -m 0755 -d /etc/apt/keyrings'
-				$sh_c "curl -fsSL \"$DOWNLOAD_URL/linux/$lsb_dist/gpg\" | gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg"
-				$sh_c "chmod a+r /etc/apt/keyrings/docker.gpg"
+				$sh_c "curl -fsSL \"$DOWNLOAD_URL/linux/$lsb_dist/gpg\" -o /etc/apt/keyrings/docker.asc"
+				$sh_c "chmod a+r /etc/apt/keyrings/docker.asc"
 				$sh_c "echo \"$apt_repo\" > /etc/apt/sources.list.d/docker.list"
 				$sh_c 'apt-get update -qq >/dev/null'
 			)
@@ -562,19 +559,26 @@ do_install() {
 				echo "Packages for RHEL are currently only available for s390x."
 				exit 1
 			fi
-			if [ "$lsb_dist" = "fedora" ]; then
+
+			if command_exists dnf; then
 				pkg_manager="dnf"
+				pkg_manager_flags="--best"
 				config_manager="dnf config-manager"
 				enable_channel_flag="--set-enabled"
 				disable_channel_flag="--set-disabled"
 				pre_reqs="dnf-plugins-core"
-				pkg_suffix="fc$dist_version"
 			else
 				pkg_manager="yum"
+				pkg_manager_flags=""
 				config_manager="yum-config-manager"
 				enable_channel_flag="--enable"
 				disable_channel_flag="--disable"
 				pre_reqs="yum-utils"
+			fi
+
+			if [ "$lsb_dist" = "fedora" ]; then
+				pkg_suffix="fc$dist_version"
+			else
 				pkg_suffix="el"
 			fi
 			repo_file_url="$DOWNLOAD_URL/linux/$lsb_dist/$REPO_FILE"
@@ -582,7 +586,7 @@ do_install() {
 				if ! is_dry_run; then
 					set -x
 				fi
-				$sh_c "$pkg_manager install -y -q $pre_reqs"
+				$sh_c "$pkg_manager $pkg_manager_flags install -y -q $pre_reqs"
 				$sh_c "$config_manager --add-repo $repo_file_url"
 
 				if [ "$CHANNEL" != "stable" ]; then
@@ -635,7 +639,7 @@ do_install() {
 				if ! is_dry_run; then
 					set -x
 				fi
-				$sh_c "$pkg_manager install -y -q $pkgs"
+				$sh_c "$pkg_manager $pkg_manager_flags install -y -q $pkgs"
 			)
 			echo_docker_as_nonroot
 			exit 0
@@ -644,12 +648,6 @@ do_install() {
 			if [ "$(uname -m)" != "s390x" ]; then
 				echo "Packages for SLES are currently only available for s390x"
 				exit 1
-			fi
-			if [ "$dist_version" = "15.3" ]; then
-				sles_version="SLE_15_SP3"
-			else
-				sles_minor_version="${dist_version##*.}"
-				sles_version="15.$sles_minor_version"
 			fi
 			repo_file_url="$DOWNLOAD_URL/linux/$lsb_dist/$REPO_FILE"
 			pre_reqs="ca-certificates curl libseccomp2 awk"
@@ -662,13 +660,13 @@ do_install() {
 				if ! is_dry_run; then
 						cat >&2 <<-'EOF'
 						WARNING!!
-						openSUSE repository (https://download.opensuse.org/repositories/security:SELinux) will be enabled now.
+						openSUSE repository (https://download.opensuse.org/repositories/security:/SELinux) will be enabled now.
 						Do you wish to continue?
 						You may press Ctrl+C now to abort this script.
 						EOF
 						( set -x; sleep 30 )
 				fi
-				opensuse_repo="https://download.opensuse.org/repositories/security:SELinux/$sles_version/security:SELinux.repo"
+				opensuse_repo="https://download.opensuse.org/repositories/security:/SELinux/openSUSE_Factory/security:SELinux.repo"
 				$sh_c "zypper addrepo $opensuse_repo"
 				$sh_c "zypper --gpg-auto-import-keys refresh"
 				$sh_c "zypper lr -d"
