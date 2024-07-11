@@ -31,12 +31,19 @@ class WorkFilter(filters.FilterSet):
 
     def filter_queryset(self, queryset):
         tags = self.data.get('tags')
+        # Добавим отладочные сообщения
+        print(f"Tags: {tags}")
+
+        # Если значение равно "__all__", не фильтруем по тегам
         if tags == "__all__":
             print("Returning unfiltered queryset")
             return queryset
+
+        # Если теги не указаны, возвращаем пустой QuerySet
         if not tags:
             print("Returning empty queryset")
             return Work.objects.none()
 
+        # В остальных случаях используем стандартную фильтрацию
         print("Using default filtering")
         return super().filter_queryset(queryset)
