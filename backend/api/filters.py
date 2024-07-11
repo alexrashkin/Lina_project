@@ -32,8 +32,11 @@ class WorkFilter(filters.FilterSet):
     def filter_queryset(self, queryset):
         tags = self.data.get('tags')
         if tags == "__all__":
+            print("Returning unfiltered queryset")
             return queryset
         if not tags:
+            print("Returning empty queryset")
             return Work.objects.none()
 
+        print("Using default filtering")
         return super().filter_queryset(queryset)
