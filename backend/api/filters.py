@@ -30,6 +30,7 @@ class WorkFilter(filters.FilterSet):
         fields = ('tags', 'author')
 
     def filter_queryset(self, queryset):
+        print("FILTERING")
         tags = self.data.get('tags')
         if tags and tags == "__all__":
             return queryset
