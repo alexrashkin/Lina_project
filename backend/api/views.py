@@ -7,12 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import MethodNotAllowed, PermissionDenied
+from rest_framework.exceptions import MethodNotAllowed, PermissionDenied, NotFound
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import NotFound
 from users.models import User
 from works.models import Favorite, Material, Tag, Work
 
@@ -130,7 +129,7 @@ class WorksViewset(viewsets.ModelViewSet):
 
     def get_object(self):
         lookup_field_value = self.kwargs.get(self.lookup_field)
-        
+
         if lookup_field_value is not None:
             obj = Work.objects.filter(pk=lookup_field_value).first()
             if obj is not None:
@@ -138,7 +137,7 @@ class WorksViewset(viewsets.ModelViewSet):
                 return obj
             else:
                 raise NotFound(detail="Object with specified ID not found.")
-        
+
         return super().get_object()
 
     def retrieve(self, request, *args, **kwargs):
