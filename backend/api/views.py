@@ -12,6 +12,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 from users.models import User
 from works.models import Favorite, Material, Tag, Work
 
@@ -122,11 +123,23 @@ class WorksViewset(viewsets.ModelViewSet):
         """
         Получает список работ в зависимости от параметров запроса.
         """
-
         is_favorited = self.request.query_params.get('is_favorited')
         if is_favorited is not None and int(is_favorited) == 1:
             return Work.objects.filter(favorites__user=self.request.user)
         return Work.objects.all()
+
+    def get_object(self):
+        lookup_field_value = self.kwargs.get(self.lookup_field)
+        
+        if lookup_field_value is not None:
+            obj = Work.objects.filter(pk=lookup_field_value).first()
+            if obj is not None:
+                self.check_object_permissions(self.request, obj)
+                return obj
+            else:
+                raise NotFound(detail="Object with specified ID not found.")
+        
+        return super().get_object()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
