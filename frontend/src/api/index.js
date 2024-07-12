@@ -114,7 +114,7 @@ class Api {
     const token = localStorage.getItem('token')
     const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
-      `/api/works/${work_id}/?tags=__all__`,
+      `/api/works/${work_id}/`,
       {
         method: 'GET',
         headers: {
@@ -188,7 +188,7 @@ class Api {
       requestBody.video = wasVideoUpdated ? video : undefined;
     }
     return fetch(
-      `/api/works/${work_id}/?tags=__all__`,
+      `/api/works/${work_id}/`,
       {
         method: 'PATCH',
         headers: {
@@ -290,7 +290,7 @@ class Api {
   deleteWork ({ work_id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/works/${work_id}/?tags=__all__`,
+      `/api/works/${work_id}/`,
       {
         method: 'DELETE',
         headers: {
