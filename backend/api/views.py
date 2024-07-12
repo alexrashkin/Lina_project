@@ -128,6 +128,13 @@ class WorksViewset(viewsets.ModelViewSet):
             return Work.objects.filter(favorites__user=self.request.user)
         return Work.objects.all()
 
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
     def create(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             raise PermissionDenied(detail="Only admin can do that")
