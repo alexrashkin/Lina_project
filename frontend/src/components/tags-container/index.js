@@ -8,7 +8,7 @@ const TagsContainer = ({ tags }) => {
     {tags.map(tag => {
       return <Tag
         key={tag.id}
-        color={tag.color}
+        color={red}
         name={tag.name}
       />
     })}
