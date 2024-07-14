@@ -7,5 +7,5 @@
   line-height: 1;
   border-radius: 24px;
   margin-right: 8px;
-  color: red;
+  color: red !important;
 }
