@@ -6,7 +6,7 @@ import telegram_logo from '../../pages/artist/telegram.png';
 
 const Artist = () => {
   const headingStyle = {
-    color: '#3e3e3e',
+    color: 'rgb(232, 240, 201)',
     marginBottom: '40px',
     textAlign: 'center',
   };
