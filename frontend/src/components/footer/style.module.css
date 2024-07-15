@@ -22,8 +22,8 @@
     display: flex;
     transition: color 0.3s ease-in-out;
     cursor: pointer;
-    margin-left: 15px;
-    margin-right: 17px;
+    margin-left: 12px;
+    margin-right: 19px;
 }
 
 .footer__brand:hover {
