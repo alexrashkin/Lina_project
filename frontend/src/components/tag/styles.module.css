@@ -8,4 +8,17 @@
   border-radius: 24px;
   margin-right: 8px;
   color: rgb(110, 15, 79) !important;
+  position: relative;
+}
+
+.tag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  border-radius: inherit;
+  z-index: -1;
 }
