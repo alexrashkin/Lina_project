@@ -27,7 +27,7 @@ const handleTelegramClick = () => {
               target="_blank"
               className={cn(styles.link,styles.footer__brand)}
               >
-                Художник Ангелина Игоревна Хижняк
+                Художник Ангелина Игоревна
         </Link>
         {telegramLink && (
           <div className={styles.footer__brand} onClick={handleTelegramClick} style={{ fontFamily: 'Arial' }}>
