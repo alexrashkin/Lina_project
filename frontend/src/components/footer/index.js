@@ -29,14 +29,17 @@ const handleTelegramClick = () => {
               >
                 Художник Ангелина Игоревна Хижняк
         </Link>
-        <div className={styles.footer__brand} onClick={handleTelegramClick}>
-          <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon}/>
+        {telegramLink && (
+          <div className={styles.footer__brand} onClick={handleTelegramClick} style={{ fontFamily: 'Arial' }}>
+            <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon} />
+            <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon}/>
             <span
               title='Телеграм'
             >
               Телеграм
             </span>
         </div>
+        )}
         <p className={styles.footer__brand}>
           Все права защищены © {new Date().getFullYear()}
         </p>
