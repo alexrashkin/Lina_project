@@ -37,7 +37,7 @@ const Artist = () => {
       <Container>
         <div style={{ textAlign: 'center' }}>
           <img src={artist_photo} alt="Фото художника" style={imageStyle} />
-          <h2 style={headingStyle}>Ангелина Хижняк - профессиональный художник</h2>
+          <h2 style={headingStyle}>Ангелина Игоревна Хижняк - профессиональный художник</h2>
           <p>Здравствуйте! Добро пожаловать на мой сайт-портфолио. Здесь Вы можете ознакомиться с информацией обо мне и увидеть мои работы. Приятного просмотра!</p>
           <div style={{sectionStyle, marginBottom: '40px', marginTop: '35px'}}>
             <strong>Коротко обо мне:</strong>

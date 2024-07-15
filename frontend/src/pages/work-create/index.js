@@ -70,7 +70,7 @@ const WorkCreate = ({ onEdit }) => {
     <Container>
       <MetaTags>
         <title>Добавление работы</title>
-        <meta name="description" content="Художник Ангелина Хижняк - Добавление работы" />
+        <meta name="description" content="Художник Ангелина Игоревна Хижняк - Добавление работы" />
         <meta property="og:title" content="Добавление работы" />
       </MetaTags>
       <Title title='Добавление работы' />

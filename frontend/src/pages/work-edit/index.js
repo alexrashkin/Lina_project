@@ -123,7 +123,7 @@ const WorkEdit = ({ onItemDelete }) => {
     <Container>
       <MetaTags>
         <title>Редактирование работы</title>
-        <meta name="description" content="Художник Ангелина Хижняк - Редактирование работы" />
+        <meta name="description" content="Художник Ангелина Игоревна Хижняк - Редактирование работы" />
         <meta property="og:title" content="Редактирование работы" />
       </MetaTags>
       <Title title='Редактирование работы' />

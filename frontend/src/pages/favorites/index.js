@@ -45,7 +45,7 @@ const Favorites = ({ updateOrders }) => {
     <Container>
       <MetaTags>
         <title>Избранное</title>
-        <meta name="description" content="Художник Ангелина Хижняк - Избранное" />
+        <meta name="description" content="Художник Ангелина Игоревна Хижняк - Избранное" />
         <meta property="og:title" content="Избранное" />
       </MetaTags>
       <div className={styles.title}>

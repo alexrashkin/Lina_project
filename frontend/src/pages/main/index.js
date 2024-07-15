@@ -62,7 +62,7 @@ const HomePage = ({ updateOrders }) => {
     <Container>
       <MetaTags>
         <title>Работы</title>
-        <meta name="description" content="Художник Ангелина Хижняк - Работы" />
+        <meta name="description" content="Художник Ангелина Игоревна Хижняк - Работы" />
         <meta property="og:title" content="Работы" />
       </MetaTags>
       <div className={styles.title}>
