@@ -32,7 +32,6 @@ const handleTelegramClick = () => {
         {telegramLink && (
           <div className={styles.footer__brand} onClick={handleTelegramClick} style={{ fontFamily: 'Arial' }}>
             <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon} />
-            <img src={telegram_logo} alt="Лого Телеграм" className={styles.footer__icon}/>
             <span
               title='Телеграм'
             >
