@@ -59,9 +59,9 @@ const Artist = () => {
             <strong>Контакты:</strong>
               <p><strong>Оформить индивидуальный заказ, задать вопрос или оставить отзыв на работу можно тут:</strong></p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <a style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'blue', fontFamily: 'Arial', fontSize: '20px'}} id="telegramLink" target="_blank" rel="noopener noreferrer">
+              <a style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'blue', fontFamily: 'Arial', fontWeight:500, fontSize: '16px' }} id="telegramLink" target="_blank" rel="noopener noreferrer">
                 <img src={telegram_logo} alt="Лого Телеграм" style={{ marginRight: '5px' }} />
-                <p>Телеграм</p>
+                <p>Telegram</p>
               </a>
             </div>
               <p>Или по электронной почте: linasvs@mail.ru</p>
