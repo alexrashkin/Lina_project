@@ -11,7 +11,7 @@
 }
 
 .single-card__link {
-  color: #000;
+  color: beige;
 }
 
 .single-card__button {
@@ -30,7 +30,7 @@
 
 .single-card__edit {
   margin-left: 40px;
-  color: #000;
+  color: beige;
   text-decoration: underline;
 }
 
@@ -70,7 +70,7 @@
   font-size: 40px;
 
   line-height: 49px;
-  color: #000;
+  color: beige;
   margin: 0;
 }
 
