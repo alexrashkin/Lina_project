@@ -65,6 +65,7 @@ class Work(models.Model):
     image = models.ImageField(
         upload_to="works/images/",
         verbose_name="Картинка",
+        verbose_name="Картинки",
         blank=True,
         null=True,
     )
