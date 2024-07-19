@@ -62,7 +62,7 @@ class Work(models.Model):
         max_length=150,
         verbose_name="Название",
     )
-    image = models.ImageField(
+    images = models.ImageField(
         upload_to="works/images/",
         verbose_name="Картинка",
         blank=True,
