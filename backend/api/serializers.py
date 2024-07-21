@@ -1,24 +1,28 @@
 import base64
 import logging
 from datetime import datetime
+import tempfile
 
 from django.core.files.base import ContentFile
+from django.utils import timezone
+import uuid
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.exceptions import ValidationError
 from users.models import User
-from works.models import Favorite, Material, Tag, Work, WorksMaterials
+from works.models import Favorite, Material, Tag, Work, WorksMaterials, Image
 
 logger = logging.getLogger(__name__)
 
 
 class Base64FileField(serializers.FileField):
     """
-    Кастомное поле для сериализации файла в формате base64.
+    Custom field for serializing file in base64 format.
     """
 
     def to_internal_value(self, data):
         """
-        Преобразует строку данных файла в объект ContentFile.
+        Convert file data string to ContentFile object.
         """
         if isinstance(data, str) and data.startswith('data:video'):
             _, file_data = data.split(';base64,')
@@ -29,12 +33,12 @@ class Base64FileField(serializers.FileField):
 
 class Base64ImageField(serializers.ImageField):
     """
-    Кастомное поле для сериализации изображения в формате base64.
+    Custom field for serializing image in base64 format.
     """
 
     def to_internal_value(self, data):
         """
-        Преобразует строку данных изображения в объект ContentFile.
+        Convert image data string to ContentFile object.
         """
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
@@ -43,8 +47,16 @@ class Base64ImageField(serializers.ImageField):
         return super().to_internal_value(data)
 
 
+class WorksImageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = Image
+        fields = ('image',)
+
+
 class UserSerializer1(serializers.ModelSerializer):
-    """Сериализатор для пользовательской модели."""
+    """Serializer for user model."""
 
     class Meta:
         model = User
@@ -53,7 +65,7 @@ class UserSerializer1(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-        Создает и сохраняет нового пользователя.
+        Creates and saves a new user.
         """
         user = User(
             email=validated_data['email'],
@@ -68,7 +80,7 @@ class UserSerializer1(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     """
-    Сериализатор для изменения пароля пользователя.
+    Serializer for changing user password.
     """
     model = User
     new_password = serializers.CharField(max_length=150, required=True)
@@ -76,16 +88,16 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate_current_password(self, value):
         """
-        Проверяет текущий пароль пользователя перед изменением пароля.
+        Checks current user password before changing password.
         """
         user = self.context.get('request').user
-        if not user.check_password(value):
-            raise serializers.ValidationError("Неверный пароль!")
+        if not user or not user.check_password(value):
+            raise ValidationError("Invalid password!")
         return value
 
 
 class TagSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Tag."""
+    """Serializer for Tag model."""
 
     class Meta:
         model = Tag
@@ -93,21 +105,21 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TagWorkserializer(serializers.ModelSerializer):
-    """Сериализатор для связи тега с работой."""
+    """Serializer for Tag and Work association."""
     class Meta:
         fields = ('id',)
         model = Tag
 
 
 class MaterialSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Material."""
+    """Serializer for Material model."""
     class Meta:
         model = Material
         fields = ('id', 'name')
 
 
 class MaterialWorkserializer(serializers.ModelSerializer):
-    """Сериализатор для модели связи работы и материала."""
+    """Serializer for Work and Material association."""
 
     id = serializers.PrimaryKeyRelatedField(
         queryset=Material.objects.all(),
@@ -122,7 +134,7 @@ class MaterialWorkserializer(serializers.ModelSerializer):
 
 class WorkSaveSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для добавления и обновления работы.
+    Serializer for adding or updating a work.
     """
 
     author = UserSerializer1(
@@ -131,7 +143,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
     materials = MaterialWorkserializer(
         many=True, source='works_materials'
     )
-    image = Base64ImageField(required=False)
+    image = WorksImageSerializer(required=False, many=True)  # Updated field for multiple images
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
         many=True
@@ -140,7 +152,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Проверяет данные работы перед созданием или обновлением.
+        Validates work data before creation or update.
         """
         materials_data = data.get('works_materials')
         materials_set = set()
@@ -150,29 +162,55 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
             if not material:
                 raise serializers.ValidationError(
-                    'Материал не указан'
+                    'Material not specified'
                 )
 
             material_tuple = (material.id)
             if material_tuple in materials_set:
                 raise serializers.ValidationError(
-                    'В работу нельзя добавлять два одинаковых материала'
+                    'You cannot add two identical materials to a work'
                 )
             materials_set.add(material_tuple)
 
         return data
 
     def create(self, validated_data):
-        """Создаёт новую работу."""
+        """Creates a new work."""
 
-        materials_data = validated_data.pop('works_materials')
-        tags_data = validated_data.pop('tags')
+        materials_data = validated_data.pop('works_materials', [])
+        tags_data = validated_data.pop('tags', [])
+        image_data = validated_data.pop('image', [])  # Updated to handle multiple images
+        if not validated_data.get('author'):
+            raise serializers.ValidationError(
+                'Author not specified'
+            )
+
+        # Create a work object
         work = Work.objects.create(**validated_data)
-        work.tags.set(tags_data)
+        work.tags.set(tags_data)  # Set tags
+
+        for image in image_data:
+            file = image.get('image')
+            if file:
+                # Generate a unique name for the image
+                unique_id = uuid.uuid4()
+                ext = file.name.split('.')[-1] if file.name else 'jpg'
+                fname = f"uploaded_image_{unique_id}.{ext}"
+
+                try:
+                    image_instance = Image.objects.create(work=work, image=ContentFile(file.file.read(), name=fname))
+                    print(image_instance)
+                except Exception as e:
+                    logger.exception(e)
+                    raise serializers.ValidationError(
+                        'Error creating image'
+                    )
+        
         if "video" in validated_data:
             timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
             fname = f"uploaded_video_{timestamp}.mp4"
             work.video.save(fname, validated_data["video"].file)
+        
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
@@ -186,7 +224,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         return work
 
     def update(self, instance, validated_data):
-        """Обновляет существующую работу."""
+        """Updates an existing work."""
 
         tags = validated_data.pop('tags')
         materials = validated_data.pop('works_materials')
@@ -197,7 +235,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def get_materials(self, work, materials_data):
-        """Получает материалы для работы."""
+        """Gets materials for a work."""
 
         materials_to_create = []
         for material_data in materials_data:
@@ -213,7 +251,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """
-        Преобразует экземпляр модели Work в сериализованные данные.
+        Convert Work model instance to serialized data.
         """
         request = self.context.get('request')
 
@@ -246,7 +284,7 @@ class WorkGetSerializer(serializers.ModelSerializer):
     materials = MaterialWorkserializer(
         many=True, read_only=True, source='works_materials')
     is_favorited = serializers.SerializerMethodField()
-    image = Base64ImageField(required=False)
+    image = WorksImageSerializer(source='image_set', required=False, read_only=True, many=True)
     video = Base64FileField(required=False)
 
     def get_is_favorited(self, obj):

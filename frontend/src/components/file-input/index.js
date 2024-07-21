@@ -1,54 +1,69 @@
-import { useState, useEffect, useRef } from 'react'
-import styles from './styles.module.css'
-import cn from 'classnames'
+import { useState, useEffect, useRef } from 'react';
+import styles from './styles.module.css';
+import cn from 'classnames';
 
 const FileInput = ({ label, onChange, file = null, className }) => {
-  const [ currentFile, setCurrentFile ] = useState(file)
-  const fileInput = useRef(null)
-  useEffect(_ => {
-    if (file !== currentFile) {
-      setCurrentFile(file)
-    }
-  }, [file])
+  const [currentFiles, setCurrentFiles] = useState([]);
+  const fileInput = useRef(null);
 
-  const getBase64 = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setCurrentFile(reader.result)
-      onChange(reader.result)
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
+  useEffect(() => {
+    if (file) {
+      setCurrentFiles(file);
     }
+  }, [file]);
+
+  const getBase64 = (files) => {
+    const base64Files = [];
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        base64Files.push({'image': reader.result});
+        setCurrentFiles(prevFiles => [...prevFiles, reader.result]);
+        onChange([...base64Files]);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      }
+    });
   }
 
-  return <div className={cn(styles.container, className)}>
-    <label className={styles.label}>
-      {label}
-    </label>
-    <input
-      className={styles.fileInput}
-      type='file'
-      ref={fileInput}
-      onChange={e => {
-        const file = e.target.files[0]
-        getBase64(file)
-      }}
-    />
-    <div
-      onClick={_ => {
-        fileInput.current.click()
-      }}
-      className={styles.button}
-      type='button'
-    >
-      Выбрать файл
+  return (
+    <div className={cn(styles.container, className)}>
+      <label className={styles.label}>
+        {label}
+      </label>
+      <input
+        className={styles.fileInput}
+        type='file'
+        ref={fileInput}
+        onChange={e => {
+          const files = e.target.files;
+          getBase64(files);
+        }}
+        multiple
+        style={{ display: 'none' }} // Скрываем стандартный input
+      />
+      <div
+        onClick={() => {
+          fileInput.current.click();
+        }}
+        className={styles.button}
+        type='button'
+      >
+        Выбрать файл
+      </div>
+      <div className={styles.imageContainer}>
+        {currentFiles.map((file, index) => (
+          <div
+            key={index}
+            className={styles.image}
+            style={{ backgroundImage: `url(${file})` }}
+          />
+        ))}
+      </div>
     </div>
-    {currentFile && <div className={styles.image} style={{
-      backgroundImage: `url(${currentFile})`
-    }} />}
-  </div>
-}
+  );
+};
 
-export default FileInput
+export default FileInput;

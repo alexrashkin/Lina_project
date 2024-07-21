@@ -62,12 +62,7 @@ class Work(models.Model):
         max_length=150,
         verbose_name="Название",
     )
-    image = models.ImageField(
-        upload_to="works/images/",
-        verbose_name="Картинка",
-        blank=True,
-        null=True,
-    )
+    
     video = models.FileField(
         upload_to="works/videos/",
         verbose_name="Видео",
@@ -94,6 +89,27 @@ class Work(models.Model):
     def __str__(self):
         return self.name
 
+
+class Image(models.Model):
+    """Модель изображения для работы."""
+
+    work = models.ForeignKey(
+        Work,
+        on_delete=models.CASCADE,
+        related_name="image_set",
+    )
+    image = models.ImageField(
+        upload_to="works/images/",
+        verbose_name="Изображение"
+    )
+
+    class Meta:
+        verbose_name = "Изображение"
+        verbose_name_plural = "Изображения"
+
+    def __str__(self):
+        return f'Image for {self.work}'
+    
 
 class WorksMaterials(models.Model):
     """Создание модели связанных материалов в работах."""
