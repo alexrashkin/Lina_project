@@ -62,7 +62,6 @@ class Work(models.Model):
         max_length=150,
         verbose_name="Название",
     )
-    
     video = models.FileField(
         upload_to="works/videos/",
         verbose_name="Видео",
@@ -109,7 +108,7 @@ class Image(models.Model):
 
     def __str__(self):
         return f'Image for {self.work}'
-    
+
 
 class WorksMaterials(models.Model):
     """Создание модели связанных материалов в работах."""

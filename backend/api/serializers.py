@@ -1,16 +1,15 @@
 import base64
 import logging
+import uuid
 from datetime import datetime
-import tempfile
 
 from django.core.files.base import ContentFile
-from django.utils import timezone
-import uuid
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 from rest_framework.exceptions import ValidationError
+from rest_framework.validators import UniqueTogetherValidator
+
 from users.models import User
-from works.models import Favorite, Material, Tag, Work, WorksMaterials, Image
+from works.models import Favorite, Image, Material, Tag, Work, WorksMaterials
 
 logger = logging.getLogger(__name__)
 
@@ -143,7 +142,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
     materials = MaterialWorkserializer(
         many=True, source='works_materials'
     )
-    image = WorksImageSerializer(required=False, many=True)  # Updated field for multiple images
+    image = WorksImageSerializer(required=False, many=True)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
         many=True
@@ -179,7 +178,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
         materials_data = validated_data.pop('works_materials', [])
         tags_data = validated_data.pop('tags', [])
-        image_data = validated_data.pop('image', [])  # Updated to handle multiple images
+        image_data = validated_data.pop('image', [])
         if not validated_data.get('author'):
             raise serializers.ValidationError(
                 'Author not specified'
@@ -198,19 +197,21 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                 fname = f"uploaded_image_{unique_id}.{ext}"
 
                 try:
-                    image_instance = Image.objects.create(work=work, image=ContentFile(file.file.read(), name=fname))
+                    image_instance = Image.objects.create(
+                        work=work, image=ContentFile(file.file.read(),
+                                                     name=fname))
                     print(image_instance)
                 except Exception as e:
                     logger.exception(e)
                     raise serializers.ValidationError(
                         'Error creating image'
                     )
-        
+
         if "video" in validated_data:
             timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
             fname = f"uploaded_video_{timestamp}.mp4"
             work.video.save(fname, validated_data["video"].file)
-        
+
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
@@ -284,7 +285,8 @@ class WorkGetSerializer(serializers.ModelSerializer):
     materials = MaterialWorkserializer(
         many=True, read_only=True, source='works_materials')
     is_favorited = serializers.SerializerMethodField()
-    image = WorksImageSerializer(source='image_set', required=False, read_only=True, many=True)
+    image = WorksImageSerializer(
+        source='image_set', required=False, read_only=True, many=True)
     video = Base64FileField(required=False)
 
     def get_is_favorited(self, obj):
