@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Main } from '../../components';
 
-import artist_photo from '../../pages/artist/artist.jpg';
+import artist_photo from '../../pages/artist/artist.JPG';
 import telegram_logo from '../../pages/artist/telegram.png';
 
 const Artist = () => {
