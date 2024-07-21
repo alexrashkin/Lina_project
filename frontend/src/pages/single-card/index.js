@@ -1,4 +1,4 @@
-import { Container, Main, Button, TagsContainer, Icons, LinkComponent } from '../../components'
+import { Container, Main, Button, TagsContainer, Icons, LinkComponent, ImageCarousel} from '../../components'
 import { UserContext, AuthContext } from '../../contexts'
 import { useContext, useState, useEffect } from 'react'
 import styles from './styles.module.css'
@@ -55,7 +55,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
         <meta property="og:title" content={name} />
       </MetaTags>
       <div className={styles['single-card']}>
-        <img src={image} alt={name} className={styles["single-card__image"]} />
+        <ImageCarousel images={image}  className={styles["single-card__image"]}  />
         <div className={styles["single-card__info"]}>
           <div className={styles["single-card__header-info"]}>
               <h1 className={styles["single-card__title"]}>{name}</h1>

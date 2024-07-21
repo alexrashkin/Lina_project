@@ -136,3 +136,4 @@ dmypy.json
 
 #media files of local dev
 backend/media
+node_modules

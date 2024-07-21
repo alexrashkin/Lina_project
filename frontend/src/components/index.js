@@ -24,6 +24,7 @@ import PurchaseList from './purchase-list'
 import FileInput from './file-input'
 import VideoFileInput from './video-file-input'
 import MaterialsSearch from './materials-search'
+import ImageCarousel from './image-carousel'
 
 export {
   Header,
@@ -51,5 +52,6 @@ export {
   PurchaseList,
   FileInput,
   VideoFileInput,
-  MaterialsSearch
+  MaterialsSearch,
+  ImageCarousel
 }

@@ -17,7 +17,7 @@ const Card = ({
       <LinkComponent
         className={styles.card__title}
         href={`/works/${id}`}
-        title={<div className={styles.card__image} style={{ backgroundImage: `url(${ image })` }} />}
+        title={<div className={styles.card__image} style={{ backgroundImage: `url(${ image[0]['image'] })` }} />}
       />
       <div className={styles.card__body}>
         <LinkComponent
