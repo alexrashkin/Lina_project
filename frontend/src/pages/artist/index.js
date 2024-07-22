@@ -62,7 +62,7 @@ const Artist = () => {
                 <p>Telegram</p>
               </a>
             </div>
-              <p>Или по электронной почте: linasvs@mail.ru</p>
+            <p>Или по электронной почте: <a href="mailto:linasvs@mail.ru">linasvs@mail.ru</a></p>
           </div>
         </div>
       </Container>
