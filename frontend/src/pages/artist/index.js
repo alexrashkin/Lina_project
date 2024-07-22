@@ -16,7 +16,7 @@ const Artist = () => {
   };
 
   const imageStyle = {
-    maxWidth: '100%',
+    maxWidth: '40%',
     height: 'auto',
     borderRadius: '8px',
   };
