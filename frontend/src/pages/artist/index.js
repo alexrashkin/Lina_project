@@ -48,7 +48,7 @@ const Artist = () => {
     <Main>
       <Container>
         <div style={{...styles.content, ...(window.innerWidth <= 600 ? styles.mobileContent : {})}}>
-          <img src={artist_photo} alt="Фото художника" style={styles.image} />
+          <img src={artist_photo} alt="Фото художника" className="artist-image" />
           <div>
             <h2 style={styles.heading}>Ангелина Игоревна Хижняк - профессиональный художник</h2>
             <p>Здравствуйте! Добро пожаловать на мой сайт-портфолио. Здесь Вы можете ознакомиться с информацией обо мне и увидеть мои работы. Приятного просмотра!</p>

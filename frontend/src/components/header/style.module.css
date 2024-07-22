@@ -4,7 +4,7 @@
   justify-content: center;
   height: 55px;
   margin-bottom: 30px;
-  background-color: #b89891;
+  background-image: url('./header.jpg');
 }
 
 .headerContent {
