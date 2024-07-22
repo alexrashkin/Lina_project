@@ -1,6 +1,6 @@
 .footer {
   box-sizing: border-box;
-  background-image: url('./footer.png');
+  background-color: #b89891;
   height: 60px;
   flex: 0 0 auto;
   background-repeat: no-repeat;
