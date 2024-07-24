@@ -9,6 +9,7 @@ const Artist = () => {
     color: 'beige',
     marginBottom: '40px',
     textAlign: 'center',
+    marginTop: '10px',
   };
 
   const sectionStyle = {
