@@ -7,7 +7,7 @@ body {
   color: wheat;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('../src/Titanium.png');
+  background-image: url('../src/background.jpg');
 }
 
 code {
