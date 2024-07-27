@@ -228,10 +228,29 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
         tags = validated_data.pop('tags')
         materials = validated_data.pop('works_materials')
+        image_data = validated_data.pop('image', [])
         validated_data.pop('author', None)
         WorksMaterials.objects.filter(work=instance).delete()
         instance.tags.set(tags)
         self.get_materials(instance, materials)
+        for image in image_data:
+            file = image.get('image')
+            if file:
+            # Generate a unique name for the image
+                unique_id = uuid.uuid4()
+                ext = file.name.split('.')[-1] if file.name else 'jpg'
+                fname = f"uploaded_image_{unique_id}.{ext}"
+
+                try:
+                    image_instance = Image.objects.create(
+                        work=instance, image=ContentFile(file.file.read(),
+                                                     name=fname))
+                    print(image_instance)
+                except Exception as e:
+                    logger.exception(e)
+                    raise serializers.ValidationError(
+                        'Error creating image'
+                    )
         return super().update(instance, validated_data)
 
     def get_materials(self, work, materials_data):
