@@ -85,6 +85,11 @@ const WorkEdit = ({ onItemDelete }) => {
     })
   }, [value])
 
+  useEffect(() => {  
+    // Обновляем состояние компонента, отображающего изображение
+    setWorkImageFile(workImageFile);
+  } , [workImageFile]);
+
   const handleMaterialAutofill = ({ id, name }) => {
     setMaterialValue({
       ...materialValue,
