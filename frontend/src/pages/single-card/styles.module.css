@@ -3,6 +3,7 @@
   text-align: left;
   max-width: 480px;
   list-style: none;
+  font-size: 23px;
 }
 
 .single-card__buttons {
@@ -12,6 +13,7 @@
 
 .single-card__link {
   color: beige;
+  font-size: 20px;
 }
 
 .single-card__button {
