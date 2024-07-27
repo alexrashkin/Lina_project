@@ -236,7 +236,6 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         for image in image_data:
             file = image.get('image')
             if file:
-            # Generate a unique name for the image
                 unique_id = uuid.uuid4()
                 ext = file.name.split('.')[-1] if file.name else 'jpg'
                 fname = f"uploaded_image_{unique_id}.{ext}"
@@ -244,7 +243,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                 try:
                     image_instance = Image.objects.create(
                         work=instance, image=ContentFile(file.file.read(),
-                                                     name=fname))
+                                                         name=fname))
                     print(image_instance)
                 except Exception as e:
                     logger.exception(e)
