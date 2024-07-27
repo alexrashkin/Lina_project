@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Favorite, Material, Tag, Work
+from .models import Favorite, Material, Tag, Work, Image
 
 
 @admin.register(Tag)
@@ -17,12 +17,19 @@ class MaterialAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class ImageInline(admin.TabularInline):
+    """Инлайн для изображений в админке."""
+    model = Image
+    extra = 3  # Количество пустых форм для новых изображений
+
+
 @admin.register(Work)
 class WorkAdmin(admin.ModelAdmin):
     """Модель работы в админке."""
 
     list_display = ('id', 'name', 'author')
     list_filter = ('name', 'author', 'tags')
+    inlines = [ImageInline]
 
     def in_favorite(self, obj):
         count = obj.in_favorite.all().count()
@@ -34,3 +41,10 @@ class FavoriteAdmin(admin.ModelAdmin):
     """Модель избранного в админке."""
 
     list_display = ('id', 'user', 'work')
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    """Модель изображений в админке."""
+
+    list_display = ('work', 'image')
