@@ -17,7 +17,7 @@ const WorkEdit = ({ onItemDelete }) => {
 
   const [ workMaterials, setWorkMaterials ] = useState([])
   const [ workText, setWorkText ] = useState('')
-  const [ workImageFile, _setWorkImageFile ] = useState(null)
+  const [ workImageFiles, _setWorkImageFile ] = useState(null)
   const [ workVideoFile, _setWorkVideoFile ] = useState(null)
   const [
     workImageFileWasManuallyChanged,
@@ -87,8 +87,8 @@ const WorkEdit = ({ onItemDelete }) => {
 
   useEffect(() => {  
     // Обновляем состояние компонента, отображающего изображение
-    setWorkImageFile(workImageFile);
-  } , [workImageFile]);
+    setWorkImageFile(workImageFiles);
+  } , [workImageFiles]);
 
   const handleMaterialAutofill = ({ id, name }) => {
     setMaterialValue({
@@ -117,6 +117,13 @@ const WorkEdit = ({ onItemDelete }) => {
     );
   };
 
+  const prepareFileImagesForInput = (images) => {
+    if (images === null) {
+      return null;
+    }
+    return images.map((image)=>image.image);
+  }
+
   const isSuperuser = localStorage.getItem('is_superuser') != 'true';
 
   // Проверка статуса суперпользователя и редирект в случае отсутствия прав
@@ -143,7 +150,7 @@ const WorkEdit = ({ onItemDelete }) => {
               id: item.id,
             })),
             tags: value.filter(item => item.value).map(item => item.id),
-            image: workImageFile,
+            image: workImageFiles,
             video: workVideoFile,
             work_id: id
           }
@@ -261,7 +268,7 @@ const WorkEdit = ({ onItemDelete }) => {
           }}
           className={styles.fileInput}
           label='Загрузить фото'
-          file={workImageFile}
+          file={prepareFileImagesForInput(workImageFiles)}
         />
         <VideoFileInput
           onChange={file => {
