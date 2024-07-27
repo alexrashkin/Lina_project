@@ -68,7 +68,11 @@ const WorkEdit = ({ onItemDelete }) => {
       } = res
       setWorkText(text)
       setWorkName(name)
-      _setWorkImageFile(image)
+      if (image) {
+        _setWorkImageFile(image)
+      } else {
+        _setWorkImageFile(null)
+      }
       _setWorkVideoFile(video)
       setWorkMaterials(materials)    
 
