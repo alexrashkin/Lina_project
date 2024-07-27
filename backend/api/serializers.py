@@ -230,9 +230,8 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         materials = validated_data.pop('works_materials')
         image_data = validated_data.pop('image', [])
         validated_data.pop('author', None)
-        WorksMaterials.objects.filter(work=instance).delete()
-        instance.tags.set(tags)
-        self.get_materials(instance, materials)
+        instance.image_set.all().delete()
+
         for image in image_data:
             file = image.get('image')
             if file:
@@ -250,6 +249,9 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         'Error creating image'
                     )
+        WorksMaterials.objects.filter(work=instance).delete()
+        instance.tags.set(tags)
+        self.get_materials(instance, materials)
         return super().update(instance, validated_data)
 
     def get_materials(self, work, materials_data):
