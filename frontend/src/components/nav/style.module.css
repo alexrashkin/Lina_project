@@ -29,6 +29,7 @@
   cursor: pointer;
   position: relative;
 }
+
 .nav__item:last-child {
     margin-right: 0;
 }
@@ -57,8 +58,12 @@
 }
 
 .nav__link_active {
-  border-bottom: 1px solid #FFF;
   color: #FFF;
+}
+
+.nav__link:hover {
+  color: black; /* Унаследует цвет от родителя */
+  text-decoration: none; /* Убирает подчеркивание */
 }
 
 .orders-count {

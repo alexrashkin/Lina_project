@@ -1,0 +1,97 @@
+body {
+  background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+.wrapper {
+  font-size: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  opacity: 0; /* Начальная непрозрачность для анимации */
+  transform: translateY(20px); /* Смещение вниз для анимации */
+  animation: fadeInUp 0.8s forwards; /* Анимация при загрузке */
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heading {
+  color: #e63946;
+  font-size: 32px;
+  margin: 20px 0;
+  text-align: center;
+  position: relative;
+}
+
+.image {
+  max-width: 250px;
+  height: auto;
+  border-radius: 10px;
+  margin: 20px auto;
+  display: block;
+}
+
+.about,
+.contact {
+  margin: 20px 0;
+}
+
+.strong {
+  font-weight: bold;
+  color: #e63946;
+}
+
+.telegramLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s; /* Плавный переход цвета */
+}
+
+.telegramLink img {
+  margin-right: 5px;
+  width: 24px;
+}
+
+.telegramText {
+  margin-left: 5px; /* Отступ между логотипом и текстом */
+}
+
+.telegramLink:hover {
+  color: rgb(5, 5, 160) /* Цвет текста при наведении */
+}
+
+.contactInfo {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 20px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .image {
+    max-width: 80%;
+  }
+}
