@@ -83,7 +83,7 @@
 
 @media screen and (max-width: 990px) {
   .nav__link {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .nav__item {
@@ -94,7 +94,7 @@
 
 @media screen and (max-width: 900px) {
   .nav__link {
-    font-size: 14px !important;
+    font-size: 18px !important;
   }
 
   .nav__item {
