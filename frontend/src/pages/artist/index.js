@@ -10,6 +10,7 @@ const Artist = () => {
     marginBottom: '40px',
     textAlign: 'center',
     marginTop: '10px',
+    fontSize: '20px',
   };
 
   const sectionStyle = {
