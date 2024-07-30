@@ -7,7 +7,6 @@
   line-height: 1;
   border-radius: 24px;
   margin-right: 8px;
-  color: white !important;
   position: relative;
 }
 
@@ -18,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: lightslategray;
+  background-color: #789;
   border-radius: inherit;
   z-index: -1;
 }
