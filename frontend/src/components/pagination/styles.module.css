@@ -12,21 +12,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: beige;
+  color: #fff; /* Измените цвет текста на белый */
   font-size: 20px;
-  border: 0;
-  outline: none;
+  border: 1px solid transparent; /* Добавим границу для эффекта */
+  border-radius: 50%; /* Сделаем круглые кнопки */
+  background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон */
+  transition: background-color 0.3s, transform 0.3s; /* Плавные переходы */
+}
+
+.paginationItem:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Цвет при наведении */
+  transform: scale(1.1); /* Увеличение кнопки при наведении */
 }
 
 .paginationItemActive {
-  color: white;
-  background-color: transparent;
-  cursor: default;
+  color: #fff;
+  background-color: #007bff; /* Цвет для активного элемента */
+  border: 1px solid #0056b3; /* Граница для активного элемента */
+  pointer-events: none; /* Отключаем события для активного элемента */
 }
 
 .arrow {
   cursor: pointer;
   max-width: 16px;
+  transition: color 0.3s; /* Плавный переход цвета стрелок */
+}
+
+.arrow:hover {
+  color: #007bff; /* Цвет при наведении */
 }
 
 .arrowLeft {
@@ -38,6 +51,6 @@
 }
 
 .arrowDisabled {
-  opacity: .3;
+  opacity: 0.3;
   cursor: not-allowed;
 }
