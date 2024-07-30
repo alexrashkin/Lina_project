@@ -4,6 +4,18 @@
   max-width: 480px;
   list-style: none;
   font-size: 23px;
+  min-height: calc(100vh - 210px);
+  font-size: 20px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards;
 }
 
 .single-card__buttons {
@@ -12,7 +24,7 @@
 }
 
 .single-card__link {
-  color: beige;
+  color: #e63946;
   font-size: 20px;
 }
 
@@ -72,7 +84,7 @@
   font-size: 30px;
 
   line-height: 49px;
-  color: beige;
+  color: #e63946;
   margin: 0;
 }
 
