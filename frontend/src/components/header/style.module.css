@@ -16,7 +16,5 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 15px;
+  background-color: #ffb0bc;
 }
