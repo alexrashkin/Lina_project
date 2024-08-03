@@ -11,5 +11,11 @@
     "babel-loader": "^8.2.3",
     "babel-preset-react-app": "^10.0.1",
     "react-scripts": "latest"
+  },
+  "scripts": {
+       "start": "react-scripts start",
+       "build": "react-scripts build",
+       "test": "react-scripts test",
+       "eject": "react-scripts eject"
   }
 }
