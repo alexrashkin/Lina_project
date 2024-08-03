@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-meta-tags": "^1.0.1",
     "styled-components": "^6.1.12",
     "react-tsparticles": "^2.12.2"
