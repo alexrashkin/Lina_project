@@ -1,9 +1,6 @@
 .footer {
-  box-sizing: border-box;
   height: 100px;
-  flex: 0 0 auto;
-  background-repeat: no-repeat;
-  background-size: cover;
+  min-height: 6vh;
 }
 
 .footer__brand {
