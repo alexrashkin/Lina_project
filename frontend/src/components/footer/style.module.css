@@ -1,6 +1,9 @@
 .footer {
   height: 100px;
   min-height: 6vh;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer__brand {

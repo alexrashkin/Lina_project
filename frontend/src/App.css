@@ -1,8 +1,11 @@
 .App {
   text-align: center;
-  position: relative;
   transition: transform .3s;
+  min-height: 100%;
+  height: 100%;
 }
+
+
 
 .App-logo {
   height: 40vmin;
@@ -17,6 +20,9 @@
 
 #root {
   overflow: hidden;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .App-header {
@@ -48,9 +54,4 @@
 * {
   box-sizing: border-box;
 }
-html,
-body {
-  min-height: 100%;
-  padding: 0;
-  margin: 0;
-}
+

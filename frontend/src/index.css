@@ -1,5 +1,12 @@
-body {
+html {
+  position: relative;
+  padding: 0;
   margin: 0;
+}
+
+
+
+body {
   font-family: "TeX Gyre Adventor";
   font-weight: 400;
   font-style: normal;
@@ -8,6 +15,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #5b5050;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 100px; /* Margin bottom by footer height */
+}
+
+html, 
+body {
+    height: 100%;
 }
 
 code {
