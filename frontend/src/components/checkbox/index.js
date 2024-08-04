@@ -7,7 +7,6 @@ import { hexToRgba } from '../../utils'
 const Checkbox = ({
   onChange,
   className,
-  color,
   value = false,
   name,
   id
@@ -23,7 +22,6 @@ const Checkbox = ({
     <button
       className={classNames}
       onClick={clickHandler}
-      style={{ backgroundColor: value && color }}
       type='button'
     >
       {value ? <Icons.CheckIcon /> : ''}
