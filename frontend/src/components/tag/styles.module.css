@@ -8,6 +8,7 @@
   border-radius: 24px;
   margin-right: 8px;
   position: relative;
+  background-color: rgb(211, 179, 137);
 }
 
 .tag::before {
