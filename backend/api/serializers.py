@@ -4,6 +4,8 @@ import uuid
 from datetime import datetime
 
 from django.core.files.base import ContentFile
+from PIL import Image as PILImage
+from io import BytesIO
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
@@ -31,17 +33,27 @@ class Base64FileField(serializers.FileField):
 
 class Base64ImageField(serializers.ImageField):
     """
-    Custom field for serializing image in base64 format.
+    Custom field for serializing image in base64 format and converting to WebP.
     """
 
     def to_internal_value(self, data):
         """
-        Convert image data string to ContentFile object.
+        Convert image data string to ContentFile object and convert it
+        to WebP format.
         """
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            jpeg_image = base64.b64decode(imgstr)
+
+            # Convert image to WebP format
+            image = PILImage.open(BytesIO(jpeg_image))
+            webp_io = BytesIO()
+            image.save(webp_io, format='WEBP')
+            webp_io.seek(0)
+
+            # Use a static name for the WebP file
+            data = ContentFile(webp_io.read(), name='temp.webp')
+
         return super().to_internal_value(data)
 
 
