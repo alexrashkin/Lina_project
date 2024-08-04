@@ -2,10 +2,10 @@ import base64
 import logging
 import uuid
 from datetime import datetime
+from io import BytesIO
 
 from django.core.files.base import ContentFile
 from PIL import Image as PILImage
-from io import BytesIO
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
