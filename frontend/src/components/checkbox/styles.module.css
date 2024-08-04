@@ -23,7 +23,7 @@
 }
 
 .checkbox_active {
-  background: currentColor;
+  background: rgb(211, 179, 137);
   box-shadow: 0 0 7px #90b5d9;
 }
 
