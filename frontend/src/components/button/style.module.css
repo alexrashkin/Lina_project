@@ -19,7 +19,7 @@
   }
   
   .button:active {
-    box-shadow: 0 0 7px #ddd;
+    box-shadow: 0 0 7px #c5623cc9;
   }
   
   .button_style_light {

@@ -19,12 +19,12 @@
   align-items: center;
   margin-right: 24px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .checkbox_active {
   background: currentColor;
-  box-shadow: 0 0 7px #ddd;
+  box-shadow: 0 0 7px rgb(144, 181, 217);
 }
 
 .checkbox_style_green {
