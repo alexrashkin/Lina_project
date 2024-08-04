@@ -20,11 +20,12 @@
   margin-right: 24px;
   font-size: 16px;
   font-weight: 700;
+  background-color: rgb(211, 179, 137);
 }
 
 .checkbox_active {
   background: rgb(211, 179, 137);
-  box-shadow: 0 0 7px #90b5d9;
+  box-shadow: 0 0 7px rgb(211, 179, 137);
 }
 
 .checkbox_style_green {
