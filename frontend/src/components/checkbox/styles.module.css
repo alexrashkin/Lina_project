@@ -3,7 +3,7 @@
   min-width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: rgb(211, 179, 137);;
   border: none;
   outline: none;
   margin-right: 8px;
@@ -24,7 +24,7 @@
 
 .checkbox_active {
   background: currentColor;
-  box-shadow: 0 0 7px rgb(144, 181, 217);
+  box-shadow: 0 0 7px #90b5d9;
 }
 
 .checkbox_style_green {
