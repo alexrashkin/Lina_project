@@ -19,5 +19,5 @@
   right: 0;
   bottom: 0;
   border-radius: inherit;
-  z-index: -1;
-}
+  background-color: rgb(211, 179, 137);
+  }
