@@ -27,8 +27,9 @@ body {
 }
 
 .heading {
-  color: #e63946;
+  color: black;
   font-size: 32px;
+  font-family: cursive;
   margin: 20px 0;
   text-align: center;
   position: relative;
@@ -49,7 +50,8 @@ body {
 
 .strong {
   font-weight: bold;
-  color: #e63946;
+  color: black;
+  font-family: cursive;
 }
 
 .telegramLink {
