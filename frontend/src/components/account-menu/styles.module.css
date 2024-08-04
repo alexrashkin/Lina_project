@@ -54,6 +54,8 @@
 
 .menu {
   align-items: center;
+  display: flex;
+  margin-left: 1050px;
 }
 
 @media screen and (max-width: 990px) {
@@ -82,6 +84,7 @@
   .menu {
     flex-direction: row;
     margin-top: 5px;
+    margin-left: 11px;
   }
 
   .menuLink {
