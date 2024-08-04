@@ -1,6 +1,6 @@
 .container {
   background: #FFF;
-  border: 1px solid rgba(98, 98, 98, 0.2);
+  border: 1px solid rgb(211, 179, 137);
   box-sizing: border-box;
   max-height: 100px;
   overflow-y: scroll;
