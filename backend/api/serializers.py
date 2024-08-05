@@ -256,7 +256,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
 
                 try:
                     image_instance = Image.objects.create(
-                        work=instance, image=ContentFile(file.read(),
+                        work=instance, image=ContentFile(file.file.read(),
                                                          name=fname))
                     print(image_instance)
                 except Exception as e:
@@ -275,6 +275,8 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
+            if not material:
+                raise serializers.ValidationError('Material is required.')
             materials_to_create.append(
                 WorksMaterials(
                     work=work,
