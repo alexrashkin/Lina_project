@@ -248,7 +248,9 @@ class WorkSaveSerializer(serializers.ModelSerializer):
             file = image.get('image')
             if file:
                 unique_id = uuid.uuid4()
-                ext = file.name.split('.')[-1] if file.name else 'jpg'
+                ext = file.name.split('.')[-1] if file.name else 'webp'
+                if ext.lower() != 'webp':
+                    raise serializers.ValidationError('Image must be in webp format')
                 fname = f"uploaded_image_{unique_id}.{ext}"
 
                 try:
