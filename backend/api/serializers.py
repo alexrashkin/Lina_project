@@ -254,7 +254,7 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                 try:
                     image_instance = Image.objects.create(
                         work=instance, image=ContentFile(file.file.read(),
-                                                     name=fname))
+                                                         name=fname))
                     print(image_instance)
                 except Exception as e:
                     logger.exception(e)
