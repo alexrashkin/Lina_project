@@ -248,22 +248,20 @@ class WorkSaveSerializer(serializers.ModelSerializer):
             file = image.get('image')
             if file:
                 unique_id = uuid.uuid4()
-                ext = file.name.split('.')[-1] if file.name else 'webp'
-                if ext.lower() != 'webp':
-                    raise serializers.ValidationError(
-                        'Image must be in webp format')
+                ext = file.name.split('.')[-1] if file.name else 'jpg'
                 fname = f"uploaded_image_{unique_id}.{ext}"
 
                 try:
                     image_instance = Image.objects.create(
                         work=instance, image=ContentFile(file.file.read(),
-                                                         name=fname))
+                                                     name=fname))
                     print(image_instance)
                 except Exception as e:
                     logger.exception(e)
                     raise serializers.ValidationError(
                         'Error creating image'
                     )
+
         WorksMaterials.objects.filter(work=instance).delete()
         instance.tags.set(tags)
         self.get_materials(instance, materials)
