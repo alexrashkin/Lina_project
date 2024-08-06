@@ -41,7 +41,11 @@ class Base64ImageField(serializers.ImageField):
         Convert image data string to ContentFile object and convert it
         to WebP format.
         """
-        if isinstance(data, str) and data.startswith('data:image'):
+        if not data or not isinstance(data, str) or \
+                not data.startswith('data:image'):
+            raise serializers.ValidationError("Invalid image data")
+
+        try:
             format, imgstr = data.split(';base64,')
             jpeg_image = base64.b64decode(imgstr)
 
@@ -54,7 +58,11 @@ class Base64ImageField(serializers.ImageField):
             # Use a static name for the WebP file
             data = ContentFile(webp_io.read(), name='temp.webp')
 
-        return super().to_internal_value(data)
+            return super().to_internal_value(data)
+
+        except Exception as e:
+            logger.error(f"Error processing image: {e}")
+            raise serializers.ValidationError("Invalid image data")
 
 
 class WorksImageSerializer(serializers.ModelSerializer):
@@ -261,7 +269,6 @@ class WorkSaveSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         'Error creating image'
                     )
-
         WorksMaterials.objects.filter(work=instance).delete()
         instance.tags.set(tags)
         self.get_materials(instance, materials)
@@ -273,8 +280,6 @@ class WorkSaveSerializer(serializers.ModelSerializer):
         materials_to_create = []
         for material_data in materials_data:
             material = material_data.get('material')
-            if not material:
-                raise serializers.ValidationError('Material is required.')
             materials_to_create.append(
                 WorksMaterials(
                     work=work,
