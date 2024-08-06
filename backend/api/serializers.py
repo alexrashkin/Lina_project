@@ -1,6 +1,7 @@
 import base64
 import logging
 import uuid
+import requests
 from datetime import datetime
 from io import BytesIO
 
@@ -41,28 +42,32 @@ class Base64ImageField(serializers.ImageField):
         Convert image data string to ContentFile object and convert it
         to WebP format.
         """
-        if not data or not isinstance(data, str) or \
-                not data.startswith('data:image'):
-            raise serializers.ValidationError("Invalid image data")
+        if not data or not isinstance(data, str):
+            raise serializers.ValidationError("Invalid image data") 
 
-        try:
+        if data.startswith('data:image'):
+            # Handle base64 format
             format, imgstr = data.split(';base64,')
             jpeg_image = base64.b64decode(imgstr)
 
             # Convert image to WebP format
             image = PILImage.open(BytesIO(jpeg_image))
             webp_io = BytesIO()
-            image.save(webp_io, format='WEBP')
-            webp_io.seek(0)
-
-            # Use a static name for the WebP file
-            data = ContentFile(webp_io.read(), name='temp.webp')
-
-            return super().to_internal_value(data)
-
-        except Exception as e:
-            logger.error(f"Error processing image: {e}")
-            raise serializers.ValidationError("Invalid image data")
+            image.save(webp_io, format='WebP')
+            webp_image = ContentFile(webp_io.getvalue())
+            return webp_image
+        else:
+            # Handle URL format
+            try:
+                response = requests.get(data)
+                response.raise_for_status()
+                image = PILImage.open(BytesIO(response.content))
+                webp_io = BytesIO()
+                image.save(webp_io, format='WebP')
+                webp_image = ContentFile(webp_io.getvalue())
+                return webp_image
+            except requests.exceptions.RequestException as e:
+                raise serializers.ValidationError(f"Error fetching image from URL: {str(e)}")
 
 
 class WorksImageSerializer(serializers.ModelSerializer):
