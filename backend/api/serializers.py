@@ -6,7 +6,7 @@ from io import BytesIO
 
 import requests
 from django.core.files.base import ContentFile
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ExifTags
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
@@ -52,6 +52,7 @@ class Base64ImageField(serializers.ImageField):
 
             # Convert image to WebP format
             image = PILImage.open(BytesIO(jpeg_image))
+            image = self.correct_image_orientation(image)
             webp_io = BytesIO()
             image.save(webp_io, format='WebP')
             webp_image = ContentFile(webp_io.getvalue())
@@ -62,6 +63,7 @@ class Base64ImageField(serializers.ImageField):
                 response = requests.get(data)
                 response.raise_for_status()
                 image = PILImage.open(BytesIO(response.content))
+                image = self.correct_image_orientation(image)
                 webp_io = BytesIO()
                 image.save(webp_io, format='WebP')
                 webp_image = ContentFile(webp_io.getvalue())
@@ -69,6 +71,30 @@ class Base64ImageField(serializers.ImageField):
             except requests.exceptions.RequestException as e:
                 raise serializers.ValidationError(
                     f"Error fetching image from URL: {str(e)}")
+            
+    def correct_image_orientation(self, image):
+        """
+        Correct image orientation based on Exif data.
+        """
+        try:
+            for orientation in ExifTags.TAGS.keys():
+                if ExifTags.TAGS[orientation] == 'Orientation':
+                    break
+            exif = image._getexif()
+            if exif is not None:
+                orientation_value = exif.get(orientation)
+                if orientation_value is not None:
+                    if orientation_value == 3:
+                        image = image.rotate(180, expand=True)
+                    elif orientation_value == 6:
+                        image = image.rotate(270, expand=True)
+                    elif orientation_value == 8:
+                        image = image.rotate(90, expand=True)
+        except Exception as e:
+            # Обработка ошибок, если Exif отсутствуют или есть проблемы
+            print(f"Error correcting image orientation: {e}")
+        
+        return image
 
 
 class WorksImageSerializer(serializers.ModelSerializer):

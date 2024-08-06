@@ -3,7 +3,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ImageCarousel = ({ images }) => {
-    if (!images) return null;
+    if (!images || images.length === 0) return null;
+
     return (
         <Carousel>
             {images.map((imgObj, index) => (
@@ -12,6 +13,7 @@ const ImageCarousel = ({ images }) => {
                         className="d-block w-100"
                         src={imgObj.image}
                         alt={`Slide ${index}`}
+                        style={{ objectFit: 'cover', imageRendering: 'auto' }}
                     />
                 </Carousel.Item>
             ))}
