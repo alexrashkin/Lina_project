@@ -6,7 +6,8 @@ from io import BytesIO
 
 import requests
 from django.core.files.base import ContentFile
-from PIL import Image as PILImage, ExifTags
+from PIL import ExifTags
+from PIL import Image as PILImage
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
@@ -71,7 +72,7 @@ class Base64ImageField(serializers.ImageField):
             except requests.exceptions.RequestException as e:
                 raise serializers.ValidationError(
                     f"Error fetching image from URL: {str(e)}")
-            
+
     def correct_image_orientation(self, image):
         """
         Correct image orientation based on Exif data.
@@ -93,7 +94,7 @@ class Base64ImageField(serializers.ImageField):
         except Exception as e:
             # Обработка ошибок, если Exif отсутствуют или есть проблемы
             print(f"Error correcting image orientation: {e}")
-        
+
         return image
 
 
