@@ -1,10 +1,10 @@
 import base64
 import logging
 import uuid
-import requests
 from datetime import datetime
 from io import BytesIO
 
+import requests
 from django.core.files.base import ContentFile
 from PIL import Image as PILImage
 from rest_framework import serializers
@@ -43,7 +43,7 @@ class Base64ImageField(serializers.ImageField):
         to WebP format.
         """
         if not data or not isinstance(data, str):
-            raise serializers.ValidationError("Invalid image data") 
+            raise serializers.ValidationError("Invalid image data")
 
         if data.startswith('data:image'):
             # Handle base64 format
@@ -67,7 +67,8 @@ class Base64ImageField(serializers.ImageField):
                 webp_image = ContentFile(webp_io.getvalue())
                 return webp_image
             except requests.exceptions.RequestException as e:
-                raise serializers.ValidationError(f"Error fetching image from URL: {str(e)}")
+                raise serializers.ValidationError(
+                    f"Error fetching image from URL: {str(e)}")
 
 
 class WorksImageSerializer(serializers.ModelSerializer):
