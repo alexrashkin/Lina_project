@@ -1,7 +1,7 @@
-import styles from './style.module.css'
-import { LinkComponent, Icons, Button, TagsContainer } from '../index'
-import { useState, useContext } from 'react'
-import { AuthContext } from '../../contexts'
+import styles from './style.module.css';
+import { LinkComponent, Icons, Button, TagsContainer } from '../index';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts';
 
 const Card = ({
   name = 'Без названия',
@@ -12,13 +12,18 @@ const Card = ({
   author = {},
   handleLike,
 }) => {
-  const authContext = useContext(AuthContext)
-  return <div className={styles.card}>
+  const authContext = useContext(AuthContext);
+
+  return (
+    <div className={styles.card}>
       <LinkComponent
-        className={styles.card__title}
+        className={styles.card__image}
         href={`/works/${id}`}
-        title={<div className={styles.card__image} style={{ backgroundImage: `url(${ image[0]['image'] })` }} />}
+        title={
+          <div className={styles.card__image} style={{ backgroundImage: `url(${image[0]['image']})` }} />
+        }
       />
+      
       <div className={styles.card__body}>
         <LinkComponent
           className={styles.card__title}
@@ -27,7 +32,8 @@ const Card = ({
         />
         <TagsContainer tags={tags} />
         <div className={styles.card__author}>
-          <Icons.UserIcon /> <LinkComponent
+          <Icons.UserIcon />
+          <LinkComponent
             href={`/user/${author.id}`}
             title={`${author.first_name} ${author.last_name}`}
             className={styles.card__link}
@@ -36,16 +42,19 @@ const Card = ({
       </div>
       
       <div className={styles.card__footer}>
-          {authContext && <Button
+        {authContext && (
+          <Button
             modifier='style_none'
-            clickHandler={_ => {
-              handleLike({ id, toLike: Number(!is_favorited) })
+            clickHandler={() => {
+              handleLike({ id, toLike: Number(!is_favorited) });
             }}
           >
             {is_favorited ? <Icons.StarActiveIcon /> : <Icons.StarIcon />}
-          </Button>}
+          </Button>
+        )}
       </div>
-  </div>
-}
+    </div>
+  );
+};
 
-export default Card
+export default Card;
