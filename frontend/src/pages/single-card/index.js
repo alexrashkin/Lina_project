@@ -29,6 +29,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
       .then(res => {
         setWork(res)
         setLoading(false)
+        window.scrollTo(0, 0);
       })
       .catch(err => {
         history.push('/works')
