@@ -47,59 +47,70 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     video,
   } = work
   
-  return <Main>
-    <Container>
-      <MetaTags>
-        <title>{name}</title>
-        <meta name="description" content={`Художник Ангелина Игоревна Хижняк - ${name}`} />
-        <meta property="og:title" content={name} />
-      </MetaTags>
-      <div className={styles['single-card']}>
-        <ImageCarousel images={image}  className={styles["single-card__image"]}  />
-        <div className={styles["single-card__info"]}>
-          <div className={styles["single-card__header-info"]}>
-              <h1 className={styles["single-card__title"]}>{name}</h1>
-              {authContext && <Button
-                modifier='style_none'
-                clickHandler={_ => {
-                  handleLike({ id, toLike: Number(!is_favorited) })
-                }}
-              >
-                {is_favorited ? <Icons.StarBigActiveIcon /> : <Icons.StarBigIcon />}
-              </Button>}
-          </div>
-          <TagsContainer tags={tags} />
-          <div>
-            <p className={styles['single-card__text_with_link']}>
-              <div className={styles['single-card__text']}>
-                <Icons.UserIcon /> <LinkComponent
-                  title={`${author.first_name} ${author.last_name}`}
-                  href={`/user/${author.id}`}
-                  className={styles['single-card__link']}
-                />
+  return (
+    <Main>
+      <Container>
+        <MetaTags>
+          <title>{loading ? 'Загрузка...' : name}</title>
+          <meta name="description" content={`Художник Ангелина Игоревна Хижняк - ${loading ? '' : name}`} />
+          <meta property="og:title" content={loading ? '' : name} />
+        </MetaTags>
+        
+        {loading ? (
+          <div className={styles.loading}>Загрузка...</div>
+        ) : (
+          <div className={styles['single-card']}>
+            <ImageCarousel images={image} className={styles["single-card__image"]} />
+            <div className={styles["single-card__info"]}>
+              <div className={styles["single-card__header-info"]}>
+                <h1 className={styles["single-card__title"]}>{name}</h1>
+                {authContext && (
+                  <Button
+                    modifier='style_none'
+                    clickHandler={() => {
+                      handleLike({ id, toLike: Number(!is_favorited) });
+                    }}
+                  >
+                    {is_favorited ? <Icons.StarBigActiveIcon /> : <Icons.StarBigIcon />}
+                  </Button>
+                )}
               </div>
-              {(userContext || {}).id === author.id && <LinkComponent
-                href={`${url}/edit`}
-                title='Редактировать работу'
-                className={styles['single-card__edit']}
-              />}
-            </p>
-          </div>
-          <Materials materials={materials} />
-          <Description description={text} />
-          {video && ( // проверка наличия видео
-            <div className={styles.mediaContainer}>
-              <video className={styles.video} controls>
-                <source src={video} type='video/mp4' />
-                Your browser does not support the video tag.
-              </video>
+              <TagsContainer tags={tags} />
+              <div>
+                <p className={styles['single-card__text_with_link']}>
+                  <div className={styles['single-card__text']}>
+                    <Icons.UserIcon />
+                    <LinkComponent
+                      title={`${author.first_name} ${author.last_name}`}
+                      href={`/user/${author.id}`}
+                      className={styles['single-card__link']}
+                    />
+                  </div>
+                  {(userContext || {}).id === author.id && (
+                    <LinkComponent
+                      href={`${url}/edit`}
+                      title='Редактировать работу'
+                      className={styles['single-card__edit']}
+                    />
+                  )}
+                </p>
+              </div>
+              <Materials materials={materials} />
+              <Description description={text} />
+              {video && (
+                <div className={styles.mediaContainer}>
+                  <video className={styles.video} controls>
+                    <source src={video} type='video/mp4' />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-    </div>
-    </Container>
-  </Main>
+          </div>
+        )}
+      </Container>
+    </Main>
+  );
 }
 
-export default SingleCard
-
+export default SingleCard;
