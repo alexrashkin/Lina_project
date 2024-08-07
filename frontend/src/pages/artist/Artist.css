@@ -86,15 +86,66 @@ body {
 @media (max-width: 600px) {
   .wrapper {
     padding: 20px;
+    font-size: 16px; /* Уменьшаем шрифт для мобильных устройств */
   }
 
   .heading {
-    font-size: 28px;
+    font-size: 28px; /* Уменьшаем размер заголовка */
     font-family: cursive;
     color: black;
   }
 
   .image {
-    max-width: 80%;
+    max-width: 80%; /* Увеличиваем ширину изображения для мобильных */
+  }
+
+  .telegramLink {
+    font-size: 16px; /* Уменьшаем размер текста ссылки для мобильных */
+  }
+
+  .contactInfo {
+    font-size: 14px; /* Уменьшаем размер текста контактной информации */
+  }
+}
+
+/* Стили для планшетов */
+@media (min-width: 601px) and (max-width: 900px) {
+  .wrapper {
+    padding: 30px;
+    font-size: 18px; /* Размер шрифта для планшетов */
+  }
+
+  .heading {
+    font-size: 30px; /* Размер заголовка для планшетов */
+    font-family: cursive;
+    color: black;
+  }
+
+  .telegramLink {
+    font-size: 17px; /* Размер текста ссылки для планшетов */
+  }
+
+  .contactInfo {
+    font-size: 15px; /* Размер текста контактной информации для планшетов */
+  }
+}
+
+/* Стили для десктопов (больше 900px) */
+@media (min-width: 901px) {
+  .wrapper {
+    padding: 40px;
+    font-size: 20px; /* Размер шрифта для десктопов */
+  }
+
+  .heading {
+    font-size: 32px; /* Размер заголовка для десктопов */
+  }
+
+  .telegramLink {
+    font-size: 18px; /* Размер текста ссылки для десктопов */
+  }
+
+  .contactInfo {
+    font-size: 16px; /* Размер текста контактной информации для десктопов */
   }
 }
