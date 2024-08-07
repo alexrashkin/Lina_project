@@ -87,6 +87,7 @@ class Api {
   // works
 
   getWorks ({
+    page = 1,
     is_favorited = 0,
     author,
     tags
