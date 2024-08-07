@@ -30,6 +30,7 @@ body {
   color: black;
   font-size: 32px;
   font-family: cursive;
+  font-weight: 700;
   margin: 20px 0;
   text-align: center;
   position: relative;
@@ -93,6 +94,7 @@ body {
     font-size: 28px; /* Уменьшаем размер заголовка */
     font-family: cursive;
     color: black;
+    font-weight: 700;
   }
 
   .image {
@@ -119,6 +121,7 @@ body {
     font-size: 30px; /* Размер заголовка для планшетов */
     font-family: cursive;
     color: black;
+    font-weight: 700;
   }
 
   .telegramLink {
@@ -139,6 +142,7 @@ body {
 
   .heading {
     font-size: 32px; /* Размер заголовка для десктопов */
+    font-weight: 700;
   }
 
   .telegramLink {
