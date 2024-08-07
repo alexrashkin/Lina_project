@@ -87,8 +87,6 @@ class Api {
   // works
 
   getWorks ({
-    page = 1,
-    limit = 1000,
     is_favorited = 0,
     author,
     tags
@@ -97,7 +95,7 @@ class Api {
       const authorization = token ? { 'authorization': `Token ${token}` } : {}
       const tagsString = tags ? tags.filter(tag => tag.value).map(tag => `&tags=${tag.slug}`).join('') : ''
       return fetch(
-        `/api/works/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${tagsString}`,
+        `/api/works/?page=${page}}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${tagsString}`,
         {
           method: 'GET',
           headers: {
