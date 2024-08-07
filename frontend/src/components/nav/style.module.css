@@ -89,10 +89,6 @@
 
 
 @media screen and (max-width: 900px) {
-  .nav__link {
-    font-size: 18px !important;
-  }
-
   .nav__item {
     margin-right: 8px;
   }
@@ -123,7 +119,7 @@
   }
 
   .nav__link {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .nav__items {
