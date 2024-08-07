@@ -120,9 +120,10 @@
 
 @media screen and (max-width: 770px) {
   .nav {
-    height: auto;
+    height: 30px;
     position: relative;
     margin-left: 10px;
+    font-family: Arial;
   }
 
   .nav__link {
