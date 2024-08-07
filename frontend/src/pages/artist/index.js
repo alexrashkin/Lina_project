@@ -17,7 +17,7 @@ const Artist = () => {
       <Container>
         <div className="wrapper">
           <img src={artist_photo} alt="Фото художника" className="image" />
-          <h2 className="heading">Ангелина Игоревна Хижняк - профессиональный художник</h2>
+          <h3 className="heading">Ангелина Игоревна Хижняк - профессиональный художник</h3>
           <p>Здравствуйте! Добро пожаловать на мой сайт-портфолио. Здесь Вы можете ознакомиться с информацией обо мне и увидеть мои работы. Приятного просмотра!</p>
           <section className="about">
             <strong className="strong">Коротко обо мне:</strong>
