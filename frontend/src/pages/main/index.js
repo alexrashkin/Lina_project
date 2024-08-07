@@ -1,4 +1,4 @@
-import { Card, Title, Pagination, CardList, Container, Main, CheckboxGroup  } from '../../components'
+import { Card, Title, CardList, Container, Main, CheckboxGroup  } from '../../components'
 import { useLocation, useHistory } from 'react-router-dom'
 import styles from './styles.module.css'
 import { useWorks } from '../../utils/index.js'
@@ -83,12 +83,6 @@ const HomePage = ({ updateOrders }) => {
           handleLike={handleLike}
         />)}
       </CardList>
-      <Pagination
-        count={worksCount}
-        limit={6}
-        page={worksPage}
-        onPageChange={page => history.push(`/works?page=${page}`)}
-      />
     </Container>
   </Main>
 }

@@ -18,7 +18,6 @@ import TagsContainer from './tags-container'
 import Textarea from './textarea'
 import Checkbox from './checkbox'
 import CheckboxGroup from './checkbox-group'
-import Pagination from './pagination'
 import Purchase from './purchase'
 import PurchaseList from './purchase-list'
 import FileInput from './file-input'
@@ -47,7 +46,6 @@ export {
   Textarea,
   Checkbox,
   CheckboxGroup,
-  Pagination,
   Purchase,
   PurchaseList,
   FileInput,

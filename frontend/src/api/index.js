@@ -88,7 +88,7 @@ class Api {
 
   getWorks ({
     page = 1,
-    limit = 6,
+    limit = 1000,
     is_favorited = 0,
     author,
     tags
@@ -244,7 +244,7 @@ class Api {
 
   getUsers ({
     page = 1,
-    limit = 6
+    limit = 1000
   }) {
     const token = localStorage.getItem('token')
     return fetch(

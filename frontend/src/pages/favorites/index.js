@@ -1,4 +1,4 @@
-import { Card, Title, Pagination, CardList, Container, Main, CheckboxGroup  } from '../../components'
+import { Card, Title, CardList, Container, Main, CheckboxGroup  } from '../../components'
 import styles from './styles.module.css'
 import { useWorks } from '../../utils/index.js'
 import { useEffect } from 'react'
@@ -66,12 +66,6 @@ const Favorites = ({ updateOrders }) => {
           handleLike={handleLike}
         />)}
       </CardList>
-      <Pagination
-        count={worksCount}
-        limit={6}
-        page={worksPage}
-        onPageChange={page => setWorksPage(page)}
-      />
     </Container>
   </Main>
 }

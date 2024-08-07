@@ -1,7 +1,6 @@
 import {
   Card,
   Title,
-  Pagination,
   CardList,
   Button,
   CheckboxGroup,
@@ -102,12 +101,6 @@ const UserPage = ({ updateOrders }) => {
           handleLike={handleLike}
         />)}
       </CardList>
-      <Pagination
-        count={worksCount}
-        limit={6}
-        page={worksPage}
-        onPageChange={page => setWorksPage(page)}
-      />
     </Container>
   </Main>
 }
