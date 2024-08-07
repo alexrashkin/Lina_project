@@ -1,7 +1,7 @@
 .single-card {
   display: inline flow-root list-item;
   text-align: left;
-  max-width: 480px;
+  max-width: 680px;
   list-style: none;
   font-size: 23px;
   min-height: calc(100vh - 210px);
