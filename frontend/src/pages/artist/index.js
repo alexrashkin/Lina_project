@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Main } from '../../components';
-import artist_photo from '../../pages/artist/artist.jpg';
+import artist_photo from '../../pages/artist/artist.webp';
 import telegram_logo from '../../pages/artist/telegram.png';
 import './Artist.css'; // Импортируйте CSS файл
 
