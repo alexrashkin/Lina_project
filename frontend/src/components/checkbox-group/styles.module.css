@@ -16,3 +16,8 @@
   flex-basis: 370px;
 }
 
+@media (max-width: 768px) {
+  .checkboxGroup {
+    margin-right: 0;
+  }
+}
