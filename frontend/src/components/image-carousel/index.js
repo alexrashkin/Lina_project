@@ -14,6 +14,7 @@ const ImageCarousel = ({ images }) => {
                         src={imgObj.image}
                         alt={`Slide ${index}`}
                         style={{ objectFit: 'cover', imageRendering: 'auto' }}
+                        loading="lazy"
                     />
                 </Carousel.Item>
             ))}
