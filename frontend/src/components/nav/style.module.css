@@ -118,10 +118,6 @@
     font-family: Arial;
   }
 
-  .nav__link {
-    font-size: 20px;
-  }
-
   .nav__items {
     position: relative;
     left: 0;
